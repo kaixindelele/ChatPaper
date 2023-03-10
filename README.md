@@ -64,6 +64,19 @@ parser.add_argument("--file_format", type=str, default='md', help="导出的文�
 
 ```
 
+## 常见网络报错：
+调用openai的chatgpt api时出现APIConnectionError, 如何解决?
+参考知乎回答：
+https://www.zhihu.com/question/587322263/answer/2919916984
+
+直接在app.py里加上
+
+os.environ["http_proxy"] = "http://<代理ip>:<代理端口>"
+os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
+
+代理ip和端口需要你在Windows系统里面查找。
+
+
 ## 是否插图？以及插图教程：
 先不加了
 
