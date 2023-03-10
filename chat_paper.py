@@ -27,7 +27,7 @@ class Reader:
         # 创建一个ConfigParser对象
         self.config = configparser.ConfigParser()
         # 读取配置文件
-        self.config.read('apikey_lyl.ini')
+        self.config.read('apikey.ini')
         # 获取某个键对应的值        
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
