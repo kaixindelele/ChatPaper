@@ -2,7 +2,6 @@ import numpy as np
 import os
 import re
 import datetime
-import markdown
 import arxiv
 import openai, tenacity
 import base64, requests
