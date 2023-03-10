@@ -41,6 +41,29 @@ python chat_paper.py --query chatgpt robot --filter_keys chatgpt robot --max_res
 
 ```
 
+5. 参数介绍：
+```
+
+[--pdf_path 是否直接读取本地的pdf文档？如果不设置的话，直接从arxiv上搜索并且下载] 
+[--query 向arxiv网站搜索的关键词，有一些缩写示范：all, ti(title), au(author)，一个query示例：all: ChatGPT robot] 
+[--key_word 你感兴趣领域的关键词，重要性不高] 
+[--filter_keys 你需要在摘要文本中搜索的关键词，必须保证每个词都出现，才算是你的目标论文] 
+[--max_results 每次搜索的最大文章数，经过上面的筛选，才是你的目标论文数，chat只总结筛选后的论文] 
+[--sort arxiv的排序方式，默认是相关性，也可以是时间，arxiv.SortCriterion.LastUpdatedDate 或者 arxiv.SortCriterion.Relevance， 别加引号] 
+[--save_image 是否存图片，如果你没注册gitee的图床的话，默认为false] 
+[--file_format 文件保存格式，默认是markdown的md格式，也可以是txt] 
+
+parser.add_argument("--pdf_path", type=str, default='', help="if none, the bot will download from arxiv with query")
+parser.add_argument("--query", type=str, default='all: ChatGPT robot', help="the query string, ti: xx, au: xx, all: xx,")    
+parser.add_argument("--key_word", type=str, default='reinforcement learning', help="the key word of user research fields")
+parser.add_argument("--filter_keys", type=str, default='ChatGPT robot', help="the filter key words, 摘要中每个单词都得有，才会被筛选为目标论文")
+parser.add_argument("--max_results", type=int, default=1, help="the maximum number of results")
+parser.add_argument("--sort", default=arxiv.SortCriterion.Relevance, help="another is arxiv.SortCriterion.LastUpdatedDate")    
+parser.add_argument("--save_image", default=False, help="save image? It takes a minute or two to save a picture! But pretty")
+parser.add_argument("--file_format", type=str, default='md', help="导出的文件格式，如果存图片的话，最好是md，如果不是的话，txt的不会乱")
+
+```
+
 ## 是否插图？以及插图教程：
 先不加了
 
