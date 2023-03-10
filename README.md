@@ -25,9 +25,9 @@ ChatPaper根据用户输入的关键词，自动在arxiv上下载最新的论文
 Windows和Ubuntu系统应该都可以；python版本最好是3.9，其他版本应该也没啥问题
 
 安装依赖：最好翻墙，或者用国内源。
-···
+``` bash
 pip install -r requirements.txt
-···
+```
 
 ## 是否插图？以及插图教程：
 先不加了
