@@ -245,10 +245,9 @@ class Reader:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_conclusion(self, text):
-        self.cur_api = 0 if self.cur_api == len(self.chat_api_list)-1 else self.cur_api
         openai.api_key = self.chat_api_list[self.cur_api]
         self.cur_api += 1
-        self.cur_api = 0 if self.cur_api == len(self.chat_api_list)-1 else self.cur_api
+        self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             # prompt需要用英语替换，少占用token。
@@ -279,10 +278,9 @@ class Reader:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_method(self, text):
-        self.cur_api = 0 if self.cur_api == len(self.chat_api_list)-1 else self.cur_api
         openai.api_key = self.chat_api_list[self.cur_api]
         self.cur_api += 1
-        self.cur_api = 0 if self.cur_api == len(self.chat_api_list)-1 else self.cur_api
+        self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -315,10 +313,9 @@ class Reader:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_summary(self, text):
-        self.cur_api = 0 if self.cur_api == len(self.chat_api_list)-1 else self.cur_api
         openai.api_key = self.chat_api_list[self.cur_api]
         self.cur_api += 1
-        self.cur_api = 0 if self.cur_api == len(self.chat_api_list)-1 else self.cur_api
+        self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
         
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
