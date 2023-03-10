@@ -22,7 +22,11 @@ ChatPaper根据用户输入的关键词，自动在arxiv上下载最新的论文
 </div>
 
 ## 使用步骤：
-Windows和Ubuntu系统应该都可以；python版本最好是3.9，其他版本应该也没啥问题
+Windows,mac和Ubuntu系统应该都可以；python版本最好是3.9，其他版本应该也没啥问题
+
+在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！
+
+使用过程要保证全局代理！
 
 安装依赖：最好翻墙，或者用国内源。
 ``` bash
