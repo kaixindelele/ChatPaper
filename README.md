@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 4. 运行chat_paper.py， 比如：
 ```python
-python chat_paper.py --query chatgpt robot --filter_keys chatgpt robot --max_results 1
+python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 1
 
 ```
 
