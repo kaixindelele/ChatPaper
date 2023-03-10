@@ -22,15 +22,23 @@ ChatPaper根据用户输入的关键词，自动在arxiv上下载最新的论文
 </div>
 
 ## 使用步骤：
-Windows,mac和Ubuntu系统应该都可以；python版本最好是3.9，其他版本应该也没啥问题
+Windows,mac和Ubuntu系统应该都可以；
 
-在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！
+python版本最好是3.9，其他版本应该也没啥问题
 
-使用过程要保证全局代理！
+1. 在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！
 
-安装依赖：最好翻墙，或者用国内源。
+2. 使用过程要保证全局代理！
+
+3. 安装依赖：最好翻墙，或者用国内源。
 ``` bash
 pip install -r requirements.txt
+```
+
+4. 运行chat_paper.py， 比如：
+```python
+python chat_paper.py --query chatgpt robot --filter_keys chatgpt robot --max_results 1
+
 ```
 
 ## 是否插图？以及插图教程：
