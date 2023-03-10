@@ -32,6 +32,14 @@ pip install -r requirements.txt
 ## 是否插图？以及插图教程：
 先不加了
 
+## 项目的使用技巧：
+快速刷特定关键词的论文，不插图的话，每张篇文章需要花一分钟，阅读时间差不多一分钟。
+
+找到好的文章之后，可以精读这篇文章。
+
+推荐另外两个精读论文的AI辅助网站：https://typeset.io/ 和chatpdf。
+我的教程： [强化学徒：论文阅读神器SciSpace(Typeset.io)测评-和AI一起进化](https://zhuanlan.zhihu.com/p/611874187)
+
 ## 解析示例：
 
 <h2>Paper:1</h2>
