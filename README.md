@@ -15,13 +15,24 @@ ChatPaper根据用户输入的关键词，自动在arxiv上下载最新的论文
 
 不知道能不能用这个工具，实现我小时候的梦想-- **如果每个中国人给我一块钱，那我就发财了** 哈哈~
 
-言归正传，不强制付费，但是真的希望每个觉得能帮你节省时间的研究生，能够给我一块钱奖励~~
+言归正传，不强制付费，但是真的希望每个觉得能帮你节省时间的研究生，能够给我一块钱奖励，非常感谢！
 
 <div style="text-align: center;">
   <img src=https://user-images.githubusercontent.com/28528386/224335122-1e87eb7b-a922-4c2f-b2aa-9612f62a6314.jpg width="150" height="200"/>
 </div>
 
-如果不付费，至少得点个star再走！
+## 使用步骤：
+Windows和Ubuntu系统应该都可以；python版本最好是3.9，其他版本应该也没啥问题
+
+安装依赖：最好翻墙，或者用国内源。
+···
+pip install -r requirements.txt
+···
+
+## 是否插图？以及插图教程：
+先不加了
+
+## 解析示例：
 
 <h2>Paper:1</h2>
 <ol>
