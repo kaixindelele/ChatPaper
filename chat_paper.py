@@ -59,7 +59,7 @@ class Reader:
         for index, result in enumerate(search.results()):
             abs_text = result.summary.replace('-\n', '-').replace('\n', ' ')
             meet_num = 0
-            for f_key in filter_keys:
+            for f_key in filter_keys.split(" "):
                 if f_key.lower() in abs_text.lower():
                     meet_num += 1
             if meet_num == len(filter_keys):
