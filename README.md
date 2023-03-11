@@ -55,6 +55,9 @@ Windows,mac和Ubuntu系统应该都可以；
 python版本最好是3.9，其他版本应该也没啥问题
 
 1. 在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！如果不被OpenAI封的话~
+小白用户比较多，我直接给截图示意下可能会更好：
+![(5TZ 8B%PE J(1)4TZ~Q 0Z](https://user-images.githubusercontent.com/28528386/224497146-f5518553-04a2-4efa-90e6-4ac0febb8177.png)
+
 
 2. 使用过程要保证全局代理！
 
