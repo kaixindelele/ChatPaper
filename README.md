@@ -1,6 +1,15 @@
 # ChatPaper
 To keep up with the huge arxiv papers and AI’s fast progress, we humans need to evolve. We download the latest papers on arxiv based on user keywords, and use ChatGPT3.5 API’s powerful summarization to condense them into a fixed format with minimal text and easy readability. We provide the most information for everyone to choose which papers to read deeply.
 
+## TODO list:
+1. 将提问换成英文
+2. 用更加鲁棒的方法解析Method章节
+3. 打包成exe文件，供小白用户直接使用。
+4. 如果有佬愿意搭建网站，也可以合作
+5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）
+
+## 动机
+
 面对每天海量的arxiv论文，以及AI极速的进化，我们人类必须也要一起进化才能不被淘汰。
 
 作为中科大强化学习方向的博士生，我深感焦虑，现在AI的进化速度，我开脑洞都赶不上。
@@ -114,12 +123,6 @@ API被OpenAI禁了的报错：
 和上面这两个工具的主要优势在于，ChatPaper可以批量自动总结最新论文，可以极大的降低阅读门槛，尤其是我们国人。
 缺点也很明显，ChatPaper没有交互功能，不能连续提问，但我觉得这个重要性不大~
 
-## TODO list:
-1. 将提问换成英文
-2. 用更加鲁棒的方法解析Method章节
-3. 打包成exe文件，供小白用户直接使用。
-4. 如果有佬愿意搭建网站，也可以合作
-5. 
 
 ## 解析示例：
 
