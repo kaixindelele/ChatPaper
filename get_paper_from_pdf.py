@@ -241,7 +241,7 @@ class Paper:
                         cur_sec_text += text_list[start_page][start_i:end_i]
                 else:
                     for page_i in range(start_page, end_page):                    
-                        print("page_i:", page_i)
+#                         print("page_i:", page_i)
                         if page_i == start_page:
                             if text_list[start_page].find(sec_name) == -1:
                                 start_i = text_list[start_page].find(sec_name.upper())
