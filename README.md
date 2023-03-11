@@ -84,6 +84,12 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 代理ip和端口需要你在Windows系统里面查找。
 
+API被OpenAI禁了的报错：
+
+![ODG)KY7$KJ}`BM`V8NVO`PT](https://user-images.githubusercontent.com/28528386/224464704-80f9b010-14f8-4df0-9635-cdfcb2faea51.png)
+
+这种情况只能用新号了。另外一定要注意一个号尽量不要多刷，节点一定要靠谱，千万不能用大陆和香港的节点，用了就寄。
+
 
 ## 是否插图？以及插图教程：
 先不加了
