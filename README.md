@@ -23,7 +23,7 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 
 言归正传，不强制付费，但是真的希望每个觉得能帮你节省时间的研究生，在花几块钱买API的同时，能够给我一块钱奖励，非常感谢！
 
-您的支持，是我持续更新的动力！
+您的支持，是我持续更新的动力！如果有商用的大佬，多支持也是欢迎的~
 
 <div style="text-align: center;">
   <img src=https://user-images.githubusercontent.com/28528386/224465754-6f886e48-8626-419f-a154-e5d187fd22f9.jpg width="200" height="250"/>
