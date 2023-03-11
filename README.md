@@ -3,11 +3,17 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 
 面对每天海量的arxiv论文，以及AI极速的进化，我们人类必须也要一起进化才能不被淘汰。
 
-因此我开发了这款ChatPaper，准备用魔法打败魔法。
+作为中科大强化学习方向的博士生，我深感焦虑，现在AI的进化速度，我开脑洞都赶不上。
 
-ChatPaper根据用户输入的关键词，自动在arxiv上下载最新的论文，再利用ChatGPT3.5的API接口强大的总结能力，将论文总结为固定的格式，以最少的文本，最低的阅读门槛，为大家提供最大信息量，以决定该精读哪些文章。
+因此我开发了这款ChatPaper，尝试用魔法打败魔法。
+
+ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一分钟阅读AI总结的论文。
+
+它可以根据用户输入的关键词，自动在arxiv上下载最新的论文，再利用ChatGPT3.5的API接口强大的总结能力，将论文总结为固定的格式，以最少的文本，最低的阅读门槛，为大家提供最大信息量，以决定该精读哪些文章。
 
 也可以提供本地的PDF文档地址，直接处理。
+
+一般一个晚上就可以速通一个小领域的最新文章。我自己测试了两天了。
 
 祝大家在这个极速变化的时代中，能够和AI一起进化！
 
@@ -15,7 +21,9 @@ ChatPaper根据用户输入的关键词，自动在arxiv上下载最新的论文
 
 不知道能不能用这个工具，实现我小时候的梦想-- **如果每个中国人给我一块钱，那我就发财了** 哈哈~
 
-言归正传，不强制付费，但是真的希望每个觉得能帮你节省时间的研究生，能够给我一块钱奖励，非常感谢！
+言归正传，不强制付费，但是真的希望每个觉得能帮你节省时间的研究生，在花几块钱买API的同时，能够给我一块钱奖励，非常感谢！
+
+您的支持，是我持续更新的动力！
 
 <div style="text-align: center;">
   <img src=https://user-images.githubusercontent.com/28528386/224335122-1e87eb7b-a922-4c2f-b2aa-9612f62a6314.jpg width="150" height="200"/>
@@ -69,7 +77,7 @@ parser.add_argument("--file_format", type=str, default='md', help="导出的文�
 参考知乎回答：
 https://www.zhihu.com/question/587322263/answer/2919916984
 
-直接在app.py里加上
+直接在chat_paper.py里加上
 
 os.environ["http_proxy"] = "http://<代理ip>:<代理端口>"
 os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
@@ -95,6 +103,13 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 和上面这两个工具的主要优势在于，ChatPaper可以批量自动总结最新论文，可以极大的降低阅读门槛，尤其是我们国人。
 缺点也很明显，ChatPaper没有交互功能，不能连续提问，但我觉得这个重要性不大~
+
+## TODO list:
+1. 将提问换成英文
+2. 用更加鲁棒的方法解析Method章节
+3. 打包成exe文件，供小白用户直接使用。
+4. 如果有佬愿意搭建网站，也可以合作
+5. 
 
 ## 解析示例：
 
