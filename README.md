@@ -26,11 +26,11 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 您的支持，是我持续更新的动力！
 
 <div style="text-align: center;">
-  <img src=https://user-images.githubusercontent.com/28528386/224465754-6f886e48-8626-419f-a154-e5d187fd22f9.jpg width="150" height="200"/>
+  <img src=https://user-images.githubusercontent.com/28528386/224465754-6f886e48-8626-419f-a154-e5d187fd22f9.jpg width="200" height="250"/>
 </div>
 
 <div style="text-align: center;">
-  <img src=https://user-images.githubusercontent.com/28528386/224335122-1e87eb7b-a922-4c2f-b2aa-9612f62a6314.jpg width="150" height="200"/>
+  <img src=https://user-images.githubusercontent.com/28528386/224335122-1e87eb7b-a922-4c2f-b2aa-9612f62a6314.jpg width="200" height="250"/>
 </div>
 
 ## 使用步骤：
@@ -38,7 +38,7 @@ Windows,mac和Ubuntu系统应该都可以；
 
 python版本最好是3.9，其他版本应该也没啥问题
 
-1. 在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！
+1. 在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！如果不被OpenAI封的话~
 
 2. 使用过程要保证全局代理！
 
