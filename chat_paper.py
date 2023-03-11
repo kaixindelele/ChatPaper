@@ -62,7 +62,7 @@ class Reader:
             for f_key in filter_keys.split(" "):
                 if f_key.lower() in abs_text.lower():
                     meet_num += 1
-            if meet_num == len(filter_keys):
+            if meet_num == len(filter_keys.split(" ")):
                 filter_results.append(result)
                 # break
         print("filter_results:", len(filter_results))
