@@ -72,6 +72,9 @@ python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max
 
 ```
 
+**注意：key_word不重要，但是filter_keys非常重要！**
+一定要修改成你的关键词。
+
 5. 参数介绍：
 ```
 
