@@ -8,6 +8,12 @@
 
 To keep up with the huge arxiv papers and AI’s fast progress, we humans need to evolve. We download the latest papers on arxiv based on user keywords, and use ChatGPT3.5 API’s powerful summarization to condense them into a fixed format with minimal text and easy readability. We provide the most information for everyone to choose which papers to read deeply.
 
+我们为ChatPaper提供了一个Web图形界面。您可以选择在私有或者公共环境中部署ChatPaper，也可以在Hugging Face上[在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 我们所提供的公共服务。
+
+![](./images/chatpaper.png)
+
+> [私有化部署](./deploy/Private/README.md) 、公共化部署，我们推荐您直接使用Hugging Face [在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 。
+
 ## TODO list:
 1. 将提问换成英文
 2. 用更加鲁棒的方法解析Method章节
