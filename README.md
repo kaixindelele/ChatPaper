@@ -65,14 +65,14 @@ python版本最好是3.9，其他版本应该也没啥问题
 1. 在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！如果不被OpenAI封的话~
 小白用户比较多，我直接给截图示意下可能会更好：
 <div style="text-align: center;">
-  <img src=https://user-images.githubusercontent.com/28528386/224497146-f5518553-04a2-4efa-90e6-4ac0febb8177.png width="200" height="250"/>
+  <img src=https://user-images.githubusercontent.com/28528386/224497146-f5518553-04a2-4efa-90e6-4ac0febb8177.png width="500" height="350"/>
 </div>
 
 2. 使用过程要保证全局代理！
 如果客户端时clash的话，可以参考这个进行配置:
 
 <div style="text-align: center;">
-  <img src=https://user-images.githubusercontent.com/28528386/224529317-f49265d7-fb5f-4dd5-b462-930aaa0c682d.png width="200" height="250"/>
+  <img src=https://user-images.githubusercontent.com/28528386/224529317-f49265d7-fb5f-4dd5-b462-930aaa0c682d.png width="500" height="350"/>
 </div>
 
 3. 安装依赖：最好翻墙，或者用国内源。
@@ -93,7 +93,7 @@ B站讲解视频：[我把ChatPaper开源了！AI速读PDF论文和速通Arxiv�
 
 另外关于arxiv的搜索关键词可以参考下图：
 <div style="text-align: center;">
-  <img src=https://user-images.githubusercontent.com/28528386/224550698-f0e18bf7-f09f-40a1-a747-1d596b3edd01.png width="200" height="250"/>
+  <img src=https://user-images.githubusercontent.com/28528386/224550698-f0e18bf7-f09f-40a1-a747-1d596b3edd01.png width="250" height="300"/>
 </div>
 
 5. 参数介绍：
