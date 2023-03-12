@@ -60,6 +60,9 @@ python版本最好是3.9，其他版本应该也没啥问题
 
 
 2. 使用过程要保证全局代理！
+如果客户端时clash的话，可以参考这个进行配置:
+![GVR)~3CQ6D1E YHAXR{PFN2](https://user-images.githubusercontent.com/28528386/224529317-f49265d7-fb5f-4dd5-b462-930aaa0c682d.png)
+
 
 3. 安装依赖：最好翻墙，或者用国内源。
 ``` bash
