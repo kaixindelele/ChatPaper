@@ -62,13 +62,16 @@ python版本最好是3.9，其他版本应该也没啥问题
 
 1. 在apikey.ini中填入你的openai key。注意，这个代码纯本地项目，你的key很安全！如果不被OpenAI封的话~
 小白用户比较多，我直接给截图示意下可能会更好：
-![(5TZ 8B%PE J(1)4TZ~Q 0Z](https://user-images.githubusercontent.com/28528386/224497146-f5518553-04a2-4efa-90e6-4ac0febb8177.png)
-
+<div style="text-align: center;">
+  <img src=https://user-images.githubusercontent.com/28528386/224497146-f5518553-04a2-4efa-90e6-4ac0febb8177.png width="200" height="250"/>
+</div>
 
 2. 使用过程要保证全局代理！
 如果客户端时clash的话，可以参考这个进行配置:
-![GVR)~3CQ6D1E YHAXR{PFN2](https://user-images.githubusercontent.com/28528386/224529317-f49265d7-fb5f-4dd5-b462-930aaa0c682d.png)
 
+<div style="text-align: center;">
+  <img src=https://user-images.githubusercontent.com/28528386/224529317-f49265d7-fb5f-4dd5-b462-930aaa0c682d.png width="200" height="250"/>
+</div>
 
 3. 安装依赖：最好翻墙，或者用国内源。
 ``` bash
@@ -80,6 +83,8 @@ pip install -r requirements.txt
 python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 1
 
 ```
+
+B站讲解视频：[我把ChatPaper开源了！AI速读PDF论文和速通Arxiv论文](https://www.bilibili.com/video/BV1EM411x7Tr/)
 
 **注意：key_word不重要，但是filter_keys非常重要！**
 一定要修改成你的关键词。
