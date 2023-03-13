@@ -17,11 +17,12 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 > [私有化部署](./deploy/Private/README.md) 、公共化部署，我们推荐您直接使用Hugging Face [在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 。
 
 ## TODO list:
-1. 将提问换成英文
-2. 用更加鲁棒的方法解析Method章节
-3. 打包成exe文件，供小白用户直接使用。
-4. 如果有佬愿意搭建网站，也可以合作
-5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）
+1. 将提问换成英文--已经完成
+2. 用更加鲁棒的方法解析Method章节--使用交互模式，来判断
+3. 打包成exe文件，供小白用户直接使用。--放弃这个功能，全力打造网页版
+4. 如果有佬愿意搭建网站，也可以合作--已经合作
+5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）--正在尝试
+6. 其他的优化功能正在添加：本地PDF批量总结；token的自动评估；
 
 ## 动机
 
