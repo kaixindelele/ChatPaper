@@ -382,7 +382,7 @@ def main(args):
         reader1 = Reader(key_word=args.key_word, 
                          query=args.query, 
                          filter_keys=args.filter_keys,                                    
-                         sort=args.sort, 
+                         sort=sort, 
                          args=args
                          )
         reader1.show_info()
@@ -392,7 +392,7 @@ def main(args):
         reader1 = Reader(key_word=args.key_word, 
                          query=args.query, 
                          filter_keys=args.filter_keys,                                    
-                         sort=args.sort, 
+                         sort=sort, 
                          args=args
                          )
         reader1.show_info()
