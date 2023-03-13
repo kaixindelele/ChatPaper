@@ -102,7 +102,7 @@ B站讲解视频：[我把ChatPaper开源了！AI速读PDF论文和速通Arxiv�
 </div>
 
 5. 参数介绍：
-``
+```
 
 [--pdf_path 是否直接读取本地的pdf文档？如果不设置的话，直接从arxiv上搜索并且下载] 
 [--query 向arxiv网站搜索的关键词，有一些缩写示范：all, ti(title), au(author)，一个query示例：all: ChatGPT robot] 
@@ -140,7 +140,7 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 API被OpenAI禁了的报错：
 
-![ODG)KY7$KJ}`BM`V8NVO`PT](https://user-images.githubusercontent.com/28528386/224464704-80f9b010-14f8-4df0-9635-cdfcb2faea51.png)
+![](https://user-images.githubusercontent.com/28528386/224464704-80f9b010-14f8-4df0-9635-cdfcb2faea51.png)
 
 这种情况只能用新号了。另外一定要注意一个号尽量不要多刷，节点一定要靠谱，千万不能用大陆和香港的节点，用了就寄。
 
