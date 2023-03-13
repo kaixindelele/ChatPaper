@@ -11,45 +11,6 @@ import fitz, io, os
 from PIL import Image
 import gradio
 import markdown
-import json
-import tiktoken
-
-def parse_text(text):
-    lines = text.split("\n")
-    for i,line in enumerate(lines):
-        if "```" in line:
-            items = line.split('`')
-            if items[-1]:
-                lines[i] = f'<pre><code class="{items[-1]}">'
-            else:
-                lines[i] = f'</code></pre>'
-        else:
-            if i>0:
-                line = line.replace("<", "&lt;")
-                line = line.replace(">", "&gt;")
-                lines[i] = '<br/>'+line.replace(" ", "&nbsp;")
-    return "".join(lines)
-
-def get_response(system, context, myKey, raw = False):
-    openai.api_key = myKey
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[system, *context],
-    )
-    openai.api_key = ""
-    if raw:
-        return response
-    else:
-        message = response["choices"][0]["message"]["content"]
-        message_with_stats = f'{message}'
-        return message, parse_text(message_with_stats)
-
-def valid_apikey(api_key):
-    try:
-        get_response({"role": "system", "content": "You are a helpful assistant."}, [{"role": "user", "content": "test"}], api_key)
-        return "可用的api-key"
-    except:
-        return "无效的api-key"
 
 class Paper:
     def __init__(self, path, title='', url='', abs='', authers=[], sl=[]):
@@ -321,8 +282,6 @@ class Reader:
             self.gitee_key = self.config.get('Gitee', 'api')
         else:
             self.gitee_key = ''
-        self.max_token_num = 4096
-        self.encoding = tiktoken.get_encoding("gpt2")
                 
     def get_arxiv(self, max_results=30):
         search = arxiv.Search(query=self.query,
@@ -440,9 +399,6 @@ class Reader:
     
     def summary_with_chat(self, paper_list, key):
         htmls = []
-        utoken = 0
-        ctoken = 0
-        ttoken = 0
         for paper_index, paper in enumerate(paper_list):
             # 第一步先用title，abs，和introduction进行总结。
             text = ''
@@ -451,12 +407,23 @@ class Reader:
             text += 'Abstrat:' + paper.abs
             # intro
             text += list(paper.section_text_dict.values())[0]
-            #max_token = 2500 * 4
-            #text = text[:max_token]
-            chat_summary_text, utoken1, ctoken1, ttoken1 = self.chat_summary(text=text, key=str(key))           
+            max_token = 2500 * 4
+            text = text[:max_token]
+            chat_summary_text = self.chat_summary(text=text, key=str(key))           
             htmls.append(chat_summary_text)
             
             # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
+            first_image, ext = paper.get_image_path()
+            if first_image is None or self.gitee_key == '':
+                pass
+            else:                
+                image_title = self.validateTitle(paper.title)
+                image_url = self.upload_gitee(image_path=first_image, image_name=image_title, ext=ext)
+                htmls.append("\n")
+                htmls.append("![Fig]("+image_url+")")
+                htmls.append("\n")
+            # 第二步总结方法：
+            # TODO，由于有些文章的方法章节名是算法名，所以简单的通过关键词来筛选，很难获取，后面需要用其他的方案去优化。
             method_key = ''
             for parse_key in paper.section_text_dict.keys():
                 if 'method' in parse_key.lower() or 'approach' in parse_key.lower():
@@ -469,9 +436,12 @@ class Reader:
                 summary_text = ''
                 summary_text += "<summary>" + chat_summary_text
                 # methods                
-                method_text += paper.section_text_dict[method_key]                   
-                text = summary_text + "\n<Methods>:\n" + method_text                 
-                chat_method_text, utoken2, ctoken2, ttoken2 = self.chat_method(text=text, key=str(key))
+                method_text += paper.section_text_dict[method_key]   
+                # TODO 把这个变成tenacity的自动判别！             
+                max_token = 2500 * 4
+                text = summary_text + "\n <Methods>:\n" + method_text 
+                text = text[:max_token]
+                chat_method_text = self.chat_method(text=text, key=str(key))
                 htmls.append(chat_method_text)
             else:
                 chat_method_text = ''
@@ -490,27 +460,18 @@ class Reader:
             summary_text += "<summary>" + chat_summary_text + "\n <Method summary>:\n" + chat_method_text            
             if conclusion_key != '':
                 # conclusion                
-                conclusion_text += paper.section_text_dict[conclusion_key]                                
+                conclusion_text += paper.section_text_dict[conclusion_key]                
+                max_token = 2500 * 4
                 text = summary_text + "\n <Conclusion>:\n" + conclusion_text 
             else:
-                text = summary_text            
-            chat_conclusion_text, utoken3, ctoken3, ttoken3 = self.chat_conclusion(text=text, key=str(key))
+                text = summary_text
+            text = text[:max_token]
+            chat_conclusion_text = self.chat_conclusion(text=text, key=str(key))
             htmls.append(chat_conclusion_text)
             htmls.append("\n")
-            # token统计
-            utoken = utoken + utoken1 + utoken2 + utoken3
-            ctoken = ctoken + ctoken1 + ctoken2 + ctoken3
-            ttoken = ttoken + ttoken1 + ttoken2 + ttoken3
-            cost = (ttoken / 1000) * 0.002
-            pos_count = {
-                        "usage_token_used": str(utoken),
-                        "completion_token_used": str(ctoken),
-                        "total_token_used": str(ttoken),
-                        "cost": str(cost),
-                    }
             md_text = "\n".join(htmls)
             
-            return markdown.markdown(md_text), pos_count
+            return markdown.markdown(md_text)
             
             
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
@@ -518,150 +479,107 @@ class Reader:
                     reraise=True)
     def chat_conclusion(self, text, key):
         openai.api_key = key
-        conclusion_prompt_token = 650        
-        text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text)*(self.max_token_num-conclusion_prompt_token)/text_token)
-        clip_text = text[:clip_text_index]   
-        
-        messages=[
-                {"role": "system", "content": "You are a reviewer in the field of ["+self.key_word+"] and you need to critically review this article"},  # chatgpt 角色
-                {"role": "assistant", "content": "This is the <summary> and <conclusion> part of an English literature, where <summary> you have already summarized, but <conclusion> part, I need your help to summarize the following questions:"+clip_text},  # 背景知识，可以参考OpenReview的审稿流程
-                {"role": "user", "content": """                 
-                 8. Make the following summary.Be sure to use Chinese answers (proper nouns need to be marked in English).
-                    - (1):What is the significance of this piece of work?
-                    - (2):Summarize the strengths and weaknesses of this article in three dimensions: innovation point, performance, and workload.                   
-                    .......
-                 Follow the format of the output later: 
-                 8. Conclusion: \n\n
-                    - (1):xxx;\n                     
-                    - (2):Innovation point: xxx; Performance: xxx; Workload: xxx;\n                      
-                 
-                 Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
-                 """},
-            ]
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             # prompt需要用英语替换，少占用token。
-            messages=messages,
+            messages=[
+                {"role": "system", "content": "你是一个["+self.key_word+"]领域的审稿人，你需要严格评审这篇文章"},  # chatgpt 角色
+                {"role": "assistant", "content": "这是一篇英文文献的<summary>和<conclusion>部分内容，其中<summary>你已经总结好了，但是<conclusion>部分，我需要你帮忙归纳下面问题："+text},  # 背景知识，可以参考OpenReview的审稿流程
+                {"role": "user", "content": """                 
+                 8. 做出如下总结：
+                    - (1):这篇工作的意义如何？
+                    - (2):从创新点、性能、工作量这三个维度，总结这篇文章的优点和缺点。                   
+                    .......
+                 按照后面的格式输出: 
+                 8. Conclusion:
+                    - (1):xxx;                     
+                    - (2):创新点: xxx; 性能: xxx; 工作量: xxx;                      
+                 
+                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，.......代表按照实际需求填写，如果没有可以不用写.                 
+                 """},
+            ]
         )
-        
         result = ''
         for choice in response.choices:
             result += choice.message.content
-        #print("prompt_token_used:", response.usage.prompt_tokens,
-        #      "completion_token_used:", response.usage.completion_tokens,
-        #      "total_token_used:", response.usage.total_tokens)
-        #print("response_time:", response.response_ms/1000.0, 's')
-        usage_token = response.usage.prompt_tokens
-        com_token = response.usage.completion_tokens
-        total_token = response.usage.total_tokens
-        
-        return result, usage_token, com_token, total_token            
+        print("conclusion_result:\n", result)
+        return result            
     
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_method(self, text, key):
         openai.api_key = key
-        method_prompt_token = 650        
-        text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text)*(self.max_token_num-method_prompt_token)/text_token)
-        clip_text = text[:clip_text_index]        
-        messages=[
-                {"role": "system", "content": "You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements"},  # chatgpt 角色
-                {"role": "assistant", "content": "This is the <summary> and <Method> part of an English document, where <summary> you have summarized, but the <Methods> part, I need your help to read and summarize the following questions."+clip_text},  # 背景知识
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文"},  # chatgpt 角色
+                {"role": "assistant", "content": "这是一篇英文文献的<summary>和<Method>部分内容，其中<summary>你已经总结好了，但是<Methods>部分，我需要你帮忙阅读并归纳下面问题："+text},  # 背景知识
                 {"role": "user", "content": """                 
-                 7. Describe in detail the methodological idea of this article. Be sure to use Chinese answers (proper nouns need to be marked in English). For example, its steps are.
+                 7. 详细描述这篇文章的方法思路。比如说它的步骤是：
                     - (1):...
                     - (2):...
                     - (3):...
                     - .......
-                 Follow the format of the output that follows: 
-                 7. Methods: \n\n
-                    - (1):xxx;\n 
-                    - (2):xxx;\n 
-                    - (3):xxx;\n  
-                    ....... \n\n     
+                 按照后面的格式输出: 
+                 7. Methods:
+                    - (1):xxx; 
+                    - (2):xxx; 
+                    - (3):xxx;  
+                    .......     
                  
-                 Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
+                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行，.......代表按照实际需求填写，如果没有可以不用写.                 
                  """},
             ]
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
         )
-        
         result = ''
         for choice in response.choices:
             result += choice.message.content
         print("method_result:\n", result)
-        #print("prompt_token_used:", response.usage.prompt_tokens,
-        #      "completion_token_used:", response.usage.completion_tokens,
-        #      "total_token_used:", response.usage.total_tokens)
-        #print("response_time:", response.response_ms/1000.0, 's')
-        usage_token = response.usage.prompt_tokens
-        com_token = response.usage.completion_tokens
-        total_token = response.usage.total_tokens
-        
-        return result, usage_token, com_token, total_token 
+        return result
     
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_summary(self, text, key):
         openai.api_key = key
-        summary_prompt_token = 1000        
-        text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text)*(self.max_token_num-summary_prompt_token)/text_token)
-        clip_text = text[:clip_text_index]
-        messages=[
-                {"role": "system", "content": "You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements"},
-                {"role": "assistant", "content": "This is the title, author, link, abstract and introduction of an English document. I need your help to read and summarize the following questions: "+clip_text},
-                {"role": "user", "content": """                 
-                 1. Mark the title of the paper (with Chinese translation)
-                 2. list all the authors' names (use English)
-                 3. mark the first author's affiliation (output Chinese translation only)                 
-                 4. mark the keywords of this article (use English)
-                 5. link to the paper, Github code link (if available, fill in Github:None if not)
-                 6. summarize according to the following four points.Be sure to use Chinese answers (proper nouns need to be marked in English)
-                    - (1):What is the research background of this article?
-                    - (2):What are the past methods? What are the problems with them? Is the approach well motivated?
-                    - (3):What is the research methodology proposed in this paper?
-                    - (4):On what task and what performance is achieved by the methods in this paper? Can the performance support their goals?
-                 Follow the format of the output that follows:                  
-                 1. Title: xxx\n\n
-                 2. Authors: xxx\n\n
-                 3. Affiliation: xxx\n\n                 
-                 4. Keywords: xxx\n\n   
-                 5. Urls: xxx or xxx , xxx \n\n      
-                 6. Summary: \n\n
-                    - (1):xxx;\n 
-                    - (2):xxx;\n 
-                    - (3):xxx;\n  
-                    - (4):xxx.\n\n     
-                 
-                 Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not have too much repetitive information, numerical values using the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed.                 
-                 """},
-            ]
-                
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=messages,
+            messages=[
+                {"role": "system", "content": "你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文"},  # chatgpt 角色
+                {"role": "assistant", "content": "这是一篇英文文献的标题，作者，链接，Abstract和Introduction部分内容，我需要你帮忙阅读并归纳下面问题："+text},  # 背景知识
+                {"role": "user", "content": """                 
+                 1. 标记出这篇文献的标题(加上中文翻译)
+                 2. 列举所有的作者姓名 (使用英文)
+                 3. 标记第一作者的单位（只输出中文翻译）                 
+                 4. 标记出这篇文章的关键词(使用英文)
+                 5. 论文链接，Github代码链接（如果有的话，没有的话请填写Github:None）
+                 6. 按照下面四个点进行总结：
+                    - (1):这篇文章的研究背景是什么？
+                    - (2):过去的方法有哪些？它们存在什么问题？本文和过去的研究有哪些本质的区别？Is the approach well motivated?
+                    - (3):本文提出的研究方法是什么？
+                    - (4):本文方法在什么任务上，取得了什么性能？性能能否支持他们的目标？
+                 按照后面的格式输出:                  
+                 1. Title: xxx
+                 2. Authors: xxx
+                 3. Affiliation: xxx                
+                 4. Keywords: xxx   
+                 5. Urls: xxx or xxx , xxx      
+                 6. Summary:
+                    - (1):xxx;
+                    - (2):xxx;
+                    - (3):xxx; 
+                    - (4):xxx.    
+                 
+                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要有太多重复的信息，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行.                 
+                 """},
+            ]
         )
-        
         result = ''
         for choice in response.choices:
             result += choice.message.content
         print("summary_result:\n", result)
-        #print("prompt_token_used:", response.usage.prompt_tokens,
-        #      "completion_token_used:", response.usage.completion_tokens,
-        #      "total_token_used:", response.usage.total_tokens)
-        #print("response_time:", response.response_ms/1000.0, 's')
-        usage_token = response.usage.prompt_tokens
-        com_token = response.usage.completion_tokens
-        total_token = response.usage.total_tokens
-        
-        return result, usage_token, com_token, total_token        
+        return result        
             
     def export_to_markdown(self, text, file_name, mode='w'):
         # 使用markdown模块的convert方法，将文本转换为html格式
@@ -682,63 +600,35 @@ def upload_pdf(key, text, file):
     if not key or not text or not file:
         return "两个输入都不能为空，请输入字符并上传 PDF 文件！"
     # 判断PDF文件
-    #if file and file.name.split(".")[-1].lower() != "pdf":
-    #    return '请勿上传非 PDF 文件！'
+    if file and file.name.split(".")[-1].lower() != "pdf":
+        return '请勿上传非 PDF 文件！'
     else:
         section_list = text.split(',')
         paper_list = [Paper(path=file, sl=section_list)]
         # 创建一个Reader对象
         reader = Reader()
-        sum_info, cost = reader.summary_with_chat(paper_list=paper_list, key=key)
-        return cost, sum_info
-
-api_title = "api-key可用验证"
-api_description = '''<div align='left'>
-
-<img src='https://visitor-badge.laobi.icu/badge?page_id=https://huggingface.co/spaces/wangrongsheng/ChatPaper'>
-
-<img align='right' src='https://i.328888.xyz/2023/03/12/vH9dU.png' width="150">
-
-Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github.com/kaixindelele/ChatPaper) .
-
-💗如果您觉得我们的项目对您有帮助，还请您给我们一些鼓励！💗
-
-🔴请注意：千万不要用于严肃的学术场景，只能用于论文阅读前的初筛！
-
-</div>
-'''
-
-api_input = [
-    gradio.inputs.Textbox(label="请输入你的api-key(必填)", default="", type='password')
-]
-api_gui = gradio.Interface(fn=valid_apikey, inputs=api_input, outputs="text", title=api_title, description=api_description)
+        sum_info = reader.summary_with_chat(paper_list=paper_list, key=key)
+        return sum_info
 
 # 标题
 title = "ChatPaper"
 # 描述
-description = '''<div align='left'>
+description = '''<div align='center'>
 
-<img src='https://visitor-badge.laobi.icu/badge?page_id=https://huggingface.co/spaces/wangrongsheng/ChatPaper'>
+Use ChatGPT to summary the papers.
 
-<img align='right' src='https://i.328888.xyz/2023/03/12/vH9dU.png' width="150">
-
-Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github.com/kaixindelele/ChatPaper) .
-
-💗如果您觉得我们的项目对您有帮助，还请您给我们一些鼓励！💗
-
-🔴请注意：千万不要用于严肃的学术场景，只能用于论文阅读前的初筛！
+Star our Github [ChatPaper](https://github.com/kaixindelele/ChatPaper)
 
 </div>
 '''
 # 创建Gradio界面
 ip = [
-    gradio.inputs.Textbox(label="请输入你的API-key(必填)", default="", type='password'),
+    gradio.inputs.Textbox(label="请输入你的API-key(必填)", default=""),
     gradio.inputs.Textbox(label="请输入论文大标题索引(用英文逗号隔开,必填)", default="'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"),
     gradio.inputs.File(label="请上传论文PDF(必填)")
 ]
 
-chatpaper_gui = gradio.Interface(fn=upload_pdf, inputs=ip, outputs=["json", "html"], title=title, description=description)
+interface = gradio.Interface(fn=upload_pdf, inputs=ip, outputs="html", title=title, description=description)
 
-# Start server
-gui = gradio.TabbedInterface(interface_list=[api_gui, chatpaper_gui], tab_names=["API-key", "ChatPaper"])
-gui.launch(quiet=True,show_api=False)
+# 运行Gradio应用程序
+interface.launch()
