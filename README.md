@@ -12,6 +12,10 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 
 **这个功能免费，且代码开源，大家放心使用！**
 
+关于API如何获取，首先你得有一个没有被封的ChatGPT账号，然后根据下面链接去生成： [如何获取Api Key](https://chatgpt.cn.obiscr.com/blog/posts/2023/How-to-get-api-key/)
+
+
+
 ![](./images/chatpaper.png)
 
 > [私有化部署](./deploy/Private/README.md) 、公共化部署，我们推荐您直接使用Hugging Face [在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 。
