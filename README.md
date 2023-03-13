@@ -12,7 +12,7 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 
 **这个功能免费，且代码开源，大家放心使用！**
 
-关于API如何获取，首先你得有一个没有被封的ChatGPT账号，然后根据下面链接去生成： ![如何获取Api Key](https://chatgpt.cn.obiscr.com/blog/posts/2023/How-to-get-api-key/)
+关于API如何获取，首先你得有一个没有被封的ChatGPT账号，然后根据下面链接去生成： [如何获取Api Key](https://chatgpt.cn.obiscr.com/blog/posts/2023/How-to-get-api-key/)
 
 
 
