@@ -164,6 +164,12 @@ API被OpenAI禁了的报错：
 和上面这两个工具的主要优势在于，ChatPaper可以批量自动总结最新论文，可以极大的降低阅读门槛，尤其是我们国人。
 缺点也很明显，ChatPaper没有交互功能，不能连续提问，但我觉得这个重要性不大~
 
+另外给计算机专业的佬们，推荐一款非常强大的开源工具：
+[Ex-ChatGPT](https://github.com/circlestarzero/EX-chatGPT) 是一个强大的工具平台，能让 ChatGPT 能够调用外部 API，例如 WolframAlpha、Google 和 WikiMedia，以提供更准确和及时的答案。
+江湖人称 **GoogleChat**.
+
+
+
 
 ## 解析示例：
 
