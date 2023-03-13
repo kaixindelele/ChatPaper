@@ -151,7 +151,96 @@ class Reader:
             
         return image_url
     
-    
+    def summary_with_chat(self, paper_list):
+        htmls = []
+        for paper_index, paper in enumerate(paper_list):
+            # 第一步先用title，abs，和introduction进行总结。
+            text = ''
+            text += 'Title:' + paper.title
+            text += 'Url:' + paper.url
+            text += 'Abstrat:' + paper.abs
+            # intro
+            text += list(paper.section_text_dict.values())[0]
+            max_token = 2500 * 4
+            text = text[:max_token]
+            chat_summary_text = self.chat_summary(text=text)            
+            htmls.append('## Paper:' + str(paper_index+1))
+            htmls.append('\n\n\n')            
+            htmls.append(chat_summary_text)
+            
+            # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
+            first_image, ext = paper.get_image_path()
+            if first_image is None or self.gitee_key == '':
+                pass
+            else:                
+                image_title = self.validateTitle(paper.title)
+                image_url = self.upload_gitee(image_path=first_image, image_name=image_title, ext=ext)
+                htmls.append("\n\n")
+                htmls.append("![Fig]("+image_url+")")
+                htmls.append("\n\n")
+            # 第二步总结方法：
+            # TODO，由于有些文章的方法章节名是算法名，所以简单的通过关键词来筛选，很难获取，后面需要用其他的方案去优化。
+            method_key = ''
+            for parse_key in paper.section_text_dict.keys():
+                if 'method' in parse_key.lower() or 'approach' in parse_key.lower():
+                    method_key = parse_key
+                    break
+                
+            if method_key != '':
+                text = ''
+                method_text = ''
+                summary_text = ''
+                summary_text += "<summary>" + chat_summary_text
+                # methods                
+                method_text += paper.section_text_dict[method_key]   
+                # TODO 把这个变成tenacity的自动判别！             
+                max_token = 2500 * 4
+                text = summary_text + "\n\n<Methods>:\n\n" + method_text 
+                text = text[:max_token]
+                chat_method_text = self.chat_method(text=text)
+                htmls.append(chat_method_text)
+            else:
+                chat_method_text = ''
+            htmls.append("\n"*4)
+            
+            # 第三步总结全文，并打分：
+            conclusion_key = ''
+            for parse_key in paper.section_text_dict.keys():
+                if 'conclu' in parse_key.lower():
+                    conclusion_key = parse_key
+                    break
+            
+            text = ''
+            conclusion_text = ''
+            summary_text = ''
+            summary_text += "<summary>" + chat_summary_text + "\n <Method summary>:\n" + chat_method_text            
+            if conclusion_key != '':
+                # conclusion                
+                conclusion_text += paper.section_text_dict[conclusion_key]                
+                max_token = 2500 * 4
+                text = summary_text + "\n\n<Conclusion>:\n\n" + conclusion_text 
+            else:
+                text = summary_text
+            text = text[:max_token]
+            chat_conclusion_text = self.chat_conclusion(text=text)
+            htmls.append(chat_conclusion_text)
+            htmls.append("\n"*4)
+            
+            # # 整合成一个文件，打包保存下来。
+            date_str = str(datetime.datetime.now())[:13].replace(' ', '-')
+            try:
+                export_path = os.path.join(self.root_path, 'export')
+                os.makedirs(export_path)
+            except:
+                pass                             
+            mode = 'w' if paper_index == 0 else 'a'
+            file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title)+"."+self.file_format)
+            self.export_to_markdown("\n".join(htmls), file_name=file_name, mode=mode)
+            
+            # file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title)+".md")
+            # self.export_to_markdown("\n".join(htmls), file_name=file_name, mode=mode)
+            htmls = []
+        
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
