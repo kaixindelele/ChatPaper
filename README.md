@@ -135,12 +135,12 @@ os.environ["http_proxy"] = "http://<代理ip>:<代理端口>"
 os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 代理ip和端口需要你在Windows系统里面查找。
-![YLPA5K7Q$A{{KDCCAJF5AXF](https://user-images.githubusercontent.com/28528386/224496999-1a8a7946-00aa-4d51-9f18-45bdde4215b9.png)
+![2333](https://user-images.githubusercontent.com/28528386/224496999-1a8a7946-00aa-4d51-9f18-45bdde4215b9.png)
 
 
 API被OpenAI禁了的报错：
 
-![ODG)KY7$KJ}`BM`V8NVO`PT](https://user-images.githubusercontent.com/28528386/224464704-80f9b010-14f8-4df0-9635-cdfcb2faea51.png)
+![3222](https://user-images.githubusercontent.com/28528386/224464704-80f9b010-14f8-4df0-9635-cdfcb2faea51.png)
 
 这种情况只能用新号了。另外一定要注意一个号尽量不要多刷，节点一定要靠谱，千万不能用大陆和香港的节点，用了就寄。
 
@@ -166,7 +166,7 @@ API被OpenAI禁了的报错：
 
 另外给计算机专业的佬们，推荐一款非常强大的开源工具：
 [Ex-ChatGPT](https://github.com/circlestarzero/EX-chatGPT) 是一个强大的工具平台，能让 ChatGPT 能够调用外部 API，例如 WolframAlpha、Google 和 WikiMedia，以提供更准确和及时的答案。
-江湖人称 **GoogleChat**.
+江湖人称 GoogleChat.
 
 
 
