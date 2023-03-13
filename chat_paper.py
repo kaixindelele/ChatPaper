@@ -151,96 +151,7 @@ class Reader:
             
         return image_url
     
-    def summary_with_chat(self, paper_list):
-        htmls = []
-        for paper_index, paper in enumerate(paper_list):
-            # 第一步先用title，abs，和introduction进行总结。
-            text = ''
-            text += 'Title:' + paper.title
-            text += 'Url:' + paper.url
-            text += 'Abstrat:' + paper.abs
-            # intro
-            text += list(paper.section_text_dict.values())[0]
-            max_token = 2500 * 4
-            text = text[:max_token]
-            chat_summary_text = self.chat_summary(text=text)            
-            htmls.append('## Paper:' + str(paper_index+1))
-            htmls.append('\n\n\n')            
-            htmls.append(chat_summary_text)
-            
-            # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
-            first_image, ext = paper.get_image_path()
-            if first_image is None or self.gitee_key == '':
-                pass
-            else:                
-                image_title = self.validateTitle(paper.title)
-                image_url = self.upload_gitee(image_path=first_image, image_name=image_title, ext=ext)
-                htmls.append("\n\n")
-                htmls.append("![Fig]("+image_url+")")
-                htmls.append("\n\n")
-            # 第二步总结方法：
-            # TODO，由于有些文章的方法章节名是算法名，所以简单的通过关键词来筛选，很难获取，后面需要用其他的方案去优化。
-            method_key = ''
-            for parse_key in paper.section_text_dict.keys():
-                if 'method' in parse_key.lower() or 'approach' in parse_key.lower():
-                    method_key = parse_key
-                    break
-                
-            if method_key != '':
-                text = ''
-                method_text = ''
-                summary_text = ''
-                summary_text += "<summary>" + chat_summary_text
-                # methods                
-                method_text += paper.section_text_dict[method_key]   
-                # TODO 把这个变成tenacity的自动判别！             
-                max_token = 2500 * 4
-                text = summary_text + "\n\n<Methods>:\n\n" + method_text 
-                text = text[:max_token]
-                chat_method_text = self.chat_method(text=text)
-                htmls.append(chat_method_text)
-            else:
-                chat_method_text = ''
-            htmls.append("\n"*4)
-            
-            # 第三步总结全文，并打分：
-            conclusion_key = ''
-            for parse_key in paper.section_text_dict.keys():
-                if 'conclu' in parse_key.lower():
-                    conclusion_key = parse_key
-                    break
-            
-            text = ''
-            conclusion_text = ''
-            summary_text = ''
-            summary_text += "<summary>" + chat_summary_text + "\n <Method summary>:\n" + chat_method_text            
-            if conclusion_key != '':
-                # conclusion                
-                conclusion_text += paper.section_text_dict[conclusion_key]                
-                max_token = 2500 * 4
-                text = summary_text + "\n\n<Conclusion>:\n\n" + conclusion_text 
-            else:
-                text = summary_text
-            text = text[:max_token]
-            chat_conclusion_text = self.chat_conclusion(text=text)
-            htmls.append(chat_conclusion_text)
-            htmls.append("\n"*4)
-            
-            # # 整合成一个文件，打包保存下来。
-            date_str = str(datetime.datetime.now())[:13].replace(' ', '-')
-            try:
-                export_path = os.path.join(self.root_path, 'export')
-                os.makedirs(export_path)
-            except:
-                pass                             
-            mode = 'w' if paper_index == 0 else 'a'
-            file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title)[:25]+"."+self.file_format)
-            self.export_to_markdown("\n".join(htmls), file_name=file_name, mode=mode)
-            
-            # file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title)+".md")
-            # self.export_to_markdown("\n".join(htmls), file_name=file_name, mode=mode)
-            htmls = []
-            
+    
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
@@ -252,19 +163,19 @@ class Reader:
             model="gpt-3.5-turbo",
             # prompt需要用英语替换，少占用token。
             messages=[
-                {"role": "system", "content": "你是一个["+self.key_word+"]领域的审稿人，你需要严格评审这篇文章"},  # chatgpt 角色
-                {"role": "assistant", "content": "这是一篇英文文献的<summary>和<conclusion>部分内容，其中<summary>你已经总结好了，但是<conclusion>部分，我需要你帮忙归纳下面问题："+text},  # 背景知识，可以参考OpenReview的审稿流程
+                {"role": "system", "content": "You are a reviewer in the field of ["+self.key_word+"] and you need to critically review this article"},  # chatgpt 角色
+                {"role": "assistant", "content": "This is the <summary> and <conclusion> part of an English literature, where <summary> you have already summarized, but <conclusion> part, I need your help to summarize the following questions:"+text},  # 背景知识，可以参考OpenReview的审稿流程
                 {"role": "user", "content": """                 
-                 8. 做出如下总结：
-                    - (1):这篇工作的意义如何？
-                    - (2):从创新点、性能、工作量这三个维度，总结这篇文章的优点和缺点。                   
+                 8. Make the following summary.Be sure to use Chinese answers (proper nouns need to be marked in English).
+                    - (1):What is the significance of this piece of work?
+                    - (2):Summarize the strengths and weaknesses of this article in three dimensions: innovation point, performance, and workload.                   
                     .......
-                 按照后面的格式输出: 
+                 Follow the format of the output later: 
                  8. Conclusion: \n\n
                     - (1):xxx;\n                     
-                    - (2):创新点: xxx; 性能: xxx; 工作量: xxx;\n                      
+                    - (2):Innovation point: xxx; Performance: xxx; Workload: xxx;\n                      
                  
-                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行，.......代表按照实际需求填写，如果没有可以不用写.                 
+                 Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
                  """},
             ]
         )
@@ -284,22 +195,22 @@ class Reader:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文"},  # chatgpt 角色
-                {"role": "assistant", "content": "这是一篇英文文献的<summary>和<Method>部分内容，其中<summary>你已经总结好了，但是<Methods>部分，我需要你帮忙阅读并归纳下面问题："+text},  # 背景知识
+                {"role": "system", "content": "You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements"},  # chatgpt 角色
+                {"role": "assistant", "content": "This is the <summary> and <Method> part of an English document, where <summary> you have summarized, but the <Methods> part, I need your help to read and summarize the following questions."+text},  # 背景知识
                 {"role": "user", "content": """                 
-                 7. 详细描述这篇文章的方法思路。比如说它的步骤是：
+                 7. Describe in detail the methodological idea of this article. Be sure to use Chinese answers (proper nouns need to be marked in English). For example, its steps are.
                     - (1):...
                     - (2):...
                     - (3):...
                     - .......
-                 按照后面的格式输出: 
+                 Follow the format of the output that follows: 
                  7. Methods: \n\n
                     - (1):xxx;\n 
                     - (2):xxx;\n 
                     - (3):xxx;\n  
-                    .......\n\n     
+                    ....... \n\n     
                  
-                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行，.......代表按照实际需求填写，如果没有可以不用写.                 
+                 Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
                  """},
             ]
         )
@@ -320,20 +231,20 @@ class Reader:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文"},  # chatgpt 角色
-                {"role": "assistant", "content": "这是一篇英文文献的标题，作者，链接，Abstract和Introduction部分内容，我需要你帮忙阅读并归纳下面问题："+text},  # 背景知识
+                {"role": "system", "content": "You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements"},  # chatgpt 角色
+                {"role": "assistant", "content": "This is the title, author, link, abstract and introduction of an English document. I need your help to read and summarize the following questions: "+text},  # 背景知识
                 {"role": "user", "content": """                 
-                 1. 标记出这篇文献的标题(加上中文翻译)
-                 2. 列举所有的作者姓名 (使用英文)
-                 3. 标记第一作者的单位（只输出中文翻译）                 
-                 4. 标记出这篇文章的关键词(使用英文)
-                 5. 论文链接，Github代码链接（如果有的话，没有的话请填写Github:None）
-                 6. 按照下面四个点进行总结：
-                    - (1):这篇文章的研究背景是什么？
-                    - (2):过去的方法有哪些？它们存在什么问题？本文和过去的研究有哪些本质的区别？Is the approach well motivated?
-                    - (3):本文提出的研究方法是什么？
-                    - (4):本文方法在什么任务上，取得了什么性能？性能能否支持他们的目标？
-                 按照后面的格式输出:                  
+                 1. Mark the title of the paper (with Chinese translation)
+                 2. list all the authors' names (use English)
+                 3. mark the first author's affiliation (output Chinese translation only)                 
+                 4. mark the keywords of this article (use English)
+                 5. link to the paper, Github code link (if available, fill in Github:None if not)
+                 6. summarize according to the following four points.Be sure to use Chinese answers (proper nouns need to be marked in English)
+                    - (1):What is the research background of this article?
+                    - (2):What are the past methods? What are the problems with them? Is the approach well motivated?
+                    - (3):What is the research methodology proposed in this paper?
+                    - (4):On what task and what performance is achieved by the methods in this paper? Can the performance support their goals?
+                 Follow the format of the output that follows:                  
                  1. Title: xxx\n\n
                  2. Authors: xxx\n\n
                  3. Affiliation: xxx\n\n                 
@@ -345,7 +256,7 @@ class Reader:
                     - (3):xxx;\n  
                     - (4):xxx.\n\n     
                  
-                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要有太多重复的信息，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行.                 
+                 Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not have too much repetitive information, numerical values using the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed.                 
                  """},
             ]
         )
@@ -354,7 +265,7 @@ class Reader:
             result += choice.message.content
         print("summary_result:\n", result)
         return result        
-            
+                        
     def export_to_markdown(self, text, file_name, mode='w'):
         # 使用markdown模块的convert方法，将文本转换为html格式
         # html = markdown.markdown(text)
