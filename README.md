@@ -25,6 +25,7 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 4. 如果有佬愿意搭建网站，也可以合作--已经合作
 5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）--正在尝试
 6. 其他的优化功能正在添加：本地PDF批量总结；token的自动评估；
+7. Thanks for recommending ChatPaper by [AK](https://twitter.com/_akhaliq)! Next we will set up an English output mode
 
 ## 动机
 
