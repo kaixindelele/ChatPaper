@@ -12,11 +12,11 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 
 **这个功能免费，且代码开源，大家放心使用！**
 
-关于API如何获取，首先你得有一个没有被封的ChatGPT账号，然后根据下面链接去生成： [如何获取Api Key](https://chatgpt.cn.obiscr.com/blog/posts/2023/How-to-get-api-key/)
+关于API如何获取，首先你得有一个没有被封的ChatGPT账号，然后根据下面链接去生成： ![如何获取Api Key](https://chatgpt.cn.obiscr.com/blog/posts/2023/How-to-get-api-key/)
 
 
 
-![](./images/chatpaper.png)
+![233](./images/chatpaper.png)
 
 > [私有化部署](./deploy/Private/README.md) 、公共化部署，我们推荐您直接使用Hugging Face [在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 。
 
@@ -102,7 +102,7 @@ B站讲解视频：[我把ChatPaper开源了！AI速读PDF论文和速通Arxiv�
 </div>
 
 5. 参数介绍：
-``
+```
 
 [--pdf_path 是否直接读取本地的pdf文档？如果不设置的话，直接从arxiv上搜索并且下载] 
 [--query 向arxiv网站搜索的关键词，有一些缩写示范：all, ti(title), au(author)，一个query示例：all: ChatGPT robot] 
