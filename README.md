@@ -6,9 +6,9 @@
 </div>
 </br>
 
-** GPT4出来后，ChatPaper已经死了！
+**GPT4出来后，ChatPaper已经死了！**
 
-After GPT4, ChatPaper is dead!**
+**After GPT4, ChatPaper is dead!**
 
 To keep up with the huge arxiv papers and AI’s fast progress, we humans need to evolve. We download the latest papers on arxiv based on user keywords, and use ChatGPT3.5 API’s powerful summarization to condense them into a fixed format with minimal text and easy readability. We provide the most information for everyone to choose which papers to read deeply.
 
