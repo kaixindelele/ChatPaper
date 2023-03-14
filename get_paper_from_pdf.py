@@ -9,14 +9,14 @@ class Paper:
         self.path = path          # pdf路径
         self.section_names = []   # 段落标题
         self.section_texts = {}   # 段落内容    
+        self.abs = abs
         if title == '':
             self.pdf = fitz.open(self.path) # pdf文档
             self.title = self.get_title()
             self.parse_pdf()            
         else:
             self.title = title
-        self.authers = authers
-        self.abs = abs
+        self.authers = authers        
         self.roman_num = ["I", "II", 'III', "IV", "V", "VI", "VII", "VIII", "IIX", "IX", "X"]
         self.digit_num = [str(d+1) for d in range(10)]
         self.first_image = ''
@@ -117,12 +117,13 @@ class Paper:
             text = page.get_text("dict") # 获取页面上的文本信息
             blocks = text["blocks"] # 获取文本块列表
             for block in blocks: # 遍历每个文本块
-                if block["type"] == 0: # 如果是文字类型
-                    font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小            
-                    max_font_sizes.append(font_size)
-                    if font_size > max_font_size: # 如果字体大小大于当前最大值
-                        max_font_size = font_size # 更新最大值
-                        max_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
+                if block["type"] == 0 and len(block['lines']): # 如果是文字类型
+                    if len(block["lines"][0]["spans"]):
+                        font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小            
+                        max_font_sizes.append(font_size)
+                        if font_size > max_font_size: # 如果字体大小大于当前最大值
+                            max_font_size = font_size # 更新最大值
+                            max_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
         max_font_sizes.sort()                
         print("max_font_sizes", max_font_sizes[-10:])
         cur_title = ''
@@ -130,19 +131,20 @@ class Paper:
             text = page.get_text("dict") # 获取页面上的文本信息
             blocks = text["blocks"] # 获取文本块列表
             for block in blocks: # 遍历每个文本块
-                if block["type"] == 0: # 如果是文字类型
-                    cur_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
-                    font_flags = block["lines"][0]["spans"][0]["flags"] # 获取第一行第一段文字的字体特征
-                    font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小                         
-                    # print(font_size)
-                    if abs(font_size - max_font_sizes[-1]) < 0.3 or abs(font_size - max_font_sizes[-2]) < 0.3:                        
-                        # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags)                            
-                        if len(cur_string) > 4 and "arXiv" not in cur_string:                            
-                            # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags) 
-                            if cur_title == ''    :
-                                cur_title += cur_string                       
-                            else:
-                                cur_title += ' ' + cur_string                       
+                if block["type"] == 0 and len(block['lines']): # 如果是文字类型
+                    if len(block["lines"][0]["spans"]):
+                        cur_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
+                        font_flags = block["lines"][0]["spans"][0]["flags"] # 获取第一行第一段文字的字体特征
+                        font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小                         
+                        # print(font_size)
+                        if abs(font_size - max_font_sizes[-1]) < 0.3 or abs(font_size - max_font_sizes[-2]) < 0.3:                        
+                            # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags)                            
+                            if len(cur_string) > 4 and "arXiv" not in cur_string:                            
+                                # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags) 
+                                if cur_title == ''    :
+                                    cur_title += cur_string                       
+                                else:
+                                    cur_title += ' ' + cur_string                       
                             # break
         title = cur_title.replace('\n', ' ')                        
         return title
@@ -193,30 +195,12 @@ class Paper:
         text = ''
         text_list = []
         section_dict = {}
-
-        # # 先处理Abstract章节
-        # for page_index, page in enumerate(self.pdf):
-        #     cur_text = page.get_text()
-        #     # 如果该页面是Abstract章节所在页面
-        #     if page_index == list(self.section_page_dict.values())[0]:
-        #         abs_str = "Abstract"
-        #         # 获取Abstract章节的起始位置
-        #         first_index = cur_text.find(abs_str)
-        #         # 查找下一个章节的关键词，这里是Introduction
-        #         intro_str = "Introduction"
-        #         if intro_str in cur_text:
-        #             second_index = cur_text.find(intro_str)
-        #         elif intro_str.upper() in cur_text:
-        #             second_index = cur_text.find(intro_str.upper())
-        #         # 将Abstract章节内容加入字典中
-        #         section_dict[abs_str] = cur_text[first_index+len(abs_str)+1:second_index].replace('-\n',
-        #                                                                                         '').replace('\n', ' ').split('I.')[0].split("II.")[0]
-
+        
         # 再处理其他章节：
         text_list = [page.get_text() for page in self.pdf]
         for sec_index, sec_name in enumerate(self.section_page_dict):
             print(sec_index, sec_name, self.section_page_dict[sec_name])
-            if sec_index <= 0:
+            if sec_index <= 0 and self.abs:
                 continue
             else:
                 # 直接考虑后面的内容：
