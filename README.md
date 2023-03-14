@@ -92,6 +92,8 @@ pip install -r requirements.txt
 python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 3
 ```
 
+**注意：搜索词无法识别`-`，只能识别空格！所以原标题的连字符最好不要用！** 感谢网友提供的信息
+
 4.2. Arxiv在线批量搜索+下载+总结+高级搜索： 运行chat_paper.py， 比如：
 ```python
 python chat_paper.py --query "all: reinforcement learning robot 2023" --filter_keys "reinforcement robot" --max_results 3
