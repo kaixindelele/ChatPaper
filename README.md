@@ -166,10 +166,19 @@ API被OpenAI禁了的报错：
 和上面这两个工具的主要优势在于，ChatPaper可以批量自动总结最新论文，可以极大的降低阅读门槛，尤其是我们国人。
 缺点也很明显，ChatPaper没有交互功能，不能连续提问，但我觉得这个重要性不大~
 
-另外给计算机专业的佬们，推荐一款非常强大的开源工具：
+
+## 致谢：
+本项目三天一千star的时刻，我补一下对这个项目的促成的各位致谢！
+1. 群友和实验室同学的技术支持和大量转发！还有张老板和化老板的出谋划策。
+2. [Siyuan](https://github.com/HouSiyuan2001)同学在我开始项目的时候，分享了两个核心函数，节省了很多时间。
+3. [rongsheng](https://github.com/WangRongsheng)同学的在线网站，让这个项目可以使得更多的技术小白，可以尝试。
+4. [Arxiv](https://github.com/lukasschwab/arxiv.py)的作者提供的好用的arxiv论文下载包。
+5. [PyMuPDF](https://github.com/pymupdf/PyMuPDF)提供良好的PDF解析工具。让整个信息流得以打通。
+6. OpenAI一方面做出了杰出的AI，另外一方面禁了我们国家，搞得我都不知道该怎么写这行。
+7. 感谢Ex-ChatGPT的作者分享的各种ChatGPT的开发细节，开发过程中学习良多。另外给计算机专业的佬们，推荐这款非常强大的开源工具：
 [Ex-ChatGPT](https://github.com/circlestarzero/EX-chatGPT) 是一个强大的工具平台，能让 ChatGPT 能够调用外部 API，例如 WolframAlpha、Google 和 WikiMedia，以提供更准确和及时的答案。
 江湖人称 GoogleChat.
-
+8. 最后感谢GitHub官方，帮我们这个项目列入了[热榜第五](https://github.com/trending)，获得了大量的关注！
 
 
 
