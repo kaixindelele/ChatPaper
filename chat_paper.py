@@ -15,7 +15,7 @@ class Reader:
     def __init__(self, key_word, query, filter_keys, 
                  root_path='./',
                  gitee_key='',
-                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', args=None):
+                 sort=arxiv.SortCriterion.SubmittedDate, user_name='default', language='cn', args=None):
         self.user_name = user_name # 读者姓名
         self.key_word = key_word # 读者感兴趣的关键词
         self.query = query # 读者输入的搜索查询
