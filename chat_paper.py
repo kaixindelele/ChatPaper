@@ -177,16 +177,17 @@ class Reader:
             htmls.append('\n\n\n')            
             htmls.append(chat_summary_text)
             
-            # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
-            first_image, ext = paper.get_image_path()
-            if first_image is None or self.gitee_key == '':
-                pass
-            else:                
-                image_title = self.validateTitle(paper.title)
-                image_url = self.upload_gitee(image_path=first_image, image_name=image_title, ext=ext)
-                htmls.append("\n\n")
-                htmls.append("![Fig]("+image_url+")")
-                htmls.append("\n\n")
+            # 由于图像信息不重要，还经常报错，我把这段内容注释掉。
+#             # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
+#             first_image, ext = paper.get_image_path()
+#             if first_image is None or self.gitee_key == '':
+#                 pass
+#             else:                
+#                 image_title = self.validateTitle(paper.title)
+#                 image_url = self.upload_gitee(image_path=first_image, image_name=image_title, ext=ext)
+#                 htmls.append("\n\n")
+#                 htmls.append("![Fig]("+image_url+")")
+#                 htmls.append("\n\n")
             # 第二步总结方法：
             # TODO，由于有些文章的方法章节名是算法名，所以简单的通过关键词来筛选，很难获取，后面需要用其他的方案去优化。
             method_key = ''
