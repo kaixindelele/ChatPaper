@@ -370,7 +370,7 @@ class Reader:
                     - (4):xxx.\n\n     
                  
                  Be sure to use {} answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not have too much repetitive information, numerical values using the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed.                 
-                 """.format(self.language, self.language)},
+                 """.format(self.language, self.language, self.language)},
             ]
                 
         response = openai.ChatCompletion.create(
