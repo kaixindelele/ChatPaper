@@ -25,8 +25,6 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 
 ![233](https://github.com/kaixindelele/ChatPaper/blob/main/images/chatpaper_0314.png)
 
-#![233](./images/chatpaper_0314.png)
-
 > [私有化部署](./deploy/Private/README.md) 、公共化部署，我们推荐您直接使用Hugging Face [在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 。
 
 
