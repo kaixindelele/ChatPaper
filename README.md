@@ -90,15 +90,24 @@ pip install -r requirements.txt
 4.1. Arxiv在线批量搜索+下载+总结： 运行chat_paper.py， 比如：
 ```python
 python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 3
-
 ```
 
-4.2. 本地pdf总结： 运行chat_paper.py， 比如：
+4.2. Arxiv在线批量搜索+下载+总结+高级搜索： 运行chat_paper.py， 比如：
+```python
+python chat_paper.py --query "all: reinforcement learning robot 2023" --filter_keys "reinforcement robot" --max_results 3
+```
+
+4.3. Arxiv在线批量搜索+下载+总结+高级搜索+指定作者： 运行chat_paper.py， 比如：
+```python
+python chat_paper.py --query "ti: Sergey Levine" --filter_keys "reinforcement robot" --max_results 3
+```
+
+4.4. 本地pdf总结： 运行chat_paper.py， 比如：
 ```python
 python chat_paper.py --pdf_path "demo.pdf"
 ```
 
-4.3. 本地文件夹批量总结： 运行chat_paper.py， 比如：
+4.5. 本地文件夹批量总结： 运行chat_paper.py， 比如：
 ```python
 python chat_paper.py --pdf_path "your_absolute_path"
 ```
