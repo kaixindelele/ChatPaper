@@ -22,9 +22,9 @@ class Reader:
         self.key_word = key_word # 读者感兴趣的关键词
         self.query = query # 读者输入的搜索查询
         self.sort = sort # 读者选择的排序方式
-        if args.lauguage == 'en':
+        if args.language == 'en':
             self.language = 'English'
-        elif args.lauguage == 'zh':
+        elif args.language == 'zh':
             self.language = 'Chinese'
         else:
             self.language = 'Chinese'        
@@ -448,8 +448,8 @@ def main(args):
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
     # parser.add_argument("--pdf_path", type=str, default=r'demo.pdf', help="if none, the bot will download from arxiv with query")
-    parser.add_argument("--pdf_path", type=str, default=r'C:\Users\Administrator\Desktop\DHER\RHER_Reset\ChatPaper', help="if none, the bot will download from arxiv with query")
-    # parser.add_argument("--pdf_path", type=str, default='', help="if none, the bot will download from arxiv with query")
+    # parser.add_argument("--pdf_path", type=str, default=r'C:\Users\Administrator\Desktop\DHER\RHER_Reset\ChatPaper', help="if none, the bot will download from arxiv with query")
+    parser.add_argument("--pdf_path", type=str, default='', help="if none, the bot will download from arxiv with query")
     parser.add_argument("--query", type=str, default='all: ChatGPT robot', help="the query string, ti: xx, au: xx, all: xx,")    
     parser.add_argument("--key_word", type=str, default='reinforcement learning', help="the key word of user research fields")
     parser.add_argument("--filter_keys", type=str, default='ChatGPT robot', help="the filter key words, 摘要中每个单词都得有，才会被筛选为目标论文")
