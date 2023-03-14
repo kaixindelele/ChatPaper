@@ -87,10 +87,20 @@ python版本最好是3.9，其他版本应该也没啥问题
 pip install -r requirements.txt
 ```
 
-4. 运行chat_paper.py， 比如：
+4.1. Arxiv在线批量搜索+下载+总结： 运行chat_paper.py， 比如：
 ```python
-python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 1
+python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 3
 
+```
+
+4.2. 本地pdf总结： 运行chat_paper.py， 比如：
+```python
+python chat_paper.py --pdf_path "demo.pdf"
+```
+
+4.3. 本地文件夹批量总结： 运行chat_paper.py， 比如：
+```python
+python chat_paper.py --pdf_path "your_absolute_path"
 ```
 
 B站讲解视频：[我把ChatPaper开源了！AI速读PDF论文和速通Arxiv论文](https://www.bilibili.com/video/BV1EM411x7Tr/)
