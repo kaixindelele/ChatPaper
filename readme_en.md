@@ -10,11 +10,11 @@ To keep up with the huge ArXiv papers and AI’s fast progress, we humans need t
 We provide the most information for everyone to choose which papers to read deeply.
 
 ## TODO list:
-1. Change all prompts to English.
+1. Change all prompts to English.  --completed!
 2. Use a more robust method to parse the Method section.
-3. Package it into an exe file for novice users to use directly.
-4. If there is a brother who wants to build a website, we can cooperate.
-5. Implement a ChatReview version for everyone to refer to when reviewing (but there may be academic ethics issues?)
+3. If there is a brother who wants to build a website, we can cooperate. --completed!
+4. Implement a ChatReview version for everyone to refer to when reviewing (but there may be academic ethics issues?)
+5. Output English mode! just set lauguage as "en"!
 
 ## Motivation
 
@@ -63,7 +63,7 @@ pip install -r requirements.txt
 4. Run chat_paper.py, for example:
 
 ```python
-python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 1
+python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 1 --language en
 ```
 
 5. Parameter introduction:
