@@ -127,7 +127,7 @@ parser.add_argument("--file_format", type=str, default='md', help="导出的文�
 ```
 
 ## 常见网络报错：
-pip 安装错误：
+1. pip 安装错误：
 ![pip error](https://user-images.githubusercontent.com/28528386/224949301-5871610a-dd8e-4c44-b412-174ce593ad3d.png)
 
 推荐关掉梯子，使用国内源下载：
@@ -136,7 +136,7 @@ pip install -r requirements.txt -i  http://pypi.douban.com/simple  --trusted-hos
 ```
 
 
-调用openai的chatgpt api时出现APIConnectionError, 如何解决?
+2. 调用openai的chatgpt api时出现APIConnectionError, 如何解决?
 参考知乎回答：
 https://www.zhihu.com/question/587322263/answer/2919916984
 
@@ -149,7 +149,7 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 ![2333](https://user-images.githubusercontent.com/28528386/224496999-1a8a7946-00aa-4d51-9f18-45bdde4215b9.png)
 
 
-API被OpenAI禁了的报错：
+3. API被OpenAI禁了的报错：
 
 ![3222](https://user-images.githubusercontent.com/28528386/224464704-80f9b010-14f8-4df0-9635-cdfcb2faea51.png)
 
