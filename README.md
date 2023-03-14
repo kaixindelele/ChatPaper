@@ -127,6 +127,15 @@ parser.add_argument("--file_format", type=str, default='md', help="导出的文�
 ```
 
 ## 常见网络报错：
+pip 安装错误：
+![pip error](https://user-images.githubusercontent.com/28528386/224949301-5871610a-dd8e-4c44-b412-174ce593ad3d.png)
+
+推荐关掉梯子，使用国内源下载：
+```bash
+pip install -r requirements.txt -i  http://pypi.douban.com/simple  --trusted-host pypi.douban.com
+```
+
+
 调用openai的chatgpt api时出现APIConnectionError, 如何解决?
 参考知乎回答：
 https://www.zhihu.com/question/587322263/answer/2919916984
