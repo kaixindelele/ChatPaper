@@ -8,6 +8,15 @@
 
 To keep up with the huge arxiv papers and AI’s fast progress, we humans need to evolve. We download the latest papers on arxiv based on user keywords, and use ChatGPT3.5 API’s powerful summarization to condense them into a fixed format with minimal text and easy readability. We provide the most information for everyone to choose which papers to read deeply.
 
+## TODO list:
+1. 将提问换成英文--已经完成
+2. 用更加鲁棒的方法解析Method章节--使用交互模式，来判断
+3. 打包成exe文件，供小白用户直接使用。--放弃这个功能，全力打造网页版
+4. 如果有佬愿意搭建网站，也可以合作--已经合作
+5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）--正在尝试
+6. 其他的优化功能正在添加：本地PDF批量总结；token的自动评估； ---completed!
+7. Thanks for recommending ChatPaper by [AK](https://twitter.com/_akhaliq)! Next we will set up an English output mode. ---completed!
+
 我们为ChatPaper提供了一个Web图形界面。您可以选择在私有或者公共环境中部署ChatPaper，也可以在Hugging Face上[在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 我们所提供的公共服务。
 
 **这个功能免费，且代码开源，大家放心使用！**
@@ -20,14 +29,6 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 
 > [私有化部署](./deploy/Private/README.md) 、公共化部署，我们推荐您直接使用Hugging Face [在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 。
 
-## TODO list:
-1. 将提问换成英文--已经完成
-2. 用更加鲁棒的方法解析Method章节--使用交互模式，来判断
-3. 打包成exe文件，供小白用户直接使用。--放弃这个功能，全力打造网页版
-4. 如果有佬愿意搭建网站，也可以合作--已经合作
-5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）--正在尝试
-6. 其他的优化功能正在添加：本地PDF批量总结；token的自动评估；
-7. Thanks for recommending ChatPaper by [AK](https://twitter.com/_akhaliq)! Next we will set up an English output mode
 
 ## 动机
 
