@@ -69,7 +69,7 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 </div>
 
 ## 使用步骤：
-Windows,mac和Ubuntu系统应该都可以；
+Windows, Mac和Linux系统应该都可以
 
 python版本最好是3.9，其他版本应该也没啥问题
 
