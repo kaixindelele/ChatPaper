@@ -59,14 +59,15 @@ class Paper:
         self.sl = sl
         self.section_names = []   # 段落标题
         self.section_texts = {}   # 段落内容    
+        self.abs = abs
+        self.title_page = 0
         if title == '':
             self.pdf = fitz.open(self.path) # pdf文档
             self.title = self.get_title()
             self.parse_pdf()            
         else:
             self.title = title
-        self.authers = authers
-        self.abs = abs
+        self.authers = authers        
         self.roman_num = ["I", "II", 'III', "IV", "V", "VI", "VII", "VIII", "IIX", "IX", "X"]
         self.digit_num = [str(d+1) for d in range(10)]
         self.first_image = ''
@@ -79,7 +80,18 @@ class Paper:
         print("section_page_dict", self.section_page_dict)
         self.section_text_dict = self._get_all_page() # 段落与内容的对应字典
         self.section_text_dict.update({"title": self.title})
-        self.pdf.close()           
+        self.section_text_dict.update({"paper_info": self.get_paper_info()})
+        self.pdf.close()     
+        
+    def get_paper_info(self):
+        first_page_text = self.pdf[self.title_page].get_text()
+        if "Abstract" in self.section_text_dict.keys():
+            abstract_text = self.section_text_dict['Abstract']
+        else:
+            abstract_text = self.abs
+        introduction_text = self.section_text_dict['Introduction']
+        first_page_text = first_page_text.replace(abstract_text, "").replace(introduction_text, "")
+        return first_page_text
         
     def get_image_path(self, image_path=''):
         """
@@ -163,37 +175,40 @@ class Paper:
         max_font_size = 0 # 初始化最大字体大小为0
         max_string = "" # 初始化最大字体大小对应的字符串为空
         max_font_sizes = [0]
-        for page in doc: # 遍历每一页
+        for page_index, page in enumerate(doc): # 遍历每一页
             text = page.get_text("dict") # 获取页面上的文本信息
             blocks = text["blocks"] # 获取文本块列表
             for block in blocks: # 遍历每个文本块
-                if block["type"] == 0: # 如果是文字类型
-                    font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小            
-                    max_font_sizes.append(font_size)
-                    if font_size > max_font_size: # 如果字体大小大于当前最大值
-                        max_font_size = font_size # 更新最大值
-                        max_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
+                if block["type"] == 0 and len(block['lines']): # 如果是文字类型
+                    if len(block["lines"][0]["spans"]):
+                        font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小            
+                        max_font_sizes.append(font_size)
+                        if font_size > max_font_size: # 如果字体大小大于当前最大值
+                            max_font_size = font_size # 更新最大值
+                            max_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
         max_font_sizes.sort()                
         print("max_font_sizes", max_font_sizes[-10:])
         cur_title = ''
-        for page in doc: # 遍历每一页
+        for page_index, page in enumerate(doc): # 遍历每一页
             text = page.get_text("dict") # 获取页面上的文本信息
             blocks = text["blocks"] # 获取文本块列表
             for block in blocks: # 遍历每个文本块
-                if block["type"] == 0: # 如果是文字类型
-                    cur_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
-                    font_flags = block["lines"][0]["spans"][0]["flags"] # 获取第一行第一段文字的字体特征
-                    font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小                         
-                    # print(font_size)
-                    if abs(font_size - max_font_sizes[-1]) < 0.3 or abs(font_size - max_font_sizes[-2]) < 0.3:                        
-                        # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags)                            
-                        if len(cur_string) > 4 and "arXiv" not in cur_string:                            
-                            # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags) 
-                            if cur_title == ''    :
-                                cur_title += cur_string                       
-                            else:
-                                cur_title += ' ' + cur_string                       
-                            # break
+                if block["type"] == 0 and len(block['lines']): # 如果是文字类型
+                    if len(block["lines"][0]["spans"]):
+                        cur_string = block["lines"][0]["spans"][0]["text"] # 更新最大值对应的字符串
+                        font_flags = block["lines"][0]["spans"][0]["flags"] # 获取第一行第一段文字的字体特征
+                        font_size = block["lines"][0]["spans"][0]["size"] # 获取第一行第一段文字的字体大小                         
+                        # print(font_size)
+                        if abs(font_size - max_font_sizes[-1]) < 0.3 or abs(font_size - max_font_sizes[-2]) < 0.3:                        
+                            # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags)                            
+                            if len(cur_string) > 4 and "arXiv" not in cur_string:                            
+                                # print("The string is bold.", max_string, "font_size:", font_size, "font_flags:", font_flags) 
+                                if cur_title == ''    :
+                                    cur_title += cur_string                       
+                                else:
+                                    cur_title += ' ' + cur_string                       
+                            self.title_page = page_index
+
         title = cur_title.replace('\n', ' ')                        
         return title
 
@@ -232,30 +247,12 @@ class Paper:
         text = ''
         text_list = []
         section_dict = {}
-
-        # # 先处理Abstract章节
-        # for page_index, page in enumerate(self.pdf):
-        #     cur_text = page.get_text()
-        #     # 如果该页面是Abstract章节所在页面
-        #     if page_index == list(self.section_page_dict.values())[0]:
-        #         abs_str = "Abstract"
-        #         # 获取Abstract章节的起始位置
-        #         first_index = cur_text.find(abs_str)
-        #         # 查找下一个章节的关键词，这里是Introduction
-        #         intro_str = "Introduction"
-        #         if intro_str in cur_text:
-        #             second_index = cur_text.find(intro_str)
-        #         elif intro_str.upper() in cur_text:
-        #             second_index = cur_text.find(intro_str.upper())
-        #         # 将Abstract章节内容加入字典中
-        #         section_dict[abs_str] = cur_text[first_index+len(abs_str)+1:second_index].replace('-\n',
-        #                                                                                         '').replace('\n', ' ').split('I.')[0].split("II.")[0]
-
+        
         # 再处理其他章节：
         text_list = [page.get_text() for page in self.pdf]
         for sec_index, sec_name in enumerate(self.section_page_dict):
             print(sec_index, sec_name, self.section_page_dict[sec_name])
-            if sec_index <= 0:
+            if sec_index <= 0 and self.abs:
                 continue
             else:
                 # 直接考虑后面的内容：
@@ -306,7 +303,7 @@ class Reader:
     def __init__(self, key_word='', query='', filter_keys='', 
                  root_path='./',
                  gitee_key='',
-                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', key=''):
+                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', key='', model_name="gpt-3.5-turbo", p=1.0, temperature=1.0):
         self.key = str(key) # OpenAI key
         self.user_name = user_name # 读者姓名
         self.key_word = key_word # 读者感兴趣的关键词
@@ -438,7 +435,7 @@ class Reader:
             
         return image_url
     
-    def summary_with_chat(self, paper_list, key):
+    def summary_with_chat(self, paper_list, key, model_name, p, temperature):
         htmls = []
         utoken = 0
         ctoken = 0
@@ -449,11 +446,12 @@ class Reader:
             text += 'Title:' + paper.title
             text += 'Url:' + paper.url
             text += 'Abstrat:' + paper.abs
+            text += 'Paper_info:' + paper.section_text_dict['paper_info']
             # intro
             text += list(paper.section_text_dict.values())[0]
             #max_token = 2500 * 4
             #text = text[:max_token]
-            chat_summary_text, utoken1, ctoken1, ttoken1 = self.chat_summary(text=text, key=str(key))           
+            chat_summary_text, utoken1, ctoken1, ttoken1 = self.chat_summary(text=text, key=str(key), model_name=str(model_name), p=p, temperature=temperature)           
             htmls.append(chat_summary_text)
             
             # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
@@ -471,7 +469,7 @@ class Reader:
                 # methods                
                 method_text += paper.section_text_dict[method_key]                   
                 text = summary_text + "\n<Methods>:\n" + method_text                 
-                chat_method_text, utoken2, ctoken2, ttoken2 = self.chat_method(text=text, key=str(key))
+                chat_method_text, utoken2, ctoken2, ttoken2 = self.chat_method(text=text, key=str(key), model_name=str(model_name), p=p, temperature=temperature)
                 htmls.append(chat_method_text)
             else:
                 chat_method_text = ''
@@ -494,7 +492,7 @@ class Reader:
                 text = summary_text + "\n <Conclusion>:\n" + conclusion_text 
             else:
                 text = summary_text            
-            chat_conclusion_text, utoken3, ctoken3, ttoken3 = self.chat_conclusion(text=text, key=str(key))
+            chat_conclusion_text, utoken3, ctoken3, ttoken3 = self.chat_conclusion(text=text, key=str(key), model_name=str(model_name), p=p, temperature=temperature)
             htmls.append(chat_conclusion_text)
             htmls.append("\n")
             # token统计
@@ -516,7 +514,7 @@ class Reader:
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
-    def chat_conclusion(self, text, key):
+    def chat_conclusion(self, text, key, model_name, p, temperature):
         openai.api_key = key
         conclusion_prompt_token = 650        
         text_token = len(self.encoding.encode(text))
@@ -540,9 +538,11 @@ class Reader:
                  """},
             ]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=model_name,
             # prompt需要用英语替换，少占用token。
             messages=messages,
+            temperature=temperature, # What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+            top_p=p # An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
         )
         
         result = ''
@@ -561,7 +561,7 @@ class Reader:
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
-    def chat_method(self, text, key):
+    def chat_method(self, text, key, model_name, p, temperature):
         openai.api_key = key
         method_prompt_token = 650        
         text_token = len(self.encoding.encode(text))
@@ -587,8 +587,10 @@ class Reader:
                  """},
             ]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=model_name,
             messages=messages,
+            temperature=temperature, # What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+            top_p=p # An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
         )
         
         result = ''
@@ -608,7 +610,7 @@ class Reader:
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
-    def chat_summary(self, text, key):
+    def chat_summary(self, text, key, model_name, p, temperature):
         openai.api_key = key
         summary_prompt_token = 1000        
         text_token = len(self.encoding.encode(text))
@@ -645,8 +647,10 @@ class Reader:
             ]
                 
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=model_name,
             messages=messages,
+            temperature=temperature, # What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+            top_p=p # An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
         )
         
         result = ''
@@ -677,7 +681,7 @@ class Reader:
         print(f"Query: {self.query}")
         print(f"Sort: {self.sort}")                
 
-def upload_pdf(key, text, file):
+def upload_pdf(key, text, model_name, p, temperature, file):
     # 检查两个输入都不为空
     if not key or not text or not file:
         return "两个输入都不能为空，请输入字符并上传 PDF 文件！"
@@ -689,22 +693,16 @@ def upload_pdf(key, text, file):
         paper_list = [Paper(path=file, sl=section_list)]
         # 创建一个Reader对象
         reader = Reader()
-        sum_info, cost = reader.summary_with_chat(paper_list=paper_list, key=key)
+        sum_info, cost = reader.summary_with_chat(paper_list=paper_list, key=key, model_name=model_name, p=p, temperature=temperature)
         return cost, sum_info
 
 api_title = "api-key可用验证"
 api_description = '''<div align='left'>
-
 <img src='https://visitor-badge.laobi.icu/badge?page_id=https://huggingface.co/spaces/wangrongsheng/ChatPaper'>
-
 <img align='right' src='https://i.328888.xyz/2023/03/12/vH9dU.png' width="150">
-
 Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github.com/kaixindelele/ChatPaper) .
-
 💗如果您觉得我们的项目对您有帮助，还请您给我们一些鼓励！💗
-
 🔴请注意：千万不要用于严肃的学术场景，只能用于论文阅读前的初筛！
-
 </div>
 '''
 
@@ -717,23 +715,20 @@ api_gui = gradio.Interface(fn=valid_apikey, inputs=api_input, outputs="text", ti
 title = "ChatPaper"
 # 描述
 description = '''<div align='left'>
-
 <img src='https://visitor-badge.laobi.icu/badge?page_id=https://huggingface.co/spaces/wangrongsheng/ChatPaper'>
-
 <img align='right' src='https://i.328888.xyz/2023/03/12/vH9dU.png' width="150">
-
 Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github.com/kaixindelele/ChatPaper) .
-
 💗如果您觉得我们的项目对您有帮助，还请您给我们一些鼓励！💗
-
 🔴请注意：千万不要用于严肃的学术场景，只能用于论文阅读前的初筛！
-
 </div>
 '''
 # 创建Gradio界面
 ip = [
-    gradio.inputs.Textbox(label="请输入你的API-key(必填)", default="", type='password'),
+    gradio.inputs.Textbox(label="请输入你的api-key(必填)", default="", type='password'),
     gradio.inputs.Textbox(label="请输入论文大标题索引(用英文逗号隔开,必填)", default="'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"),
+    gradio.inputs.Radio(choices=["gpt-3.5-turbo", "gpt-3.5-turbo-0301"], default="gpt-3.5-turbo", label="Select model"),
+    gradio.inputs.Slider(minimum=-0, maximum=1.0, default=1.0, step=0.05, label="Top-p (nucleus sampling)"),
+    gradio.inputs.Slider(minimum=-0, maximum=5.0, default=1.0, step=0.1, label="Temperature"),
     gradio.inputs.File(label="请上传论文PDF(必填)")
 ]
 
