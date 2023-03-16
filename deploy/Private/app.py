@@ -3,7 +3,7 @@ import os
 import re
 import datetime
 import arxiv
-import openai, tenacity
+import tenacity
 import base64, requests
 import argparse
 import configparser
@@ -11,7 +11,7 @@ import fitz, io, os
 from PIL import Image
 import gradio
 import markdown
-
+from optimizeOpenAI import chatPaper
 class Paper:
     def __init__(self, path, title='', url='', abs='', authers=[], sl=[]):
         # 初始化函数，根据pdf路径初始化Paper对象                
@@ -281,6 +281,8 @@ class Reader:
         self.config.read('apikey.ini')
         # 获取某个键对应的值        
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
+        print(self.chat_api_list)
+        self.chatPaper = chatPaper( api_keys = self.chat_api_list, apiTimeInterval=10 )
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
         self.cur_api = 0
         self.file_format = 'md' # or 'txt'，如果为图片，则必须为'md'
@@ -500,16 +502,9 @@ class Reader:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_conclusion(self, text):
-        openai.api_key = self.chat_api_list[self.cur_api]
-        self.cur_api += 1
-        self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            # prompt需要用英语替换，少占用token。
-            messages=[
-                {"role": "system", "content": "你是一个["+self.key_word+"]领域的审稿人，你需要严格评审这篇文章"},  # chatgpt 角色
-                {"role": "assistant", "content": "这是一篇英文文献的<summary>和<conclusion>部分内容，其中<summary>你已经总结好了，但是<conclusion>部分，我需要你帮忙归纳下面问题："+text},  # 背景知识，可以参考OpenReview的审稿流程
-                {"role": "user", "content": """                 
+        self.chatPaper.reset(convo_id="chatConclusion",system_prompt="你是一个["+self.key_word+"]领域的审稿人，你需要严格评审这篇文章")
+        self.chatPaper.add_to_conversation(convo_id="chatConclusion", role="assistant", message=str("这是一篇英文文献的<summary>和<conclusion>部分内容，其中<summary>你已经总结好了，但是<conclusion>部分，我需要你帮忙归纳下面问题："+text))
+        content =  """                 
                  8. 做出如下总结：
                     - (1):这篇工作的意义如何？
                     - (2):从创新点、性能、工作量这三个维度，总结这篇文章的优点和缺点。                   
@@ -520,12 +515,12 @@ class Reader:
                     - (2):创新点: xxx; 性能: xxx; 工作量: xxx;                      
                  
                  务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，.......代表按照实际需求填写，如果没有可以不用写.                 
-                 """},
-            ]
+                 """
+        result = self.chatPaper.ask(
+            prompt = content,
+            role="user",
+            convo_id="chatConclusion",
         )
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
         print("conclusion_result:\n", result)
         return result            
     
@@ -533,51 +528,36 @@ class Reader:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_method(self, text):
-        openai.api_key = self.chat_api_list[self.cur_api]
-        self.cur_api += 1
-        self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文"},  # chatgpt 角色
-                {"role": "assistant", "content": "这是一篇英文文献的<summary>和<Method>部分内容，其中<summary>你已经总结好了，但是<Methods>部分，我需要你帮忙阅读并归纳下面问题："+text},  # 背景知识
-                {"role": "user", "content": """                 
-                 7. 详细描述这篇文章的方法思路。比如说它的步骤是：
-                    - (1):...
-                    - (2):...
-                    - (3):...
-                    - .......
-                 按照后面的格式输出: 
-                 7. Methods:
-                    - (1):xxx; 
-                    - (2):xxx; 
-                    - (3):xxx;  
-                    .......     
-                 
-                 务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行，.......代表按照实际需求填写，如果没有可以不用写.                 
-                 """},
-            ]
+        self.chatPaper.reset(convo_id="chatMethod",system_prompt="你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文")
+        self.chatPaper.add_to_conversation(convo_id="chatMethod", role="assistant", message=str("这是一篇英文文献的<summary>和<Method>部分内容，其中<summary>你已经总结好了，但是<Methods>部分，我需要你帮忙阅读并归纳下面问题："+text))
+        content =  """
+        7. 详细描述这篇文章的方法思路。比如说它的步骤是：
+            - (1):...
+            - (2):...
+            - (3):...
+            - .......
+            按照后面的格式输出: 
+            7. Methods:
+            - (1):xxx; 
+            - (2):xxx; 
+            - (3):xxx;  
+            .......     
+            务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要和之前的<summary>内容重复，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行，.......代表按照实际需求填写，如果没有可以不用写.                 
+        """
+        result = self.chatPaper.ask(
+            prompt = content,
+            role="user",
+            convo_id="chatMethod",
         )
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
         print("method_result:\n", result)
-        return result
-    
+        return result   
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_summary(self, text):
-        openai.api_key = self.chat_api_list[self.cur_api]
-        self.cur_api += 1
-        self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
-        
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文"},  # chatgpt 角色
-                {"role": "assistant", "content": "这是一篇英文文献的标题，作者，链接，Abstract和Introduction部分内容，我需要你帮忙阅读并归纳下面问题："+text},  # 背景知识
-                {"role": "user", "content": """                 
+        self.chatPaper.reset(convo_id="chatSummary",system_prompt="你是一个["+self.key_word+"]领域的科研人员，善于使用精炼的语句总结论文")
+        self.chatPaper.add_to_conversation(convo_id="chatSummary", role="assistant", message=str("这是一篇英文文献的标题，作者，链接，Abstract和Introduction部分内容，我需要你帮忙阅读并归纳下面问题："+text))
+        content = """                 
                  1. 标记出这篇文献的标题(加上中文翻译)
                  2. 列举所有的作者姓名 (使用英文)
                  3. 标记第一作者的单位（只输出中文翻译）                 
@@ -601,12 +581,12 @@ class Reader:
                     - (4):xxx.    
                  
                  务必使用中文回答（专有名词需要用英文标注)，语句尽量简洁且学术，不要有太多重复的信息，数值使用原文数字, 务必严格按照格式，将对应内容输出到xxx中，按照\n换行.                 
-                 """},
-            ]
+                 """
+        result = self.chatPaper.ask(
+            prompt = content,
+            role="user",
+            convo_id="chatSummary",
         )
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
         print("summary_result:\n", result)
         return result        
             
