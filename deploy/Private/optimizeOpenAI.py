@@ -12,7 +12,6 @@ from queue import PriorityQueue as PQ
 import json
 import os
 import time
-ENGINE = os.environ.get("GPT_ENGINE") or "gpt-3.5-turbo"
 ENCODER = tiktoken.get_encoding("gpt2")
 class chatPaper:
     """
@@ -21,22 +20,20 @@ class chatPaper:
     def __init__(
         self,
         api_keys: list,
-        engine = None,
         proxy = None,
         api_proxy = None,
         max_tokens: int = 4000,
         temperature: float = 0.5,
         top_p: float = 1.0,
+        model_name: str = "gpt-3.5-turbo",
         reply_count: int = 1,
         system_prompt = "You are ChatPaper, A paper reading bot",
         lastAPICallTime = time.time()-100,
         apiTimeInterval = 20,
-        maxBackup = 10,
     ) -> None:
-        self.maxBackup = maxBackup
+        self.model_name = model_name
         self.system_prompt = system_prompt
         self.apiTimeInterval = apiTimeInterval
-        self.engine = engine or ENGINE
         self.session = requests.Session()
         self.api_keys = PQ()
         for key in api_keys:
@@ -89,19 +86,19 @@ class chatPaper:
         while(len(ENCODER.encode(str(query)))>self.max_tokens):
             query = query[:self.decrease_step]
         self.conversation[convo_id] = self.conversation[convo_id][:-1]
-        full_conversation = "\n".join([x["content"] for x in self.conversation[convo_id]],)
+        full_conversation = "\n".join([str(x["content"]) for x in self.conversation[convo_id]],)
         if len(ENCODER.encode(full_conversation)) > self.max_tokens:
             self.conversation_summary(convo_id=convo_id)
-        last_dialog['content'] = query
-        self.conversation[convo_id].append(last_dialog)
+        full_conversation = ""
+        for x in self.conversation[convo_id]:
+            full_conversation = str(x["content"]) + "\n" + full_conversation
         while True:
-            full_conversation = ""
-            for x in self.conversation[convo_id]:
-                full_conversation = x["content"] + "\n"
-            if (len(ENCODER.encode(full_conversation)) > self.max_tokens):
-                self.conversation[convo_id][-1] = self.conversation[convo_id][-1][:-self.decrease_step]
+            if (len(ENCODER.encode(full_conversation+query)) > self.max_tokens):
+                query = query[:self.decrease_step]
             else:
                 break
+        last_dialog['content'] = str(query)
+        self.conversation[convo_id].append(last_dialog)
 
     def ask_stream(
         self,
@@ -119,7 +116,7 @@ class chatPaper:
             "https://api.openai.com/v1/chat/completions",
             headers={"Authorization": f"Bearer {kwargs.get('api_key', apiKey)}"},
             json={
-                "model": self.engine,
+                "model": self.model_name,
                 "messages": self.conversation[convo_id],
                 "stream": True,
                 # kwargs
@@ -129,7 +126,7 @@ class chatPaper:
                 "user": role,
             },
             stream=True,
-        ) 
+        )
         if response.status_code != 200:
             raise Exception(
                 f"Error: {response.status_code} {response.reason} {response.text}",
@@ -163,9 +160,31 @@ class chatPaper:
         )
         full_response: str = "".join(response)
         self.add_to_conversation(full_response, role, convo_id=convo_id)
-        return full_response
+        usage_token = self.token_str(prompt)
+        com_token = self.token_str(full_response)
+        total_token = self.token_cost(convo_id=convo_id)
+        return full_response, usage_token, com_token, total_token
 
-
+    def check_api_available(self):
+        response = self.session.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={"Authorization": f"Bearer {self.get_api_key()}"},
+            json={
+                "model": self.engine,
+                "messages": [{"role": "system", "content": "You are a helpful assistant."},{"role": "user", "content": "print A"}],
+                "stream": True,
+                # kwargs
+                "temperature": self.temperature,
+                "top_p": self.top_p,
+                "n": self.reply_count,
+                "user": "user",
+            },
+            stream=True,
+        )
+        if response.status_code == 200:
+            return True
+        else:
+            return False
     def reset(self, convo_id: str = "default", system_prompt = None):
         """
         Reset the conversation
