@@ -168,7 +168,7 @@ class Reader:
             text = ''
             text += 'Title:' + paper.title
             text += 'Url:' + paper.url
-            text += 'Abstrat:' + paper.abs
+            text += 'Abstract:' + paper.abs
             text += 'Paper_info:' + paper.section_text_dict['paper_info']
             # intro
             text += list(paper.section_text_dict.values())[0]
