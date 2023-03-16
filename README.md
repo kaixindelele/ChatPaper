@@ -20,6 +20,7 @@ To keep up with the huge arxiv papers and AI’s fast progress, we humans need t
 5. 实现一个ChatReview版本，供大家审稿的时候参考（但可能有学术伦理问题）--正在尝试
 6. 其他的优化功能正在添加：本地PDF批量总结；token的自动评估； ---completed!
 7. Thanks for recommending ChatPaper by [AK](https://twitter.com/_akhaliq)! Next we will set up an English output mode. ---completed!
+8. **更新预告：colab版本，修复作者单位瞎编的问题，优化提问词，使得输出更加靠谱。**
 
 我们为ChatPaper提供了一个Web图形界面。您可以选择在私有或者公共环境中部署ChatPaper，也可以在Hugging Face上[在线体验](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 我们所提供的公共服务。
 
