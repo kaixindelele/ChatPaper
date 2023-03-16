@@ -12,7 +12,6 @@ from queue import PriorityQueue as PQ
 import json
 import os
 import time
-ENGINE = os.environ.get("GPT_ENGINE") or "gpt-3.5-turbo"
 ENCODER = tiktoken.get_encoding("gpt2")
 class chatPaper:
     """
@@ -21,20 +20,20 @@ class chatPaper:
     def __init__(
         self,
         api_keys: list,
-        engine = None,
         proxy = None,
         api_proxy = None,
         max_tokens: int = 4000,
         temperature: float = 0.5,
         top_p: float = 1.0,
+        model_name: str = "gpt-3.5-turbo",
         reply_count: int = 1,
         system_prompt = "You are ChatPaper, A paper reading bot",
         lastAPICallTime = time.time()-100,
         apiTimeInterval = 20,
     ) -> None:
+        self.model_name = model_name
         self.system_prompt = system_prompt
         self.apiTimeInterval = apiTimeInterval
-        self.engine = engine or ENGINE
         self.session = requests.Session()
         self.api_keys = PQ()
         for key in api_keys:
@@ -117,7 +116,7 @@ class chatPaper:
             "https://api.openai.com/v1/chat/completions",
             headers={"Authorization": f"Bearer {kwargs.get('api_key', apiKey)}"},
             json={
-                "model": self.engine,
+                "model": self.model_name,
                 "messages": self.conversation[convo_id],
                 "stream": True,
                 # kwargs

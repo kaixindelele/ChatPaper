@@ -325,9 +325,9 @@ class Reader:
     def __init__(self, key_word='', query='', filter_keys='', 
                  root_path='./',
                  gitee_key='',
-                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', api_keys:list = []):
+                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', api_keys:list = [], model_name="gpt-3.5-turbo", p=1.0, temperature=1.0):
         self.api_keys = api_keys
-        self.chatPaper = chatPaper( api_keys = self.api_keys, apiTimeInterval=10 ) #openAI api封装
+        self.chatPaper = chatPaper( api_keys = self.api_keys, apiTimeInterval=10 , temperature=temperature,top_p=p,model_name=model_name) #openAI api封装
         self.user_name = user_name # 读者姓名
         self.key_word = key_word # 读者感兴趣的关键词
         self.query = query # 读者输入的搜索查询
@@ -653,7 +653,7 @@ class Reader:
         print(f"Query: {self.query}")
         print(f"Sort: {self.sort}")                
 
-def upload_pdf(api_keys, text, file):
+def upload_pdf(api_keys, text, model_name, p, temperature, file):
     # 检查两个输入都不为空
     api_key_list = None
     if api_keys:
@@ -671,8 +671,8 @@ def upload_pdf(api_keys, text, file):
         paper_list = [Paper(path=file, sl=section_list)]
         # 创建一个Reader对象
         print(api_key_list)
-        reader = Reader(api_keys=api_key_list)
-        sum_info, cost = reader.summary_with_chat(paper_list=paper_list)
+        reader = Reader(api_keys=api_key_list, model_name=model_name, p=p, temperature=temperature)
+        sum_info, cost = reader.summary_with_chat(paper_list=paper_list) # type: ignore
         return cost, sum_info
 
 api_title = "api-key可用验证"
@@ -707,7 +707,7 @@ ip = [
     gradio.inputs.Textbox(label="请输入论文大标题索引(用英文逗号隔开,必填)", default="'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"),
     gradio.inputs.Radio(choices=["gpt-3.5-turbo", "gpt-3.5-turbo-0301"], default="gpt-3.5-turbo", label="Select model"),
     gradio.inputs.Slider(minimum=-0, maximum=1.0, default=1.0, step=0.05, label="Top-p (nucleus sampling)"),
-    gradio.inputs.Slider(minimum=-0, maximum=5.0, default=1.0, step=0.1, label="Temperature"),
+    gradio.inputs.Slider(minimum=-0, maximum=5.0, default=0.5, step=0.5, label="Temperature"),
     gradio.inputs.File(label="请上传论文PDF(必填)")
 ]
 
