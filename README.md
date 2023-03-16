@@ -6,6 +6,9 @@
 </div>
 </br>
 
+**明天更新新必应自动生成的代码：完美获取特定关键词的最新arxiv论文**，不会现在这样出现关键词和官网搜索不一致的情况！
+
+
 **GPT4的API开放后，ChatPaper才能进化成ChatPaperPlus!**
 
 **After GPT4 API, our ChatPaper will evolve to ChatPaperPlus!**
