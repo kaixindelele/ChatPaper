@@ -125,7 +125,7 @@ class Paper:
         max_font_size = 0 # 初始化最大字体大小为0
         max_string = "" # 初始化最大字体大小对应的字符串为空
         max_font_sizes = [0]
-        for page in doc: # 遍历每一页
+        for page_index, page in enumerate(doc): # 遍历每一页
             text = page.get_text("dict") # 获取页面上的文本信息
             blocks = text["blocks"] # 获取文本块列表
             for block in blocks: # 遍历每个文本块
@@ -139,7 +139,7 @@ class Paper:
         max_font_sizes.sort()                
         print("max_font_sizes", max_font_sizes[-10:])
         cur_title = ''
-        for page in doc: # 遍历每一页
+        for page_index, page in enumerate(doc): # 遍历每一页
             text = page.get_text("dict") # 获取页面上的文本信息
             blocks = text["blocks"] # 获取文本块列表
             for block in blocks: # 遍历每个文本块
