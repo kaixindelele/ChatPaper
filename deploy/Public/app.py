@@ -13,7 +13,8 @@ import gradio
 import markdown
 import json
 import tiktoken
-
+import concurrent.futures
+from optimizeOpenAI import chatPaper
 def parse_text(text):
     lines = text.split("\n")
     for i,line in enumerate(lines):
@@ -30,26 +31,47 @@ def parse_text(text):
                 lines[i] = '<br/>'+line.replace(" ", "&nbsp;")
     return "".join(lines)
 
-def get_response(system, context, myKey, raw = False):
-    openai.api_key = myKey
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[system, *context],
-    )
-    openai.api_key = ""
-    if raw:
-        return response
-    else:
-        message = response["choices"][0]["message"]["content"]
-        message_with_stats = f'{message}'
-        return message, parse_text(message_with_stats)
+# def get_response(system, context, myKey, raw = False):
+#     openai.api_key = myKey
+#     response = openai.ChatCompletion.create(
+#         model="gpt-3.5-turbo",
+#         messages=[system, *context],
+#     )
+#     openai.api_key = ""
+#     if raw:
+#         return response
+#     else:
+#         message = response["choices"][0]["message"]["content"]
+#         message_with_stats = f'{message}'
+#         return message, parse_text(message_with_stats)
 
-def valid_apikey(api_key):
+valid_api_keys = []
+
+def api_key_check(api_key):
     try:
-        get_response({"role": "system", "content": "You are a helpful assistant."}, [{"role": "user", "content": "test"}], api_key)
-        return "可用的api-key"
+        chat = chatPaper([api_key])
+        if chat.check_api_available():
+            return api_key
+        else:
+            return None
     except:
-        return "无效的api-key"
+        return None
+
+def valid_apikey(api_keys):
+    api_keys = api_keys.replace(' ', '')
+    api_key_list = api_keys.split(',')
+    print(api_key_list)
+    global valid_api_keys
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_results = {executor.submit(api_key_check, api_key): api_key for api_key in api_key_list}
+        for future in concurrent.futures.as_completed(future_results):
+            result = future.result()
+            if result:
+                valid_api_keys.append(result)
+    if len(valid_api_keys) > 0:
+        return "有效的api-key一共有{}个，分别是：{}, 现在可以提交你的paper".format(len(valid_api_keys), valid_api_keys) 
+    return "无效的api-key"
+
 
 class Paper:
     def __init__(self, path, title='', url='', abs='', authers=[], sl=[]):
@@ -303,8 +325,9 @@ class Reader:
     def __init__(self, key_word='', query='', filter_keys='', 
                  root_path='./',
                  gitee_key='',
-                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', key='', model_name="gpt-3.5-turbo", p=1.0, temperature=1.0):
-        self.key = str(key) # OpenAI key
+                 sort=arxiv.SortCriterion.SubmittedDate, user_name='defualt', language='cn', api_keys:list = [], model_name="gpt-3.5-turbo", p=1.0, temperature=1.0):
+        self.api_keys = api_keys
+        self.chatPaper = chatPaper( api_keys = self.api_keys, apiTimeInterval=10 , temperature=temperature,top_p=p,model_name=model_name) #openAI api封装
         self.user_name = user_name # 读者姓名
         self.key_word = key_word # 读者感兴趣的关键词
         self.query = query # 读者输入的搜索查询
@@ -435,7 +458,7 @@ class Reader:
             
         return image_url
     
-    def summary_with_chat(self, paper_list, key, model_name, p, temperature):
+    def summary_with_chat(self, paper_list):
         htmls = []
         utoken = 0
         ctoken = 0
@@ -451,7 +474,7 @@ class Reader:
             text += list(paper.section_text_dict.values())[0]
             #max_token = 2500 * 4
             #text = text[:max_token]
-            chat_summary_text, utoken1, ctoken1, ttoken1 = self.chat_summary(text=text, key=str(key), model_name=str(model_name), p=p, temperature=temperature)           
+            chat_summary_text, utoken1, ctoken1, ttoken1 = self.chat_summary(text=text)           
             htmls.append(chat_summary_text)
             
             # TODO 往md文档中插入论文里的像素最大的一张图片，这个方案可以弄的更加智能一些：
@@ -469,7 +492,7 @@ class Reader:
                 # methods                
                 method_text += paper.section_text_dict[method_key]                   
                 text = summary_text + "\n<Methods>:\n" + method_text                 
-                chat_method_text, utoken2, ctoken2, ttoken2 = self.chat_method(text=text, key=str(key), model_name=str(model_name), p=p, temperature=temperature)
+                chat_method_text, utoken2, ctoken2, ttoken2 = self.chat_method(text=text)
                 htmls.append(chat_method_text)
             else:
                 chat_method_text = ''
@@ -492,7 +515,7 @@ class Reader:
                 text = summary_text + "\n <Conclusion>:\n" + conclusion_text 
             else:
                 text = summary_text            
-            chat_conclusion_text, utoken3, ctoken3, ttoken3 = self.chat_conclusion(text=text, key=str(key), model_name=str(model_name), p=p, temperature=temperature)
+            chat_conclusion_text, utoken3, ctoken3, ttoken3 = self.chat_conclusion(text=text)
             htmls.append(chat_conclusion_text)
             htmls.append("\n")
             # token统计
@@ -507,24 +530,20 @@ class Reader:
                         "cost": str(cost),
                     }
             md_text = "\n".join(htmls)
-            
             return markdown.markdown(md_text), pos_count
             
             
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
-    def chat_conclusion(self, text, key, model_name, p, temperature):
-        openai.api_key = key
+    def chat_conclusion(self, text):
         conclusion_prompt_token = 650        
         text_token = len(self.encoding.encode(text))
         clip_text_index = int(len(text)*(self.max_token_num-conclusion_prompt_token)/text_token)
-        clip_text = text[:clip_text_index]   
-        
-        messages=[
-                {"role": "system", "content": "You are a reviewer in the field of ["+self.key_word+"] and you need to critically review this article"},  # chatgpt 角色
-                {"role": "assistant", "content": "This is the <summary> and <conclusion> part of an English literature, where <summary> you have already summarized, but <conclusion> part, I need your help to summarize the following questions:"+clip_text},  # 背景知识，可以参考OpenReview的审稿流程
-                {"role": "user", "content": """                 
+        clip_text = text[:clip_text_index]
+        self.chatPaper.reset(convo_id="chatConclusion",system_prompt="You are a reviewer in the field of ["+self.key_word+"] and you need to critically review this article")
+        self.chatPaper.add_to_conversation(convo_id="chatConclusion", role="assistant", message="This is the <summary> and <conclusion> part of an English literature, where <summary> you have already summarized, but <conclusion> part, I need your help to summarize the following questions:"+clip_text)# 背景知识，可以参考OpenReview的审稿流程 
+        content =  """                 
                  8. Make the following summary.Be sure to use Chinese answers (proper nouns need to be marked in English).
                     - (1):What is the significance of this piece of work?
                     - (2):Summarize the strengths and weaknesses of this article in three dimensions: innovation point, performance, and workload.                   
@@ -535,42 +554,26 @@ class Reader:
                     - (2):Innovation point: xxx; Performance: xxx; Workload: xxx;\n                      
                  
                  Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
-                 """},
-            ]
-        response = openai.ChatCompletion.create(
-            model=model_name,
-            # prompt需要用英语替换，少占用token。
-            messages=messages,
-            temperature=temperature, # What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-            top_p=p # An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+                 """
+        result = self.chatPaper.ask(
+            prompt = content,
+            role="user",
+            convo_id="chatConclusion",
         )
-        
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
-        #print("prompt_token_used:", response.usage.prompt_tokens,
-        #      "completion_token_used:", response.usage.completion_tokens,
-        #      "total_token_used:", response.usage.total_tokens)
-        #print("response_time:", response.response_ms/1000.0, 's')
-        usage_token = response.usage.prompt_tokens
-        com_token = response.usage.completion_tokens
-        total_token = response.usage.total_tokens
-        
-        return result, usage_token, com_token, total_token            
+        print(result)
+        return result[0], result[1], result[2], result[3]
     
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
-    def chat_method(self, text, key, model_name, p, temperature):
-        openai.api_key = key
+    def chat_method(self, text):
         method_prompt_token = 650        
         text_token = len(self.encoding.encode(text))
         clip_text_index = int(len(text)*(self.max_token_num-method_prompt_token)/text_token)
-        clip_text = text[:clip_text_index]        
-        messages=[
-                {"role": "system", "content": "You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements"},  # chatgpt 角色
-                {"role": "assistant", "content": "This is the <summary> and <Method> part of an English document, where <summary> you have summarized, but the <Methods> part, I need your help to read and summarize the following questions."+clip_text},  # 背景知识
-                {"role": "user", "content": """                 
+        clip_text = text[:clip_text_index]
+        self.chatPaper.reset(convo_id="chatMethod",system_prompt="You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements")# chatgpt 角色
+        self.chatPaper.add_to_conversation(convo_id="chatMethod", role="assistant", message=str("This is the <summary> and <Method> part of an English document, where <summary> you have summarized, but the <Methods> part, I need your help to read and summarize the following questions."+clip_text))
+        content= """                 
                  7. Describe in detail the methodological idea of this article. Be sure to use Chinese answers (proper nouns need to be marked in English). For example, its steps are.
                     - (1):...
                     - (2):...
@@ -584,42 +587,26 @@ class Reader:
                     ....... \n\n     
                  
                  Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
-                 """},
-            ]
-        response = openai.ChatCompletion.create(
-            model=model_name,
-            messages=messages,
-            temperature=temperature, # What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-            top_p=p # An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+                 """
+        result = self.chatPaper.ask(
+            prompt = content,
+            role="user",
+            convo_id="chatMethod",
         )
-        
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
-        print("method_result:\n", result)
-        #print("prompt_token_used:", response.usage.prompt_tokens,
-        #      "completion_token_used:", response.usage.completion_tokens,
-        #      "total_token_used:", response.usage.total_tokens)
-        #print("response_time:", response.response_ms/1000.0, 's')
-        usage_token = response.usage.prompt_tokens
-        com_token = response.usage.completion_tokens
-        total_token = response.usage.total_tokens
-        
-        return result, usage_token, com_token, total_token 
+        print(result)
+        return result[0], result[1], result[2], result[3]
     
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
-    def chat_summary(self, text, key, model_name, p, temperature):
-        openai.api_key = key
+    def chat_summary(self, text):
         summary_prompt_token = 1000        
         text_token = len(self.encoding.encode(text))
         clip_text_index = int(len(text)*(self.max_token_num-summary_prompt_token)/text_token)
         clip_text = text[:clip_text_index]
-        messages=[
-                {"role": "system", "content": "You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements"},
-                {"role": "assistant", "content": "This is the title, author, link, abstract and introduction of an English document. I need your help to read and summarize the following questions: "+clip_text},
-                {"role": "user", "content": """                 
+        self.chatPaper.reset(convo_id="chatSummary",system_prompt="You are a researcher in the field of ["+self.key_word+"] who is good at summarizing papers using concise statements")
+        self.chatPaper.add_to_conversation(convo_id="chatSummary", role="assistant", message=str("This is the title, author, link, abstract and introduction of an English document. I need your help to read and summarize the following questions: "+clip_text))
+        content= """                 
                  1. Mark the title of the paper (with Chinese translation)
                  2. list all the authors' names (use English)
                  3. mark the first author's affiliation (output Chinese translation only)                 
@@ -643,29 +630,14 @@ class Reader:
                     - (4):xxx.\n\n     
                  
                  Be sure to use Chinese answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not have too much repetitive information, numerical values using the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed.                 
-                 """},
-            ]
-                
-        response = openai.ChatCompletion.create(
-            model=model_name,
-            messages=messages,
-            temperature=temperature, # What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
-            top_p=p # An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+                 """    
+        result = self.chatPaper.ask(
+            prompt = content,
+            role="user",
+            convo_id="chatSummary",
         )
-        
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
-        print("summary_result:\n", result)
-        #print("prompt_token_used:", response.usage.prompt_tokens,
-        #      "completion_token_used:", response.usage.completion_tokens,
-        #      "total_token_used:", response.usage.total_tokens)
-        #print("response_time:", response.response_ms/1000.0, 's')
-        usage_token = response.usage.prompt_tokens
-        com_token = response.usage.completion_tokens
-        total_token = response.usage.total_tokens
-        
-        return result, usage_token, com_token, total_token        
+        print(result)
+        return result[0], result[1], result[2], result[3]
             
     def export_to_markdown(self, text, file_name, mode='w'):
         # 使用markdown模块的convert方法，将文本转换为html格式
@@ -681,10 +653,16 @@ class Reader:
         print(f"Query: {self.query}")
         print(f"Sort: {self.sort}")                
 
-def upload_pdf(key, text, model_name, p, temperature, file):
+def upload_pdf(api_keys, text, model_name, p, temperature, file):
     # 检查两个输入都不为空
-    if not key or not text or not file:
+    api_key_list = None
+    if api_keys:
+        api_key_list = api_keys.split(',')
+    elif not api_keys and valid_api_keys!=[]:
+        api_key_list = valid_api_keys
+    if not text or not file or not api_key_list:
         return "两个输入都不能为空，请输入字符并上传 PDF 文件！"
+    
     # 判断PDF文件
     #if file and file.name.split(".")[-1].lower() != "pdf":
     #    return '请勿上传非 PDF 文件！'
@@ -692,8 +670,9 @@ def upload_pdf(key, text, model_name, p, temperature, file):
         section_list = text.split(',')
         paper_list = [Paper(path=file, sl=section_list)]
         # 创建一个Reader对象
-        reader = Reader()
-        sum_info, cost = reader.summary_with_chat(paper_list=paper_list, key=key, model_name=model_name, p=p, temperature=temperature)
+        print(api_key_list)
+        reader = Reader(api_keys=api_key_list, model_name=model_name, p=p, temperature=temperature)
+        sum_info, cost = reader.summary_with_chat(paper_list=paper_list) # type: ignore
         return cost, sum_info
 
 api_title = "api-key可用验证"
@@ -707,7 +686,7 @@ Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github
 '''
 
 api_input = [
-    gradio.inputs.Textbox(label="请输入你的api-key(必填)", default="", type='password')
+    gradio.inputs.Textbox(label="请输入你的API-key(必填, 多个API-key请用英文逗号隔开)", default="", type='password')
 ]
 api_gui = gradio.Interface(fn=valid_apikey, inputs=api_input, outputs="text", title=api_title, description=api_description)
 
@@ -724,11 +703,11 @@ Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github
 '''
 # 创建Gradio界面
 ip = [
-    gradio.inputs.Textbox(label="请输入你的api-key(必填)", default="", type='password'),
+    gradio.inputs.Textbox(label="请输入你的API-key(必填, 多个API-key请用英文逗号隔开),不需要空格", default="", type='password'),
     gradio.inputs.Textbox(label="请输入论文大标题索引(用英文逗号隔开,必填)", default="'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"),
     gradio.inputs.Radio(choices=["gpt-3.5-turbo", "gpt-3.5-turbo-0301"], default="gpt-3.5-turbo", label="Select model"),
     gradio.inputs.Slider(minimum=-0, maximum=1.0, default=1.0, step=0.05, label="Top-p (nucleus sampling)"),
-    gradio.inputs.Slider(minimum=-0, maximum=5.0, default=1.0, step=0.1, label="Temperature"),
+    gradio.inputs.Slider(minimum=-0, maximum=5.0, default=0.5, step=0.5, label="Temperature"),
     gradio.inputs.File(label="请上传论文PDF(必填)")
 ]
 
