@@ -170,7 +170,7 @@ class chatPaper:
             "https://api.openai.com/v1/chat/completions",
             headers={"Authorization": f"Bearer {self.get_api_key()}"},
             json={
-                "model": self.engine,
+                "model": self.model_name,
                 "messages": [{"role": "system", "content": "You are a helpful assistant."},{"role": "user", "content": "print A"}],
                 "stream": True,
                 # kwargs
