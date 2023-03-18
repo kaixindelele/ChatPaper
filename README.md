@@ -6,6 +6,14 @@
 </div>
 </br>
 
+针对很多其他非计算机同学的需求，我们团队已经在全力开发网页版了！敬请期待！也欢迎有前后端经验的大佬联系我们！
+For the needs of many other non-computer students, our team has been working hard to develop the web version! Stay tuned! 
+Also welcome to the experts who have the experience about web and server to contact us!
+
+我们的愿景是：利用AI全方位加速人类科研
+希望能够集中超过GPT4.0的剩下5%的人类科研工作者，一起努力进化。
+
+
 **明天更新新必应自动生成的代码：完美获取特定关键词的最新arxiv论文**，不会现在这样出现关键词和官网搜索不一致的情况！
 
 
