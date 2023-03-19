@@ -116,7 +116,11 @@ class Paper:
                 if 1 < len(space_split_list) < 5:
                     if 1 < len(point_split_list) < 5 and (point_split_list[0] in self.roman_num or point_split_list[0] in self.digit_num):
                         print("line:", line)
-                        chapter_names.append(line)        
+                        chapter_names.append(line)      
+                    # 这段代码可能会有新的bug，本意是为了消除"Introduction"的问题的！
+                    elif 1 < len(point_split_list) < 5:
+                        print("line:", line)
+                        chapter_names.append(line)     
         
         return chapter_names
         
