@@ -9,6 +9,8 @@ import argparse
 import configparser
 import json
 import tiktoken
+from openai.error import APIConnectionError
+
 from get_paper_from_pdf import Paper
 
 # 定义Reader类
@@ -172,15 +174,19 @@ class Reader:
             text += 'Paper_info:' + paper.section_text_dict['paper_info']
             # intro
             text += list(paper.section_text_dict.values())[0]
-            
+            chat_summary_text = None
             try:
-                chat_summary_text = self.chat_summary(text=text)     
+                chat_summary_text = self.chat_summary(text=text)
+            except APIConnectionError as api_e:
+                print("openai连接异常: ", api_e)
+                raise RuntimeError("https连接出错")
             except Exception as e:
                 if "maximum context" in str(e):
                     current_tokens_index = str(e).find("your messages resulted in") + len("your messages resulted in")+1
                     offset = int(str(e)[current_tokens_index:current_tokens_index+4])
                     summary_prompt_token = offset+1000+50
                     chat_summary_text = self.chat_summary(text=text, summary_prompt_token=summary_prompt_token)
+
     
             htmls.append('## Paper:' + str(paper_index+1))
             htmls.append('\n\n\n')            
