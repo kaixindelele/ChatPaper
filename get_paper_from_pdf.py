@@ -39,8 +39,7 @@ class Paper:
             abstract_text = self.section_text_dict['Abstract']
         else:
             abstract_text = self.abs
-        introduction_text = self.section_text_dict['Introduction']
-        first_page_text = first_page_text.replace(abstract_text, "").replace(introduction_text, "")
+        first_page_text = first_page_text.replace(abstract_text, "")
         return first_page_text
         
     def get_image_path(self, image_path=''):
