@@ -164,12 +164,18 @@ class Reader:
     def summary_with_chat(self, paper_list):
         htmls = []
         for paper_index, paper in enumerate(paper_list):
-            # 第一步先用title，abs，和introduction进行总结。
             text = ''
-            text += 'Title:' + paper.title
-            text += 'Url:' + paper.url
-            text += 'Abstrat:' + paper.abs
-            text += 'Paper_info:' + paper.section_text_dict['paper_info']
+            if paper.section_text_dict.get('paper_info'):
+                # 第一步先用title，abs，和introduction进行总结。
+                text += 'Title:' + paper.title
+                text += 'Url:' + paper.url
+                text += 'Abstrat:' + paper.abs
+            paper_info = paper.section_text_dict.get('paper_info')
+
+            if paper_info is not None:
+                text += 'Paper_info:' + paper_info
+            else:
+                text += 'Paper_info: None'
             # intro
             text += list(paper.section_text_dict.values())[0]
             
