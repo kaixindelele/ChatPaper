@@ -240,7 +240,7 @@ class Reader:
             except:
                 pass                             
             mode = 'w' if paper_index == 0 else 'a'
-            file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title)+"."+self.file_format)
+            file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title[:80])+"."+self.file_format)
             self.export_to_markdown("\n".join(htmls), file_name=file_name, mode=mode)
             
             # file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title)+".md")
