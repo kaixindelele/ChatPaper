@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import os
 import re
@@ -94,10 +96,10 @@ class Reader:
         date_str = str(datetime.datetime.now())[:13].replace(' ', '-')        
         key_word = str(self.key_word.replace(':', ' '))        
         path = self.root_path  + 'pdf_files/' + self.query.replace('au: ', '').replace('title: ', '').replace('ti: ', '').replace(':', ' ')[:25] + '-' + date_str
-        try:
+
+        if os.path.exists(path) is False:
             os.makedirs(path)
-        except:
-            pass
+
         print("All_paper:", len(filter_results))
         # 开始下载：
         paper_list = []
