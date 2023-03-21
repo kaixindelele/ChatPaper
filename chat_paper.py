@@ -234,6 +234,7 @@ class Reader:
             else:
                 text = summary_text            
             # chat_conclusion_text = self.chat_conclusion(text=text)
+            chat_conclusion_text = ""
             try:
                 chat_conclusion_text = self.chat_conclusion(text=text)                 
             except Exception as e:
