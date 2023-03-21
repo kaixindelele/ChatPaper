@@ -172,7 +172,7 @@ class Reader:
             text += 'Paper_info:' + paper.section_text_dict['paper_info']
             # intro
             text += list(paper.section_text_dict.values())[0]
-            
+            chat_summary_text = ""
             try:
                 chat_summary_text = self.chat_summary(text=text)     
             except Exception as e:
