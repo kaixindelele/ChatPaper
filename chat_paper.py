@@ -179,7 +179,7 @@ class Reader:
                 if "maximum context" in str(e):
                     current_tokens_index = str(e).find("your messages resulted in") + len("your messages resulted in")+1
                     offset = int(str(e)[current_tokens_index:current_tokens_index+4])
-                    summary_prompt_token = offset+1000+50
+                    summary_prompt_token = offset+1000+150
                     chat_summary_text = self.chat_summary(text=text, summary_prompt_token=summary_prompt_token)
     
             htmls.append('## Paper:' + str(paper_index+1))
@@ -202,7 +202,15 @@ class Reader:
                 # methods                
                 method_text += paper.section_text_dict[method_key]                   
                 text = summary_text + "\n\n<Methods>:\n\n" + method_text                 
-                chat_method_text = self.chat_method(text=text)
+                # chat_method_text = self.chat_method(text=text)
+                try:
+                    chat_method_text = self.chat_method(text=text)                    
+                except Exception as e:
+                    if "maximum context" in str(e):
+                        current_tokens_index = str(e).find("your messages resulted in") + len("your messages resulted in")+1
+                        offset = int(str(e)[current_tokens_index:current_tokens_index+4])
+                        method_prompt_token = offset+800+150                        
+                        chat_method_text = self.chat_method(text=text, method_prompt_token=method_prompt_token)           
                 htmls.append(chat_method_text)
             else:
                 chat_method_text = ''
@@ -225,7 +233,15 @@ class Reader:
                 text = summary_text + "\n\n<Conclusion>:\n\n" + conclusion_text 
             else:
                 text = summary_text            
-            chat_conclusion_text = self.chat_conclusion(text=text)
+            # chat_conclusion_text = self.chat_conclusion(text=text)
+            try:
+                chat_conclusion_text = self.chat_conclusion(text=text)                 
+            except Exception as e:
+                if "maximum context" in str(e):
+                    current_tokens_index = str(e).find("your messages resulted in") + len("your messages resulted in")+1
+                    offset = int(str(e)[current_tokens_index:current_tokens_index+4])
+                    conclusion_prompt_token = offset+800+150                                            
+                    chat_conclusion_text = self.chat_conclusion(text=text, conclusion_prompt_token=conclusion_prompt_token)
             htmls.append(chat_conclusion_text)
             htmls.append("\n"*4)
             
