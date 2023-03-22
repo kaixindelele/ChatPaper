@@ -202,7 +202,7 @@ class Reader:
                 # methods                
                 method_text += paper.section_text_dict[method_key]                   
                 text = summary_text + "\n\n<Methods>:\n\n" + method_text                 
-                # chat_method_text = self.chat_method(text=text)
+                chat_method_text = ""
                 try:
                     chat_method_text = self.chat_method(text=text)                    
                 except Exception as e:
@@ -233,7 +233,7 @@ class Reader:
                 text = summary_text + "\n\n<Conclusion>:\n\n" + conclusion_text 
             else:
                 text = summary_text            
-            # chat_conclusion_text = self.chat_conclusion(text=text)
+            chat_conclusion_text = ""
             try:
                 chat_conclusion_text = self.chat_conclusion(text=text)                 
             except Exception as e:
