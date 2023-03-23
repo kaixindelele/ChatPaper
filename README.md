@@ -52,7 +52,7 @@
 
 
 ## 最新讯息
-
+- 🌟*2023.03.23*: **增加了ChatReviewer（模拟顶会审稿人，自动评审论文，⭐️禁止复制粘贴！）和ChatResponse（自动提取审稿人的问题并一对一生成回复），该部的分代码均来自于[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)项目。**
 - 🌟*2023.03.19*: 全新的ChatPaper网页版即将上线！
 
 ## 开发动机
