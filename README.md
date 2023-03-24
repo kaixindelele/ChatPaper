@@ -4,6 +4,8 @@
 </div>
 </br>
 
+💥💥💥面向全球，服务万千科研人的ChatPaper在线版正式上线：https://chatpaper.org/ 💥💥💥
+
 <h1 align="center">ChatPaper</h1>
 <div align="center">
   <a href="https://github.com/kaixindelele/ChatPaper">
@@ -52,7 +54,11 @@
 
 
 ## 最新讯息
-- 🌟*2023.03.23*: **增加了ChatReviewer（模拟顶会审稿人，自动评审论文，⭐️禁止复制粘贴！）和ChatResponse（自动提取审稿人的问题并一对一生成回复），该部的分代码均来自于[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)项目。**
+- 🌟*2023.03.23*: chat_arxiv.py可以从arxiv网站，根据关键词，最近几天，几篇论文，直接爬取最新的领域论文了！解决了之前arxiv包的搜索不准确问题！
+- 🌟*2023.03.23*: ChatPaper终于成为完成体了！现在已经有论文总结+论文审稿+论文审稿回复等功能了！
+虽然我们上线了这个功能，但是大家用于审稿的时候，一定要注意学术伦理！千万别用它真的做审稿使用！
+
+**增加了ChatReviewer（模拟顶会审稿人，自动评审论文，⭐️千万别复制粘贴直接使用！一定要注意审稿伦理和责任！该功能仅供大家作为参考！）和ChatResponse（自动提取审稿人的问题并一对一生成回复），该部分的代码均来自于[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)项目。** 使用技巧请参考这位大佬的项目！
 - 🌟*2023.03.19*: 全新的ChatPaper网页版即将上线！
 
 ## 开发动机
@@ -261,10 +267,11 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 4. [Arxiv](https://github.com/lukasschwab/arxiv.py)的作者提供的好用的arxiv论文下载包。
 5. [PyMuPDF](https://github.com/pymupdf/PyMuPDF)提供良好的PDF解析工具。让整个信息流得以打通。
 6. OpenAI一方面做出了杰出的AI，另外一方面禁了我们国家，搞得我都不知道该怎么写这行。
-7. 感谢Ex-ChatGPT的作者分享的各种ChatGPT的开发细节，开发过程中学习良多。另外给计算机专业的佬们，推荐这款非常强大的开源工具：
+7. 感谢Ex-ChatGPT的作者分享的各种ChatGPT的开发细节，开发过程中学习良多，以及现在一直在开发我们的网页版内容。另外给计算机专业的佬们，推荐这款非常强大的开源工具：
+8. 感谢ChatReviewer的作者将他的项目合并到我们的ChatPaper中，使得ChatPaper更加完整。
 [Ex-ChatGPT](https://github.com/circlestarzero/EX-chatGPT) 是一个强大的工具平台，能让 ChatGPT 能够调用外部 API，例如 WolframAlpha、Google 和 WikiMedia，以提供更准确和及时的答案。
 江湖人称 GoogleChat.
-8. 最后感谢GitHub官方，帮我们这个项目列入了[热榜第五](https://github.com/trending)，获得了大量的关注！
+9. 最后感谢GitHub官方，帮我们这个项目列入了[热榜第五](https://github.com/trending)，获得了大量的关注！
 
 ## 赞助我们
 
