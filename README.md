@@ -4,6 +4,8 @@
 </div>
 </br>
 
+💥💥💥面向全球，服务万千科研人的ChatPaper在线版正式上线：https://chatpaper.org/ 💥💥💥
+
 <h1 align="center">ChatPaper</h1>
 <div align="center">
   <a href="https://github.com/kaixindelele/ChatPaper">
