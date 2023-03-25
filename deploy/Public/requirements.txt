@@ -7,3 +7,4 @@ pybase64==1.2.3
 Pillow==9.4.0
 openai==0.27.0
 markdown
+gradio==3.20.1

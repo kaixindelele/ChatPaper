@@ -520,7 +520,7 @@ class Reader:
             prompt = content,
             role="user",
             convo_id="chatConclusion",
-        )
+        )[0]
         print("conclusion_result:\n", result)
         return result            
     
@@ -548,7 +548,7 @@ class Reader:
             prompt = content,
             role="user",
             convo_id="chatMethod",
-        )
+        )[0]
         print("method_result:\n", result)
         return result   
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
@@ -586,7 +586,7 @@ class Reader:
             prompt = content,
             role="user",
             convo_id="chatSummary",
-        )
+        )[0]
         print("summary_result:\n", result)
         return result        
             
@@ -625,8 +625,8 @@ title = "ChatPaper"
 description = "<div align='center'>帮助您快速阅读论文</div>"
 # 创建Gradio界面
 ip = [
-    gradio.inputs.Textbox(label="请输入论文大标题索引,(用【,】隔开)", default="'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"),
-    gradio.inputs.File(label="上传论文(必须为PDF)")
+    gradio.Textbox(label="请输入论文大标题索引,(用【,】隔开)", value="'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"),
+    gradio.File(label="上传论文(必须为PDF)")
 ]
 
 interface = gradio.Interface(fn=upload_pdf, inputs=ip, outputs="html", title=title, description=description)

@@ -92,6 +92,11 @@ class chatPaper:
         full_conversation = ""
         for x in self.conversation[convo_id]:
             full_conversation = str(x["content"]) + "\n" + full_conversation
+        # if len(full_conversation) > (self.max_tokens - self.decrease_step)
+        # we can't break the loop, so we can cut the tail/head before the loop
+        max_len_full_conversation = self.max_tokens - self.decrease_step
+        if len(ENCODER.encode(full_conversation)) > max_len_full_conversation:
+            full_conversation = full_conversation[:-max_len_full_conversation]
         while True:
             if (len(ENCODER.encode(full_conversation+query)) > self.max_tokens):
                 query = query[:self.decrease_step]
@@ -208,7 +213,7 @@ class chatPaper:
             input = input[self.decrease_step:]
         prompt = prompt.replace("{conversation}", input)
         self.reset(convo_id='conversationSummary')
-        response = self.ask(prompt,convo_id='conversationSummary')
+        response = self.ask(prompt,convo_id='conversationSummary')[0]
         while self.token_str(str(response))>self.max_tokens:
             response = response[:-self.decrease_step]
         self.reset(convo_id='conversationSummary',system_prompt='Summariaze our diaglog')

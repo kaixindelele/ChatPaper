@@ -15,7 +15,6 @@ import json
 import tiktoken
 import concurrent.futures
 from optimizeOpenAI import chatPaper
-import ipywidgets as widgets
 from IPython.display import display
 
 def parse_text(text):
@@ -796,8 +795,8 @@ Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github
 '''
 
 api_input = [
-    gradio.inputs.Textbox(label="请输入你的API-key(必填, 多个API-key请用英文逗号隔开)",
-                          default="",
+    gradio.Textbox(label="请输入你的API-key(必填, 多个API-key请用英文逗号隔开)",
+                          value="",
                           type='password')
 ]
 api_gui = gradio.Interface(fn=valid_apikey,
@@ -819,28 +818,28 @@ Use ChatGPT to summary the papers.Star our Github [🌟ChatPaper](https://github
 '''
 # 创建Gradio界面
 ip = [
-    gradio.inputs.Textbox(label="请输入你的API-key(必填, 多个API-key请用英文逗号隔开),不需要空格",
-                          default="",
+    gradio.Textbox(label="请输入你的API-key(必填, 多个API-key请用英文逗号隔开),不需要空格",
+                          value="",
                           type='password'),
-    gradio.inputs.Textbox(
+    gradio.Textbox(
         label="请输入论文大标题索引(用英文逗号隔开,必填)",
-        default=
+        value=
         "'Abstract,Introduction,Related Work,Background,Preliminary,Problem Formulation,Methods,Methodology,Method,Approach,Approaches,Materials and Methods,Experiment Settings,Experiment,Experimental Results,Evaluation,Experiments,Results,Findings,Data Analysis,Discussion,Results and Discussion,Conclusion,References'"
     ),
-    gradio.inputs.Radio(choices=["gpt-3.5-turbo", "gpt-3.5-turbo-0301"],
-                        default="gpt-3.5-turbo",
+    gradio.Radio(choices=["gpt-3.5-turbo", "gpt-3.5-turbo-0301"],
+                        value="gpt-3.5-turbo",
                         label="Select model"),
-    gradio.inputs.Slider(minimum=-0,
+    gradio.Slider(minimum=-0,
                          maximum=1.0,
-                         default=1.0,
+                         value=1.0,
                          step=0.05,
                          label="Top-p (nucleus sampling)"),
-    gradio.inputs.Slider(minimum=-0,
+    gradio.Slider(minimum=-0,
                          maximum=5.0,
-                         default=0.5,
+                         value=0.5,
                          step=0.5,
                          label="Temperature"),
-    gradio.inputs.File(label="请上传论文PDF(必填)")
+    gradio.File(label="请上传论文PDF(必填)")
 ]
 
 
