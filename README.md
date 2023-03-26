@@ -1,10 +1,4 @@
-<div style="font-size: 1.5rem;">
-  <a href="./README.md">中文</a> |
-  <a href="./readme_en.md">English</a>
-</div>
-</br>
-
-💥💥💥面向全球，服务万千科研人的ChatPaper**免费网页版正式上线：**[https://chatpaper.org/](https://chatpaper.org/) 💥💥💥
+💥💥💥<strong>面向全球，服务万千科研人的ChatPaper**免费网页版正式上线：**[https://chatpaper.org/](https://chatpaper.org/) </strong>💥💥💥
 
 <h1 align="center">ChatPaper</h1>
 <div align="center">
