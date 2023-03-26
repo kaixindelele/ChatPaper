@@ -4,7 +4,7 @@
 </div>
 </br>
 
-💥💥💥面向全球，服务万千科研人的ChatPaper免费网页版正式上线：[https://chatpaper.org/](https://chatpaper.org/) 💥💥💥
+💥💥💥面向全球，服务万千科研人的ChatPaper**免费网页版正式上线：**[https://chatpaper.org/](https://chatpaper.org/) 💥💥💥
 
 <h1 align="center">ChatPaper</h1>
 <div align="center">
