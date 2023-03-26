@@ -24,7 +24,7 @@
       <br/>
       <a href="https://www.bilibili.com/video/BV1EM411x7Tr/"><strong>视频教程</strong></a>
         ·
-      <a href="https://huggingface.co/spaces/wangrongsheng/ChatPaper"><strong>在线体验</strong></a>
+      <a href="https://chatpaper.org/"><strong>在线体验</strong></a>
     </p>
     
   </p>
