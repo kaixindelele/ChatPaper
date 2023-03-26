@@ -6,6 +6,9 @@
 </div>
 </br>
 
+💥💥💥The free web version of ChatPaper, which is open to the world and serves thousands of researchers, is officially launched:[https://chatpaper.org/](https://chatpaper.org/) 💥💥💥
+
+
 To keep up with the huge ArXiv papers and AI’s fast progress, we humans need to evolve. We download the latest papers on arxiv based on user keywords, and use ChatGPT3.5 API’s powerful summarization to condense them into a fixed format with minimal text and easy readability. 
 We provide the most information for everyone to choose which papers to read deeply.
 
