@@ -113,12 +113,12 @@ pip install -r requirements.txt
 
 4.1. Arxiv在线批量搜索+下载+总结： 运行chat_paper.py， 比如：
 ```python
-python chat_arxiv.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 3
+python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max_results 3
 ```
 
 更准确的脚本是chat_arxiv.py，使用方案，命令行更加简洁：
 ```python
-python chat_paper.py --query "chatgpt robot" --page_num 2 --max_results 3 --days 2
+python chat_arxiv.py --query "chatgpt robot" --page_num 2 --max_results 3 --days 2
 ```
 
 其中query仍然是关键词，page_num是搜索的页面，每页和官网一样，最大是50篇，max_results是最终总结前N篇的文章，days是选最近几天的论文，严格筛选！
