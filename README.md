@@ -31,6 +31,8 @@
   </p>
 </div>
 
+
+ChatPaper全流程加速科研：论文阅读+润色+审稿+审稿回复
 |工具名称|工具作用|是否在线？|在线预览|备注|
 |:-|:-|:-|:-|:-|
 |ChatPaper|通过ChatGPT实现对**论文进行总结，帮助科研人进行论文初筛**|访问[wangrongsheng/ChatPaper](https://huggingface.co/spaces/wangrongsheng/ChatPaper) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatpaper_0317.png" />|[原项目地址](https://github.com/kaixindelele/ChatPaper)|
