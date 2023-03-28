@@ -1,5 +1,6 @@
 💥💥💥<strong>面向全球，服务万千科研人的ChatPaper**免费网页版正式上线：**[https://chatpaper.org/](https://chatpaper.org/) </strong>💥💥💥
 
+💥💥💥<strong>网页版现在急缺一位前端开发，帮忙把开源的内容搬到网站上，欢迎有相关开发经验的同学邮件我! </strong>💥💥💥
 <h1 align="center">ChatPaper</h1>
 <div align="center">
   <a href="https://github.com/kaixindelele/ChatPaper">
