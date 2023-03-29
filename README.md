@@ -46,6 +46,7 @@ ChatPaper全流程加速科研：论文阅读+润色+审稿+审稿回复
 - [💥最新讯息](#最新讯息)
 - [💫开发动机](#开发动机)
 - [⛏️使用步骤](#使用步骤)
+- [👷‍♂️在线部署](#在线部署)
 - [📄解析示例](#解析示例)
 - [👁️‍🗨️使用技巧](#使用技巧)
 - [🛠️常见报错](#常见报错)
@@ -181,6 +182,15 @@ parser.add_argument("--sort", default=arxiv.SortCriterion.Relevance, help="anoth
 parser.add_argument("--save_image", default=False, help="save image? It takes a minute or two to save a picture! But pretty")
 parser.add_argument("--file_format", type=str, default='md', help="导出的文件格式，如果存图片的话，最好是md，如果不是的话，txt的不会乱")
 ```
+
+## 在线部署
+
+1. 在[Hugging Face](https://huggingface.co/) 创建自己的个人账号并登录；
+2. 进入ChatPaper主仓库：[https://huggingface.co/spaces/wangrongsheng/ChatPaper](https://huggingface.co/spaces/wangrongsheng/ChatPaper) ，您可以在[Files and Version](https://huggingface.co/spaces/wangrongsheng/ChatPaper/tree/main) 看到所有的最新部署代码；
+3. [可选]私有化部署使用：点击[Duplicate this space](https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true) ，在弹出的页面中将`Visibility`选择为`Private`，最后点击`Duplicate Space`，Space的代码就会部署到你自己的Space中，为了方便自己每次调用可以不用填写API-key，您可以将[app.py#L845](https://huggingface.co/spaces/wangrongsheng/ChatPaper/blob/5335124d25b1bc4017a2f5c48b0038dfa545bf63/app.py#L845) 修改为您的密钥：`default="sk-abcdxxxxxxxx"` ，点击保存文件就会立即重新部署了；
+4. [可选]公有化部署使用：点击[Duplicate this space](https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true) ，在弹出的页面中将`Visibility`选择为`Public`，最后点击`Duplicate Space`，Space的代码就会部署到你自己的Space中，这样就可以完成一个公有化的部署。
+
+> 注：公有化部署和私有化部署根据你的需求二选一即可！
 
 ## 解析示例
 
