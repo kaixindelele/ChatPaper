@@ -270,7 +270,9 @@ os.environ["http_proxy"] = "http://<代理ip>:<代理端口>"
 os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 代理ip和端口需要你在Windows系统里面查找。
-![2333](https://user-images.githubusercontent.com/28528386/224496999-1a8a7946-00aa-4d51-9f18-45bdde4215b9.png)
+<div style="text-align: center;">
+  <img src=https://user-images.githubusercontent.com/28528386/224496999-1a8a7946-00aa-4d51-9f18-45bdde4215b9.png width="400" height="300"/>
+</div>
 
 
 3. API被OpenAI禁了的报错：
