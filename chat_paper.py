@@ -39,10 +39,10 @@ class Reader:
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
         self.cur_api = 0
         self.file_format = args.file_format        
-        if args.save_image:
-            self.gitee_key = self.config.get('Gitee', 'api')
-        else:
-            self.gitee_key = ''
+        if args.save_image == 'gitee':
+            self.image_path = self.config.get('Gitee', 'api')
+        elif args.save_image == 'local':
+            self.image_path = root_path + 'export/' + 'attachments/'
         self.max_token_num = 4096
         self.encoding = tiktoken.get_encoding("gpt2")
                 
@@ -64,16 +64,26 @@ class Reader:
         filter_keys = self.filter_keys
         
         print("filter_keys:", self.filter_keys)
-        # 确保每个关键词都能在摘要中找到，才算是目标论文
-        for index, result in enumerate(search.results()):
-            abs_text = result.summary.replace('-\n', '-').replace('\n', ' ')
-            meet_num = 0
-            for f_key in filter_keys.split(" "):
-                if f_key.lower() in abs_text.lower():
-                    meet_num += 1
-            if meet_num == len(filter_keys.split(" ")):
-                filter_results.append(result)
+        # Exact match: 确保每个关键词都能在摘要中找到，才算是目标论文
+        if args.coarse == False:
+            print("Exact match")
+            for index, result in enumerate(search.results()):
+                abs_text = result.summary.replace('-\n', '-').replace('\n', ' ')
+                meet_num = 0
+                for f_key in filter_keys.split(" "):
+                    if f_key.lower() in abs_text.lower():
+                        meet_num += 1
+                if meet_num == len(filter_keys.split(" ")):
+                    filter_results.append(result)
                 # break
+        else:
+            print("Coarse match")
+            for index, result in enumerate(search.results()):
+                abs_text = result.summary.replace('-\n', '-').replace('\n', ' ')
+                for f_key in filter_keys.split(" "):
+                    if f_key.lower() in abs_text.lower():
+                        filter_results.append(result)
+                        break
         print("筛选后剩下的论文数量：")
         print("filter_results:", len(filter_results))
         print("filter_papers:")
@@ -103,6 +113,13 @@ class Reader:
             try:
                 title_str = self.validateTitle(result.title)
                 pdf_name = title_str+'.pdf'
+                # Try to avoid repeating papers
+                for dir in os.listdir(os.path.join(self.root_path,'pdf_files')):
+                    for file in os.listdir(os.path.join(self.root_path, 'pdf_files', dir)):
+                        if pdf_name == file and args.repeat==False:
+                            raise Exception('\033[91m'+pdf_name+" already exists, no summary will be made to save your tokens. If you insist to summary, pass --repeat True to force summarizing"+'\033[0m')
+                        elif pdf_name == file and args.repeat==True:
+                            print('\033[93m'+pdf_name+" already exists, repeat summarizing anyway"+'\033[0m')
                 # result.download_pdf(path, filename=pdf_name)
                 self.try_download_pdf(result, path, pdf_name)
                 paper_path = os.path.join(path, pdf_name)
@@ -143,7 +160,7 @@ class Reader:
         path = image_name+ '-' +date_str
         
         payload = {
-            "access_token": self.gitee_key,
+            "access_token": self.config.get('Gitee', 'api'),
             "owner": self.config.get('Gitee', 'owner'),
             "repo": self.config.get('Gitee', 'repo'),
             "path": self.config.get('Gitee', 'path'),
@@ -247,7 +264,27 @@ class Reader:
                     chat_conclusion_text = self.chat_conclusion(text=text, conclusion_prompt_token=conclusion_prompt_token)
             htmls.append(chat_conclusion_text)
             htmls.append("\n"*4)
-            
+
+            # 第四步补充材料，实验/结果部分前的图片比较有价值
+            htmls.append("**Supplement Materials:**\n")
+            img_list, ext = paper.get_image_path(self.image_path)
+            if img_list is None or args.save_image == '':
+                pass
+            elif args.save_image == 'local':
+                for i_page in range(len(img_list)):   
+                    for i_image in range(len(img_list[i_page])):                        
+                        htmls.append("\n")
+                        htmls.append("![Fig]("+img_list[i_page][i_image].replace(' ', '%20').replace('./export', '.')+")")
+                        htmls.append("\n")
+            elif args.save_image == 'gitee':             
+                for i_page in range(len(img_list)):   
+                    for i_image in range(len(img_list[i_page])):       
+                        image_title = self.validateTitle(paper.title)
+                        image_url = self.upload_gitee(image_path=img_list[i_page][i_image], image_name=image_title, ext=ext[i_page][i_image])
+                        htmls.append("\n")
+                        htmls.append("![Fig]("+image_url+")")
+                        htmls.append("\n")
+                        
             # # 整合成一个文件，打包保存下来。
             date_str = str(datetime.datetime.now())[:13].replace(' ', '-')
             try:
@@ -255,7 +292,7 @@ class Reader:
                 os.makedirs(export_path)
             except:
                 pass                             
-            mode = 'w' if paper_index == 0 else 'a'
+            mode = 'w' # Don't understand here, we should always overwrite
             file_name = os.path.join(export_path, date_str+'-'+self.validateTitle(paper.title[:80])+"."+self.file_format)
             self.export_to_markdown("\n".join(htmls), file_name=file_name, mode=mode)
             
@@ -467,11 +504,13 @@ if __name__ == '__main__':
     parser.add_argument("--pdf_path", type=str, default='', help="if none, the bot will download from arxiv with query")
     parser.add_argument("--query", type=str, default='all: ChatGPT robot', help="the query string, ti: xx, au: xx, all: xx,")    
     parser.add_argument("--key_word", type=str, default='reinforcement learning', help="the key word of user research fields")
-    parser.add_argument("--filter_keys", type=str, default='ChatGPT robot', help="the filter key words, 摘要中每个单词都得有，才会被筛选为目标论文")
+    parser.add_argument("--filter_keys", type=str, default='ChatGPT robot', help="the filter key words, 摘要中每个单词都得有，才会被筛选为目标论文, separated by space")
+    parser.add_argument("--coarse", action='store_true', help="if every key word needs to be matched")
+    parser.add_argument("--repeat", action='store_true', help="if pdf files already exist, don't summarize again to save tokens")
     parser.add_argument("--max_results", type=int, default=1, help="the maximum number of results")
     # arxiv.SortCriterion.Relevance
     parser.add_argument("--sort", type=str, default="Relevance", help="another is LastUpdatedDate")    
-    parser.add_argument("--save_image", default=False, help="save image? It takes a minute or two to save a picture! But pretty")
+    parser.add_argument("--save_image", type=str, default='', help="save image? It takes a minute or two to save a picture! But pretty")
     parser.add_argument("--file_format", type=str, default='md', help="导出的文件格式，如果存图片的话，最好是md，如果不是的话，txt的不会乱")
     parser.add_argument("--language", type=str, default='zh', help="The other output lauguage is English, is en")
     

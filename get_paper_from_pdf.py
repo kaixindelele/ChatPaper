@@ -44,23 +44,45 @@ class Paper:
         
     def get_image_path(self, image_path=''):
         """
-        将PDF中的第一张图保存到image.png里面，存到本地目录，返回文件名称，供gitee读取
-        :param filename: 图片所在路径，"C:\\Users\\Administrator\\Desktop\\nwd.pdf"
-        :param image_path: 图片提取后的保存路径
-        :return:
+        将pdf中Experiment/Evaluation前的图片均保存下来, 一般method部分会有理论图解
+        parameter:
+        - image_path: path in which the imgs are saved
+
+        return:
+        - img_path: list of list, path of images in each page
+        - ext: the associated extension
         """
+        # Create image folders
+        try:
+            os.makedirs(image_path)
+        except:
+            pass
+
         # open file
         max_size = 0
         image_list = []
+        ext = []
+        stop_index = 0
+        exp_key = ["Materials and Methods", "Experiment Settings",
+                    'Experiment',  "Experimental Results", "Evaluation", "Experiments",                        
+                    "Results", 'Findings', 'Data Analysis']
+        
+        for key in self.section_page_dict.keys():
+            if key in exp_key:
+                stop_index = self.section_page_dict[key]
+                break
+
         with fitz.Document(self.path) as my_pdf_file:
-            # 遍历所有页面
-            for page_number in range(1, len(my_pdf_file) + 1):
+            # 遍历实验前的所有页面
+            for page_number in range(1, stop_index+1):
                 # 查看独立页面
                 page = my_pdf_file[page_number - 1]
                 # 查看当前页所有图片
                 images = page.get_images()                
                 # 遍历当前页面所有图片
-                for image_number, image in enumerate(page.get_images(), start=1):           
+                image_in_page = [] 
+                ext_in_page = []       
+                for image_number, image in enumerate(images, start=1):   
                     # 访问图片xref
                     xref_value = image[0]
                     # 提取图片信息
@@ -68,33 +90,30 @@ class Paper:
                     # 访问图片
                     image_bytes = base_image["image"]
                     # 获取图片扩展名
-                    ext = base_image["ext"]
+                    ext_in_page.append(base_image["ext"])
                     # 加载图片
                     image = Image.open(io.BytesIO(image_bytes))
                     image_size = image.size[0] * image.size[1]
                     if image_size > max_size:
                         max_size = image_size
-                    image_list.append(image)
-        for image in image_list:                            
-            image_size = image.size[0] * image.size[1]
-            if image_size == max_size:                
-                image_name = f"image.{ext}"
-                im_path = os.path.join(image_path, image_name)
-                print("im_path:", im_path)
-                
-                max_pix = 480
-                origin_min_pix = min(image.size[0], image.size[1])
-                
-                if image.size[0] > image.size[1]:
-                    min_pix = int(image.size[1] * (max_pix/image.size[0]))
-                    newsize = (max_pix, min_pix)
-                else:
-                    min_pix = int(image.size[0] * (max_pix/image.size[1]))
-                    newsize = (min_pix, max_pix)
-                image = image.resize(newsize)
-                
-                image.save(open(im_path, "wb"))
-                return im_path, ext
+                    image_in_page.append(image)
+                image_list.append(image_in_page)
+                ext.append(ext_in_page)
+
+        img_path = []
+        for i_page in range(len(image_list)):   
+            im_page_path = []  
+            for i_image in range(len(image_list[i_page])):         
+                image = image_list[i_page][i_image]
+                image_size = image.size[0] * image.size[1]
+                image_name = self.title + f"_{i_page}" + f"_{i_image}" + f".{ext[i_page][i_image]}"
+                path = os.path.join(image_path, image_name)
+                im_page_path.append(path)                
+                image.save(open(path, "wb"))
+            img_path.append(im_page_path)
+        
+        if len(img_path) != 0:
+            return img_path, ext
         return None, None
     
     # 定义一个函数，根据字体的大小，识别每个章节名称，并返回一个列表
