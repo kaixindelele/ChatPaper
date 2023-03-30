@@ -33,7 +33,12 @@ def home():
     return f'''
     <h1>Flask 版本的优势</h1>
     <p>将原始的 Python 脚本改为使用 Flask 构建的 Web 服务具有以下优点：</p>
-    ...
+    <ul>
+        <li><strong>易用性</strong>：通过简单的 HTTP 请求，用户可以轻松访问和使用各个功能，无需在本地安装 Python 或其他依赖。</li>
+        <li><strong>跨平台兼容性</strong>：作为 Web 服务，Flask 应用程序可以在任何支持 HTTP 请求的设备和平台上运行，从而提高了应用程序的可访问性。</li>
+        <li><strong>可扩展性</strong>：使用 Flask 可以更轻松地扩展应用程序，以包含其他功能、中间件和 API 端点。</li>
+        <li><strong>易于集成</strong>：Flask 应用程序可以与其他 Web 服务和前端框架（如 React、Vue.js 等）轻松集成，从而提供更丰富的用户体验。</li>
+    </ul>
     <h1>功能描述和调用方法</h1>
     <h2>arxiv</h2>
     <p>搜索 Arxiv 上的论文。参数：query, key_word, page_num, max_results, days, sort, save_image, file_format, language</p>

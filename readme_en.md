@@ -51,6 +51,8 @@ Your support is the motivation for my continuous update!
 
 
 ## How to use:
+### 一、Run with python scripts
+
 Windows, MAC and Ubuntu systems should be fine;
 
 python version is best 3.9, other versions should not have any problems
@@ -81,7 +83,57 @@ python chat_paper.py --query "chatgpt robot" --filter_keys "chatgpt robot" --max
 [--file_format File save format , default is markdown's md format , can also be txt ] 
 ```
 
+### 二、Run with Flask web server
+
+1. Download the project and enter the project directory
+
+```
+textCopy code
+git clone https://github.com/kaixindelele/ChatPaper.git
+cd ChatPaper
+```
+
+2. Fill in your OpenAI key in the `apikey.ini` file in the project root directory.
+
+3. Set up the virtual environment and install the required dependencies
+
+```
+textCopy code
+pip install virtualenv 
+# Install the virtual environment tool
+virtualenv venv 
+# Create a new virtual environment named venv
+For Linux/Mac:
+source venv/bin/activate
+
+For Windows:
+.\venv\Scripts\activate.bat
+
+pip install -r requirements.txt
+# Install the required dependencies for the project
+```
+
+4. Start the service
+
+```
+textCopy code
+python3 app.py
+# Start the Flask service. After running this command, the Flask service will start on the local port 5000 and wait for user requests. Access the Flask service homepage by visiting one of the following addresses in your browser:
+# http://127.0.0.1:5000/
+# or
+# http://127.0.0.1:5000/index
+```
+
+After visiting http://127.0.0.1:5000/, you will see the homepage. On the homepage, you can click on different links to call various services. You can achieve different effects by modifying the parameter values in the links. For detailed information about the parameters, please refer to the instructions in step above.
+
+
+
+![image-20230331042557655](/Users/jessytsui/Library/Application Support/typora-user-images/image-20230331042557655.png)
+
+
+
 ## Tips for using the project:
+
 Quickly brush papers with specific keywords, without illustrations, each article takes a minute, reading time is about a minute.
 
 This project can be used to track the latest papers in a field, or pay attention to papers in other fields, can batch generate summaries, up to 1000 (if you can wait).

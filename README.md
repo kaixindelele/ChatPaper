@@ -93,6 +93,8 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 
 ## 使用步骤
 
+### 一、以脚本方式运行
+
 Windows, Mac和Linux系统应该都可以
 
 python版本最好是3.9，其他版本应该也没啥问题
@@ -182,6 +184,49 @@ parser.add_argument("--sort", default=arxiv.SortCriterion.Relevance, help="anoth
 parser.add_argument("--save_image", default=False, help="save image? It takes a minute or two to save a picture! But pretty")
 parser.add_argument("--file_format", type=str, default='md', help="导出的文件格式，如果存图片的话，最好是md，如果不是的话，txt的不会乱")
 ```
+
+### 二、 以Flask服务运行
+
+1. 下载项目并进入项目目录
+
+```text
+git clone https://github.com/kaixindelele/ChatPaper.git
+cd ChatPaper
+```
+
+2. 在项目根目录下的 `apikey.ini` 文件中填入您的 OpenAI 密钥。
+3. 配置虚拟环境并下载依赖
+
+```text
+pip install virtualenv 
+安装虚拟环境工具
+virtualenv venv 
+新建一个名为venv的虚拟环境
+Linux/Mac下:
+source venv/bin/activate
+
+Windows下:
+.\venv\Scripts\activate.bat
+
+pip install -r requirements.txt
+```
+4. 启动服务
+
+```text
+python3 app.py
+# 启动 Flask 服务。运行此命令后，Flask 服务将在本地的 5000 端口上启动并等待用户请求。在浏览器中访问以下地址之一以访问 Flask 服务的主页：
+# http://127.0.0.1:5000/
+# 或
+# http://127.0.0.1:5000/index
+```
+
+访问 http://127.0.0.1:5000/ 后，您将看到主页。在主页上，您可以点击不同的链接来调用各种服务。您可以通过修改链接中的参数值来实现不同的效果。有关参数详细信息，请参阅上一步骤中的详细介绍
+
+![image-20230331042557655](/Users/jessytsui/Library/Application Support/typora-user-images/image-20230331042557655.png)
+
+
+
+
 
 ## 在线部署
 
