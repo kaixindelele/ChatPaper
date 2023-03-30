@@ -28,6 +28,7 @@ class Response:
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
         self.cur_api = 0
+        self.proxy = dict(self.config['Proxy'])
         self.file_format = args.file_format        
         self.max_token_num = 4096
         self.encoding = tiktoken.get_encoding("gpt2")
@@ -58,6 +59,7 @@ class Response:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_response(self, text):
+        openai.proxy = self.proxy
         openai.api_key = self.chat_api_list[self.cur_api]
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
