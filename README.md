@@ -57,6 +57,7 @@ ChatPaper全流程加速科研：论文阅读+润色+审稿+审稿回复
 
 
 ## 最新讯息
+- 🌟*2023.03.31*: 目前已经离线总结了3w+的CCF-A会议论文了，以后大家可以不用等那么旧了！
 - 🌟*2023.03.23*: chat_arxiv.py可以从arxiv网站，根据关键词，最近几天，几篇论文，直接爬取最新的领域论文了！解决了之前arxiv包的搜索不准确问题！
 - 🌟*2023.03.23*: ChatPaper终于成为完成体了！现在已经有论文总结+论文润色+论文审稿+论文审稿回复等功能了！
 虽然我们上线了这个功能，但是大家用于审稿的时候，一定要注意学术伦理！千万别用它真的做审稿使用！
@@ -296,6 +297,7 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 江湖人称 GoogleChat.
 9. 还得感谢GitHub官方，帮我们这个项目列入了[热榜第五](https://github.com/trending)，获得了大量的关注！
 10. 后面我们整个项目流程打通，需要感谢同样是中科院的同学们开发的[chatgpt_academic](https://github.com/binary-husky/chatgpt_academic)，我们在他们的基础上做了润色部分。以及[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)，补齐了我们的审稿和审稿回复。
+11. 感谢[SilenceEagle](https://github.com/SilenceEagle/paper_downloader)提供的CCF-A的论文数据库，我们已经离线总结了3w+的论文了。
 
 ## 赞助我们
 
