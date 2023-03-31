@@ -35,9 +35,13 @@ class Response:
         self.config = configparser.ConfigParser()
         # 读取配置文件
         self.config.read('apikey.ini')
-        # 获取某个键对应的值        
+        OPENAI_KEY = os.environ.get("OPENAI_KEY", "")
+        # 获取某个键对应的值
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
-        self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
+        self.chat_api_list.append(OPENAI_KEY)
+
+        # prevent short strings from being incorrectly used as API keys.
+        self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 20]
         self.cur_api = 0
         self.file_format = args.file_format
         self.max_token_num = 4096
@@ -54,11 +58,9 @@ class Response:
 
         # 将审稿意见保存起来
         date_str = str(datetime.datetime.now())[:13].replace(' ', '-')
-        try:
-            export_path = os.path.join('./', 'response_file')
+        export_path = os.path.join('./', 'response_file')
+        if not os.path.exists(export_path):
             os.makedirs(export_path)
-        except:
-            pass
         file_name = os.path.join(export_path, date_str + '-Response.' + self.file_format)
         self.export_to_markdown("\n".join(htmls), file_name=file_name)
         htmls = []

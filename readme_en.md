@@ -128,9 +128,27 @@ After visiting http://127.0.0.1:5000/, you will see the homepage. On the homepag
 
 
 
-![image-20230331042557655](/Users/jessytsui/Library/Application Support/typora-user-images/image-20230331042557655.png)
+### 三、Running with Docker
 
+1. Install Docker and Docker Compose by following the links below:
 
+   https://yeasy.gitbook.io/docker_practice/install
+
+   https://yeasy.gitbook.io/docker_practice/compose/install
+
+2. Place the "docker-compose.yaml" file from the project's root directory in a suitable location, and replace `YOUR_KEY_HERE` with your own OpenAI key on line 21.
+
+3. Run the following command in the command line in the same directory:
+
+   ```
+   docker-compose up -d
+   ```
+
+4. If the interface looks like this, everything is working properly, and you can access it from a web page by visiting [https://127.0.0.1:28460](https://127.0.0.1:28460/)! ![docker-compose](/Users/jessytsui/PycharmProjects/ChatPaper/images/docker-compose.png)
+
++ If you have any ideas for improving the project, you can take a look at the functions of the "build.sh," "dev.sh," "tagpush.sh" scripts, and the files in the "docker" directory at the root level. We believe they will help you further enhance your ideas on containerization and project encapsulation.
+
+  
 
 ## Tips for using the project:
 

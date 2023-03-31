@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes:
+  chatpaper_log:
+  chatpaper_export:
+  chatpaper_pdf_files:
+  chatpaper_response_file:
+services:
+  chatpaper:
+    container_name: chatpaper
+    expose:
+      - 28460
+    ports:
+      - "28460:8088"
+    volumes:
+      - "chatpaper_log:/var/log"
+      - "chatpaper_export:/opt/chatpaper/export"
+      - "chatpaper_pdf_files:/opt/chatpaper/pdf_files"
+      - "chatpaper_response_file:/opt/chatpaper/response_file"
+    environment:
+      - OPENAI_KEY=YOUR_KEY_HERE
+    image: "panda1024/chatpaper:v1.0"
+    restart: always
