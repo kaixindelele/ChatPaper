@@ -27,7 +27,7 @@
         ·
       <a href="https://chatpaper.org/"><strong>在线体验</strong></a>
     </p>
-    
+
   </p>
 </div>
 
@@ -225,9 +225,27 @@ python3 app.py
 
 ![flask主界面](./images/flask_web_home.png)
 
+### 三、以docker形式运行
 
+1. 安装docker和docker-compose，可以参考以下链接
 
+   https://yeasy.gitbook.io/docker_practice/install
 
+   https://yeasy.gitbook.io/docker_practice/compose/install
+
+2. 找地方放项目根目录下的“docker-compose.yaml”文件，将21行的`YOUR_KEY_HERE`替换为自己的openai_key
+
+3. 在同级目录下在命令行运行
+
+   ```
+   docker-compose up -d
+   ```
+
+4. 这样的界面代表一些正常，随后访问https://127.0.0.1:28460就可以从网页上打开了![docker-compose](./images/docker-compose.png)
+
++ 特别的，如果有改进项目的想法，您可以查看 build.sh、dev.sh、tagpush.sh这三个脚本以及根目录docker目录下文件的作用，相信它们会对你容器化封装项目的思想有进一步提升
+
+  
 
 ## 在线部署
 
@@ -278,7 +296,7 @@ python3 app.py
 <p>(2):虽然本文提出了一种新的机器人视觉动作策略学习方法，并在实验中取得了良好的表现，但该方法的优化过程可能比较耗时。此外，该方法的性能受到多种因素的影响，包括演示的质量和数量、机器人的物理能力以及策略架构等，这些因素需在实际应用场景中加以考虑。</p>
 <p>(3):如果让我来推荐，我会给这篇文章打9分。该篇文章提出的Diffusion Policy方法具有较高的可解释性、性能表现良好、实验结果稳定等优点，能够为机器人视觉动作策略学习等领域带来很大的启发与借鉴。唯一的不足可能是方法的优化过程需要投入更多的时间和精力。</p>
 </details>
-  
+
 ## 使用技巧
 
 快速刷特定关键词的论文，不插图的话，每张篇文章需要花一分钟，阅读时间差不多一分钟。
