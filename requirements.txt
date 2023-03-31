@@ -8,3 +8,6 @@ Pillow==9.4.0
 openai==0.27.0
 markdown
 gradio==3.20.1
+flask==2.2.3
+flask-cors==3.0.10
+bs4==0.0.1
