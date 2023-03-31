@@ -327,6 +327,11 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 这种情况只能用新号了。另外一定要注意一个号尽量不要多刷，节点一定要靠谱，千万不能用大陆和香港的节点，用了就寄。
 
+4. Https通信错误：
+![KBVVRL`KI560X~$27GLDQYI](https://user-images.githubusercontent.com/28528386/229026391-7cfacf76-e18c-4ae3-a8d5-b8736e8dd056.jpg)
+
+这个报错大概率是节点不够干净。如果有大佬知道具体原因，欢迎挂issues
+
 ## 项目致谢
 
 本项目三天一千star的时刻，我补一下对这个项目的促成的各位致谢！
