@@ -29,9 +29,9 @@ def home():
     reviewer_url = url_for("reviewer", _external=True, paper_path="", file_format="txt",
                            research_fields="computer science, artificial intelligence and reinforcement learning",
                            language="en")
-
     return f'''
-    <h1>Flask 版本的优势</h1>
+    <h1>ChatPaper，Flask版本的优势</h1>
+    <p>GitHub 项目地址：<a href="https://github.com/kaixindelele/ChatPaper" target="_blank">https://github.com/kaixindelele/ChatPaper</a></p> 
     <p>将原始的 Python 脚本改为使用 Flask 构建的 Web 服务具有以下优点：</p>
     <ul>
         <li><strong>易用性</strong>：通过简单的 HTTP 请求，用户可以轻松访问和使用各个功能，无需在本地安装 Python 或其他依赖。</li>

@@ -128,7 +128,7 @@ After visiting http://127.0.0.1:5000/, you will see the homepage. On the homepag
 
 
 
-![image-20230331042557655](/Users/jessytsui/Library/Application Support/typora-user-images/image-20230331042557655.png)
+![flask_home_page](./images/flask_web_home.png)
 
 
 

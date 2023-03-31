@@ -223,7 +223,7 @@ python3 app.py
 
 访问 http://127.0.0.1:5000/ 后，您将看到主页。在主页上，您可以点击不同的链接来调用各种服务。您可以通过修改链接中的参数值来实现不同的效果。有关参数详细信息，请参阅上一步骤中的详细介绍
 
-![image-20230331042557655](/Users/jessytsui/Library/Application Support/typora-user-images/image-20230331042557655.png)
+![flask主界面](./images/flask_web_home.png)
 
 
 

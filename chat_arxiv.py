@@ -318,9 +318,13 @@ class Reader:
         self.config = configparser.ConfigParser()
         # 读取配置文件
         self.config.read('apikey.ini')
+        OPENAI_KEY = os.environ.get("OPENAI_KEY", "")
         # 获取某个键对应的值        
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
-        self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
+        self.chat_api_list.append(OPENAI_KEY)
+
+        # prevent short strings from being incorrectly used as API keys.
+        self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 20]
         self.cur_api = 0
         self.file_format = args.file_format
         if args.save_image:
@@ -458,7 +462,9 @@ class Reader:
 
             htmls.append('## Paper:' + str(paper_index + 1))
             htmls.append('\n\n\n')
-            htmls.append(chat_summary_text)
+            chat_summary_text = ""
+            if "chat_summary_text" in locals():
+                htmls.append(chat_summary_text)
 
             # 第二步总结方法：
             # TODO，由于有些文章的方法章节名是算法名，所以简单的通过关键词来筛选，很难获取，后面需要用其他的方案去优化。
@@ -487,7 +493,10 @@ class Reader:
                         offset = int(str(e)[current_tokens_index:current_tokens_index + 4])
                         method_prompt_token = offset + 800 + 150
                         chat_method_text = self.chat_method(text=text, method_prompt_token=method_prompt_token)
-                htmls.append(chat_method_text)
+                chat_method_text = ""
+                if "chat_method_text" in locals():
+                    htmls.append(chat_method_text)
+                # htmls.append(chat_method_text)
             else:
                 chat_method_text = ''
             htmls.append("\n" * 4)
@@ -521,16 +530,16 @@ class Reader:
                     conclusion_prompt_token = offset + 800 + 150
                     chat_conclusion_text = self.chat_conclusion(text=text,
                                                                 conclusion_prompt_token=conclusion_prompt_token)
-            htmls.append(chat_conclusion_text)
+            chat_conclusion_text = ""
+            if "chat_conclusion_text" in locals():
+                htmls.append(chat_conclusion_text)
             htmls.append("\n" * 4)
 
             # # 整合成一个文件，打包保存下来。
             date_str = str(datetime.datetime.now())[:13].replace(' ', '-')
-            try:
-                export_path = os.path.join(self.root_path, 'export')
+            export_path = os.path.join(self.root_path, 'export')
+            if not os.path.exists(export_path):
                 os.makedirs(export_path)
-            except:
-                pass
             mode = 'w' if paper_index == 0 else 'a'
             file_name = os.path.join(export_path,
                                      date_str + '-' + self.validateTitle(self.query) + "." + self.file_format)
