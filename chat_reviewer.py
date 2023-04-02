@@ -42,6 +42,7 @@ class Reviewer:
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 20]
         self.cur_api = 0
         self.file_format = args.file_format
+        self.research_fields = args.research_fields
         self.max_token_num = 4096
         self.encoding = tiktoken.get_encoding("gpt2")
 
@@ -95,7 +96,7 @@ class Reviewer:
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         messages = [
             {"role": "system",
-             "content": f"You are a professional reviewer in the field of {args.research_fields}. "
+             "content": f"You are a professional reviewer in the field of {self.research_fields}. "
                         f"I will give you a paper. You need to review this paper and discuss the novelty and originality of ideas, correctness, clarity, the significance of results, potential impact and quality of the presentation. "
                         f"Due to the length limitations, I am only allowed to provide you the abstract, introduction, conclusion and at most two sections of this paper."
                         f"Now I will give you the title and abstract and the headings of potential sections. "
@@ -132,7 +133,7 @@ class Reviewer:
             review_format = file.read()
         messages = [
             {"role": "system",
-             "content": "You are a professional reviewer in the field of " + args.research_fields + ". Now I will give you a paper. You need to give a complete review opinion according to the following requirements and format:" + review_format + " Please answer in {}.".format(
+             "content": "You are a professional reviewer in the field of " + self.research_fields + ". Now I will give you a paper. You need to give a complete review opinion according to the following requirements and format:" + review_format + " Please answer in {}.".format(
                  self.language)},
             {"role": "user", "content": input_text},
         ]
