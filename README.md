@@ -234,6 +234,10 @@ python3 app.py
 
 ![flask主界面](./images/flask_web_home.png)
 
++ 特别的，这四个接口实际是封装了根目录下四个脚本的 web 界面。参数可以通过链接来修改。例如要运行“arxiv?query=GPT-4&key_word=GPT+robot&page_num=1&max_results=1&days=1&sort=web&save_image=False&file_format=md&language=zh”的话，相当于在根目录下调用 chat_arxiv.py 并返回结果。这个显示的结果和在命令行中调用的结果是一样的（即：python chat_arxiv.py --query "GPT-4" --key_word "GPT robot" --page_num 1 --max_results 1 --days 1 --sort "web" --save_image False --file_format "md" --language "zh"）。您可以通过修改参数来获得其他搜索结果。
+
+  如果以这种方式部署的话，结果会保存在同级目录下新生成的export、pdf_files 和response_file三个文件夹里
+
 ### 三、以docker形式运行
 
 1. 安装docker和docker-compose，可以参考以下链接
@@ -254,6 +258,10 @@ python3 app.py
 
 + 特别的，如果有改进项目的想法，您可以查看 build.sh、dev.sh、tagpush.sh这三个脚本以及根目录docker目录下文件的作用，相信它们会对你容器化封装项目的思想有进一步提升
 
++ 所有的运行结果都被保存在 Docker 的 volumes 中，如果想以服务的形式长期部署，您可以将这些目录映射出来。默认情况下，它们位于 /var/lib/docker/volumes/ 下。您可以进入该目录并查看 chatpaper_log、chatpaper_export、chatpaper_pdf_files 和 chatpaper_response_file 四个相关文件夹中的结果。有关 Docker volumes 的详细解释，请参考此链接：http://docker.baoshu.red/data_management/volume.html。
+
+  
+  
   
 
 ## 在线部署
