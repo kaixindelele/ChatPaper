@@ -4,6 +4,8 @@
 </div>
 </br>
 
+💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：**[chat_arxiv_maomao](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py) </strong>
+
 🌿🌿🌿<strong>使用卡顿？请Fork到自己的Space，轻松使用：<a href="https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true"><img src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a></strong>
 
 💥💥💥<strong>面向全球，服务万千科研人的ChatPaper**免费网页版正式上线：**[https://chatpaper.org/](https://chatpaper.org/) </strong>
