@@ -4,10 +4,13 @@
 </div>
 </br>
 
-💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[chat_arxiv_maomao](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py) </strong>
+💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[chat_arxiv_maomao.py](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py) </strong>
 
 <details><summary><code>猫娘版总结</code></summary>
-![maomao](https://github.com/kaixindelele/ChatPaper/blob/main/images/maomao.png)
+  <div style="text-align: center;">
+  <img src="https://github.com/kaixindelele/ChatPaper/blob/main/images/home.png"/>
+</div>
+  
 </details>
 
 
@@ -20,7 +23,7 @@
 <h1 align="center">ChatPaper</h1>
 <div align="center">
   <a href="https://github.com/kaixindelele/ChatPaper">
-    <img src="https://github.com/kaixindelele/ChatPaper/blob/main/images/home.png" alt="Logo" height="210">
+    <img src="https://github.com/kaixindelele/ChatPaper/blob/main/images/home.png">
   </a>
 
   <p align="center">
