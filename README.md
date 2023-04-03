@@ -4,12 +4,7 @@
 </div>
 </br>
 
-💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[chat_arxiv_maomao.py](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py) </strong>
-
-<details><summary><code>猫娘版总结</code></summary>
-  <div style="text-align: center;">
-  <img src="https://github.com/kaixindelele/ChatPaper/blob/main/images/home.png"/>
-</div>
+💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[脚本：chat_arxiv_maomao.py](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py)， [总结图片](https://github.com/kaixindelele/ChatPaper/blob/main/images/maomao.png) </strong>
   
 </details>
 
