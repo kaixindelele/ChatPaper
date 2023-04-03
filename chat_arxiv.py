@@ -448,7 +448,7 @@ class Reader:
             text += 'Paper_info:' + paper.section_text_dict['paper_info']
             # intro
             text += list(paper.section_text_dict.values())[0]
-
+            chat_summary_text = ""
             try:
                 chat_summary_text = self.chat_summary(text=text)
             except Exception as e:
@@ -461,8 +461,7 @@ class Reader:
                     chat_summary_text = self.chat_summary(text=text, summary_prompt_token=summary_prompt_token)
 
             htmls.append('## Paper:' + str(paper_index + 1))
-            htmls.append('\n\n\n')
-            chat_summary_text = ""
+            htmls.append('\n\n\n')            
             if "chat_summary_text" in locals():
                 htmls.append(chat_summary_text)
 
@@ -473,7 +472,8 @@ class Reader:
                 if 'method' in parse_key.lower() or 'approach' in parse_key.lower():
                     method_key = parse_key
                     break
-
+            
+            chat_method_text = ""
             if method_key != '':
                 text = ''
                 method_text = ''
@@ -493,7 +493,7 @@ class Reader:
                         offset = int(str(e)[current_tokens_index:current_tokens_index + 4])
                         method_prompt_token = offset + 800 + 150
                         chat_method_text = self.chat_method(text=text, method_prompt_token=method_prompt_token)
-                chat_method_text = ""
+                
                 if "chat_method_text" in locals():
                     htmls.append(chat_method_text)
                 # htmls.append(chat_method_text)
@@ -512,6 +512,7 @@ class Reader:
             conclusion_text = ''
             summary_text = ''
             summary_text += "<summary>" + chat_summary_text + "\n <Method summary>:\n" + chat_method_text
+            chat_conclusion_text = ""
             if conclusion_key != '':
                 # conclusion                
                 conclusion_text += paper.section_text_dict[conclusion_key]
@@ -529,8 +530,7 @@ class Reader:
                     offset = int(str(e)[current_tokens_index:current_tokens_index + 4])
                     conclusion_prompt_token = offset + 800 + 150
                     chat_conclusion_text = self.chat_conclusion(text=text,
-                                                                conclusion_prompt_token=conclusion_prompt_token)
-            chat_conclusion_text = ""
+                                                                conclusion_prompt_token=conclusion_prompt_token)            
             if "chat_conclusion_text" in locals():
                 htmls.append(chat_conclusion_text)
             htmls.append("\n" * 4)
