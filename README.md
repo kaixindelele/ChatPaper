@@ -167,6 +167,20 @@ python chat_paper.py --pdf_path "demo.pdf"
 python chat_paper.py --pdf_path "your_absolute_path"
 ```
 
+4.6. 谷歌学术论文整理： 运行google_scholar_spider.py， 比如：
+
+```
+python google_scholar_spider.py --kw "deep learning" --nresults 30 --csvpath "./data" --sortby "cit/year" --plotresults 1
+```
+
+此命令在Google Scholar上搜索与“deep learning”相关的文章，检索30个结果，将结果保存到“./data”文件夹中的CSV文件中，按每年引用次数排序数据，并绘制结果。
+
+具体使用和参数请参考https://github.com/JessyTsu1/google_scholar_spider
+
+
+
+---
+
 另外注意，目前这个不支持**综述类**文章。
 
 B站讲解视频：[我把ChatPaper开源了！AI速读PDF论文和速通Arxiv论文](https://www.bilibili.com/video/BV1EM411x7Tr/)
