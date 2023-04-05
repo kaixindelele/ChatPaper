@@ -7,7 +7,9 @@
 
 ## [1/13] 程序概述: chat_arxiv_maomao.py
 
-该程序文件名为 `chat_arxiv_maomao.py`，其功能为使用 OpenAI API 进行聊天和从 arxiv 搜索引擎中查询论文信息，并将相应的论文保存为PDF格式和部分信息保存为图片格式。程序文件使用了许多 Python 的第三方库，如 arxiv、numpy、openai、fitz 等。程序中定义了 `ArxivParams` 以及 `Paper`、`Reader` 三个类，其中 `ArxivParams` 定义了从 arxiv 搜索论文时需要的各种参数；`Paper` 类用于解析 PDF 文件，提取论文信息并保存为本地 PDF 文件及多个图片文件，其中包括论文标题、pdf 路径、每个章节标题对应的 pdf 页码、每个章节的正文内容、摘要信息，以及保存为图片文件的论文第一页；`Reader` 类主要用于在 arxiv 搜索引擎中查询论文信息，根据查询信息和关键词得到论文列表，再根据列表中的论文信息获取论文 pdf 文件并保存。
+该程序文件名为 `chat_arxiv_maomao.py`，猫娘版chat_arxiv.py，其功能为使用 OpenAI API 进行聊天和从 arxiv 搜索引擎中查询论文信息，并将相应的论文保存为PDF格式和部分信息保存为图片格式。程序文件使用了许多 Python 的第三方库，如 arxiv、numpy、openai、fitz 等。程序中定义了 `ArxivParams` 以及 `Paper`、`Reader` 三个类，其中 `ArxivParams` 定义了从 arxiv 搜索论文时需要的各种参数；`Paper` 类用于解析 PDF 文件，提取论文信息并保存为本地 PDF 文件及多个图片文件，其中包括论文标题、pdf 路径、每个章节标题对应的 pdf 页码、每个章节的正文内容、摘要信息，以及保存为图片文件的论文第一页；`Reader` 类主要用于在 arxiv 搜索引擎中查询论文信息，根据查询信息和关键词得到论文列表，再根据列表中的论文信息获取论文 pdf 文件并保存。
+
+核心区别在于猫娘限定款，但目前的主要语句没有猫娘的韵味，希望大家一起帮忙调试出一个有灵魂的猫娘AI论文秘书！给你留一个pull的位置！
 
 ## [2/13] 程序概述: chat_paper.py
 
@@ -122,15 +124,15 @@ ChatPaper是一个文献管理工具，主要针对学术论文的查询、下�
 
 | 文件名 | 主要功能 |
 | ------ | -------- |
-| get_paper.py | 下载并解析PDF文件 |
-| chat_arxiv_maomao.py | 在arxiv中搜索查询论文信息 |
+| get_paper.py | 解析PDF文件的主要信息：标题，作者，章节 |
+| chat_arxiv_maomao.py | 在arxiv中搜索最新论文，并总结，猫娘款 |
 | chat_paper.py | 搜索，下载，管理学术论文 |
 | get_paper_from_pdf.py | 解析PDF文件 |
 | app.py | 论文文献和爬虫 |
-| chat_arxiv.py | 使用arxiv搜索引擎查询论文 |
+| chat_arxiv.py | 在arxiv中搜索最新论文，并总结 |
 | chat_response.py | 使用OpenAI API自动生成文献回复 |
 | chat_reviewer.py | 使用OpenAI API自动生成评审建议 |
-| google_scholar_spider.py | 从谷歌学术爬取论文摘要信息 |
+| google_scholar_spider.py | 从谷歌学术爬取论文摘要信息和引用数 |
 | Public/app.py | 提取PDF信息 |
 | Public/optimizeOpenAI.py | 自然语言处理概述 |
 | Private/app.py | 学术论文查询和管理 |
