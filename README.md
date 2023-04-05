@@ -402,6 +402,7 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 9. 还得感谢GitHub官方，帮我们这个项目列入了[热榜第五](https://github.com/trending)，获得了大量的关注！
 10. 后面我们整个项目流程打通，需要感谢同样是中科院的同学们开发的[chatgpt_academic](https://github.com/binary-husky/chatgpt_academic)，我们在他们的基础上做了润色部分。以及[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)，补齐了我们的审稿和审稿回复。
 11. 感谢[SilenceEagle](https://github.com/SilenceEagle/paper_downloader)提供的CCF-A的论文数据库，我们已经离线总结了3w+的论文了。
+12. 感谢里屋社区的开源和整理中文数据集[MNBVC](https://github.com/esbatmop/MNBVC)，希望国产中文大模型早日起飞！
 
 ## 赞助我们
 
