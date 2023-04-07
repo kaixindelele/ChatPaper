@@ -4,10 +4,10 @@
 </div>
 </br>
 
-💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[脚本：chat_arxiv_maomao.py](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py)， [总结图片](https://github.com/kaixindelele/ChatPaper/blob/main/images/maomao.png) </strong>
+
+💥💥💥<strong> 最近在开源众筹一个基于OpenReview的微调项目，欢迎大家一起搞事情：[ChatOpenReview](https://github.com/kaixindelele/ChatOpenReview)
   
 </details>
-
 
 🌿🌿🌿<strong>使用卡顿？请Fork到自己的Space，轻松使用：<a href="https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true"><img src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a></strong>
 
@@ -151,6 +151,10 @@ python chat_arxiv.py --query "chatgpt robot" --page_num 2 --max_results 3 --days
 ```python
 python chat_paper.py --query "all: reinforcement learning robot 2023" --filter_keys "reinforcement robot" --max_results 3
 ```
+
+💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[脚本：chat_arxiv_maomao.py](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py)， [总结图片](https://github.com/kaixindelele/ChatPaper/blob/main/images/maomao.png) </strong>
+  
+</details>
 
 4.3. Arxiv在线批量搜索+下载+总结+高级搜索+指定作者： 运行chat_paper.py， 比如：
 ```python
