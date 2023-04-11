@@ -53,6 +53,7 @@
 |ChatReviewer|利用ChatGPT对论文进行**预审稿**|访问[ShiwenNi/ChatReviewer](https://huggingface.co/spaces/ShiwenNi/ChatReviewer) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatrevierer.png" />|[原项目地址](https://github.com/nishiwen1214/ChatReviewer)|
 |ChatImprovement|利用ChatGPT对**论文初稿进行润色、翻译等**|访问[wangrongsheng/ChatImprovement](https://huggingface.co/spaces/wangrongsheng/ChatImprovement) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/ChatImprovement.png" />|[原项目地址](https://github.com/binary-husky/chatgpt_academic)|
 |ChatResponse|利用ChatGPT对**审稿人的提问进行回复**|访问[ShiwenNi/ChatResponse](https://huggingface.co/spaces/ShiwenNi/ChatResponse) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatresponse.jpg" />|[原项目地址](https://github.com/nishiwen1214/ChatReviewer)|
+|ChatGenTitle|利用百万arXiv论文元信息训练出来的论文题目生成模型，**根据论文摘要生成合适题目**|<a href="https://drive.google.com/file/d/1akrC4-YnYdiyD1_VK-92hncN7HS0FLf5/view?usp=sharing" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatgentitle.png" />|[原项目地址](https://github.com/WangRongsheng/ChatGenTitle)|
 
 > **所有功能免费，代码开源，大家放心使用！** 关于API如何获取，首先你得有一个没有被封的ChatGPT账号，然后[获取Api Key](https://chatgpt.cn.obiscr.com/blog/posts/2023/How-to-get-api-key/) ,填入即可！
 
