@@ -417,6 +417,11 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 
 这个报错大概率是节点不够干净。如果有大佬知道具体原因，欢迎挂issues
 
+[issue174](https://github.com/kaixindelele/ChatPaper/issues/174)提供的方案是：
+```python
+pip install urllib3==1.25.11
+```
+
 ## 项目致谢
 
 本项目三天一千star的时刻，我补一下对这个项目的促成的各位致谢！
