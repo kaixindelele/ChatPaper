@@ -11,3 +11,4 @@ gradio==3.20.1
 flask==2.2.3
 flask-cors==3.0.10
 bs4==0.0.1
+urllib3==1.25.11
