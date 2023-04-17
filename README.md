@@ -5,7 +5,7 @@
 </br>
 
 
-💥💥💥<strong> 为了降低AI审稿的学术伦理风险，我们增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg)，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。
+💥💥💥<strong> 为了降低AI审稿的学术伦理风险，我们增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg)，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。如果谁有更好的方法来限制少数人的不规范使用，欢迎留言，为科研界做一份贡献。
 </strong>
 
 💥💥💥<strong> 最近在开源众筹一个基于OpenReview的微调项目，欢迎大家一起搞事情：[ChatOpenReview](https://github.com/kaixindelele/ChatOpenReview)
