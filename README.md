@@ -5,7 +5,7 @@
 </br>
 
 
-💥💥💥<strong> 最近有同学提醒我们AI辅助审稿可能存在滥用的风险，我们今天做出了重大更新，希望各位老师同学在使用的时候，注意学术伦理和学术声誉！
+💥💥💥<strong> 为了降低AI审稿的学术伦理风险，我们增加了复杂的文字注入，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉！
 </strong>
 
 💥💥💥<strong> 最近在开源众筹一个基于OpenReview的微调项目，欢迎大家一起搞事情：[ChatOpenReview](https://github.com/kaixindelele/ChatOpenReview)
