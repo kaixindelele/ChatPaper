@@ -7,6 +7,7 @@ pybase64==1.2.3
 Pillow==9.4.0
 openai==0.27.0
 markdown
+jieba
 gradio==3.20.1
 flask==2.2.3
 flask-cors==3.0.10
