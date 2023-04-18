@@ -8,7 +8,7 @@ import argparse
 import configparser
 import json
 import tiktoken
-from get_paper_from_pdf import Paper
+from get_paper import Paper
 import jieba
 
 def contains_chinese(text):
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     parser.add_argument("--research_fields", type=str, default='computer science, artificial intelligence and reinforcement learning', help="the research fields of paper")
     parser.add_argument("--language", type=str, default='en', help="output lauguage, en or zh")
     
-    args = parser.parse_args()
+    reviewer_args = ReviewerParams(**vars(parser.parse_args()))
     start_time = time.time()
-    main(args=args)    
+    chat_reviewer_main(args=reviewer_args)
     print("review time:", time.time() - start_time)
