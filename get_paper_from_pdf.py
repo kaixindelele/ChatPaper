@@ -201,6 +201,45 @@ class Paper:
         # 返回所有找到的章节名称及它们在文档中出现的页码
         return section_page_dict
 
+    def deal_with_header_footer(self):
+        page_text = []
+        doc = self.pdf
+        for page_num in range(doc.page_count):
+            page = doc.load_page(page_num)
+            blocks = page.get_text("blocks")
+
+            # Detect the header and footer by analyzing the text
+            header_pattern = ""
+            footer_pattern = ""
+
+            header_index = []
+            footer_index = []
+            filtered_index = []
+            for block in blocks:
+                #(x0, y0, x1, y1, "lines in the block", block_no, block_type)
+                #block_type is 1 for an image block, 0 for text. 
+                #TODO  header 以及 footer 的识别可以采用机器学习来预测 未来的做法
+                #header block 
+                if block[1] < 50 and block[3] < 70:
+                    header_pattern += block[4]
+                    header_index.append(block[5])
+                    continue
+                #footer block
+                if block[1]> doc[page_num].rect.height - 120 and block[3] > doc[page_num].rect.height - 60:
+                    footer_pattern += block[4]
+                    footer_index.append(block[5])
+                    continue
+                if block[6] != 1:
+                    filtered_index.append(block[5])
+            # Filter out the header and footer text
+            if (not header_pattern) and (not footer_pattern):
+                for block in blocks:
+                    if block[6] != 1:
+                        page_text.append(block[4])
+            else:
+                # for i in filtered_index:
+                page_text.append(''.join([blocks[i][4] for i in filtered_index]))
+        return page_text
     def _get_all_page(self):
         """
         获取PDF文件中每个页面的文本信息，并将文本信息按照章节组织成字典返回。
@@ -211,9 +250,15 @@ class Paper:
         text = ''
         text_list = []
         section_dict = {}
+        section_page_dict_keys = list(self.section_page_dict.keys())
+
+        ##
+        # TODO 此处应该用标题切分内容，不应该是字符。
         
         # 再处理其他章节：
-        text_list = [page.get_text() for page in self.pdf]
+        #调用去除页眉页脚的函数
+        # text_list = [page.get_text() for page in self.pdf]
+        text_list = self.deal_with_header_footer()
         for sec_index, sec_name in enumerate(self.section_page_dict):
             print(sec_index, sec_name, self.section_page_dict[sec_name])
             if sec_index <= 0 and self.abs:
@@ -221,44 +266,74 @@ class Paper:
             else:
                 # 直接考虑后面的内容：
                 start_page = self.section_page_dict[sec_name]
-                if sec_index < len(list(self.section_page_dict.keys()))-1:
-                    end_page = self.section_page_dict[list(self.section_page_dict.keys())[sec_index+1]]
+                if sec_index < len(section_page_dict_keys)-1:
+                    end_page = self.section_page_dict[section_page_dict_keys[sec_index+1]]
                 else:
                     end_page = len(text_list)
                 print("start_page, end_page:", start_page, end_page)
                 cur_sec_text = ''
+                #如果本章在一页结束，则在本页进行切分
                 if end_page - start_page == 0:
-                    if sec_index < len(list(self.section_page_dict.keys()))-1:
-                        next_sec = list(self.section_page_dict.keys())[sec_index+1]
-                        if text_list[start_page].find(sec_name) == -1:
+                    #如果不是最后一个章节，在最后一页的方案
+                    if sec_index < len(section_page_dict_keys)-1:
+                        next_sec = section_page_dict_keys[sec_index+1]
+                        #找到章节名的起始位置
+                        start_i = text_list[start_page].find(sec_name)
+                        #如果没找到用大写找一下
+                        if start_i == -1:
                             start_i = text_list[start_page].find(sec_name.upper())
-                        else:
-                            start_i = text_list[start_page].find(sec_name)
-                        if text_list[start_page].find(next_sec) == -1:
+                            #如果还是找不到  赋值为0
+                            if start_i == -1:
+                                start_i = 0
+                        #找到下一章的字符位置  作为结束位置
+                        end_i = text_list[start_page].find(next_sec) 
+                        if end_i == -1:
                             end_i = text_list[start_page].find(next_sec.upper())
-                        else:
-                            end_i = text_list[start_page].find(next_sec)                        
+                            #如果还是找不到  赋值为最长
+                            if end_i == -1:
+                                end_i = len(text_list[start_page])                
                         cur_sec_text += text_list[start_page][start_i:end_i]
+                    else:
+                        #最后一个章节，在最后一页的处理方案
+                        #找到章节名的起始位置
+                        start_i = text_list[start_page].find(sec_name)
+                        #如果没找到用大写找一下
+                        if start_i == -1:
+                            start_i = text_list[start_page].find(sec_name.upper())
+                            #如果还是找不到  赋值为0
+                            if start_i == -1:
+                                start_i = 0
+                        cur_sec_text += text_list[page_i][start_i:]
                 else:
-                    for page_i in range(start_page, end_page):                    
+                    #如果该板块在下一页结束，结束页当中，到下一个章节之前， 的文本就消失了
+                    for page_i in range(start_page, end_page+1):                    
 #                         print("page_i:", page_i)
                         if page_i == start_page:
-                            if text_list[start_page].find(sec_name) == -1:
+                            #找到章节名的起始位置
+                            start_i = text_list[start_page].find(sec_name)
+                            #如果没找到用大写找一下
+                            if start_i == -1:
                                 start_i = text_list[start_page].find(sec_name.upper())
-                            else:
-                                start_i = text_list[start_page].find(sec_name)
+                            #如果还是找不到  赋值为0
+                            if start_i == -1:
+                                start_i = 0
                             cur_sec_text += text_list[page_i][start_i:]
                         elif page_i < end_page:
                             cur_sec_text += text_list[page_i]
+                        
                         elif page_i == end_page:
-                            if sec_index < len(list(self.section_page_dict.keys()))-1:
-                                next_sec = list(self.section_page_dict.keys())[sec_index+1]
-                                if text_list[start_page].find(next_sec) == -1:
+                            #如果不是最后一个章节
+                            if sec_index < len(section_page_dict_keys)-1:
+                                next_sec = section_page_dict_keys[sec_index+1]
+                                end_i = text_list[page_i].find(next_sec) 
+                                if end_i == -1:
                                     end_i = text_list[start_page].find(next_sec.upper())
-                                else:
-                                    end_i = text_list[start_page].find(next_sec)  
+                                    #如果还是找不到  赋值为最长
+                                    if end_i == -1:
+                                        end_i = len(text_list[page_i])    
                                 cur_sec_text += text_list[page_i][:end_i]
-                section_dict[sec_name] = cur_sec_text.replace('-\n', '').replace('\n', ' ')
+                                
+                section_dict[sec_name] = cur_sec_text.replace('-\n', '').replace('\n', ' ').replace('\xa0','')
         return section_dict
                 
 def main():
