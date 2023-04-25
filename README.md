@@ -194,7 +194,7 @@ python chat_paper.py --query "all: reinforcement learning robot 2023" --filter_k
 
 4.3. Arxiv在线批量搜索+下载+总结+高级搜索+指定作者： 运行chat_paper.py， 比如：
 ```python
-python chat_paper.py --query "ti: Sergey Levine" --filter_keys "reinforcement robot" --max_results 3
+python chat_paper.py --query "au: Sergey Levine" --filter_keys "reinforcement robot" --max_results 3
 ```
 
 4.4. 本地pdf总结： 运行chat_paper.py， 比如：
