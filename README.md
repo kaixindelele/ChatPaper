@@ -4,7 +4,7 @@
 </div>
 </br>
 
-💥💥💥<strong> 4.22 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个全新的AI辅助工具！敬请期待
+💥💥💥<strong> 4.22 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！第二个是综述文章归纳，后面会上线我们网页版。敬请期待
 </strong>
 
 💥💥💥<strong> 为了降低学术伦理风险，我们为Chat_Reviewer增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg)，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。如果谁有更好的方法来限制少数人的不规范使用，欢迎留言，为科研界做一份贡献。
