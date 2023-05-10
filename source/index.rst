@@ -8,6 +8,9 @@ Welcome to ChatPaper's documentation!
 
 Refine Your Writing, Elevate Your Ideas with **ChatPaper**.
 
+.. image:: ./_static/ChatPaper.png
+   :alt: Image of ChatPaper
+
 ChatPaper is a research tool that helps you read papers better by providing you with a platform to ease the pain of reading papers.
 
 .. note::
