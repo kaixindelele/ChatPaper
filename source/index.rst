@@ -10,7 +10,7 @@ Welcome to ChatPaper's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+| Refine Your Writing, Elevate Your Ideas with ChatPaper.
 
 Indices and tables
 ==================
