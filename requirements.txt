@@ -13,3 +13,7 @@ flask==2.2.3
 flask-cors==3.0.10
 bs4==0.0.1
 urllib3==1.25.11
+sphinx-markdown-tables
+sphinxemoji
+recommonmark
+sphinx-book-theme
