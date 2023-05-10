@@ -1,8 +1,9 @@
-Chat Paper Documentation
+Welcome to ChatPaper's Documentation!
 =====================================================
 
 .. toctree::
    :maxdepth: 2
    :numbered:
 
-   This is the documentation for the chat paper.
+index_page
+installation/installation
