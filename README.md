@@ -5,7 +5,7 @@
 </br>
 
 
-💥💥💥<strong>5.10 我们网页版的即将进行更新，现在的总结效果如链接所示：(Sergey Levine近两个月12篇文章总结-ChatPaperDaily6)[https://zhuanlan.zhihu.com/p/628338077] . 
+💥💥💥<strong>5.10 我们网页版的即将进行更新，现在的总结效果如链接所示：[Sergey Levine近两个月12篇文章总结-ChatPaperDaily6](https://zhuanlan.zhihu.com/p/628338077). 
  </strong>
 
 💥💥💥<strong>**唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/)，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU，第三方文档：https://chatpaper.readthedocs.io. 
