@@ -16,4 +16,4 @@ urllib3==1.25.11
 sphinx-markdown-tables
 sphinxemoji
 recommonmark
-sphinx-rtd-theme
+sphinx-book-theme

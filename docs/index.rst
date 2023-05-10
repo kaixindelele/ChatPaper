@@ -5,5 +5,5 @@ Welcome to ChatPaper's Documentation!
    :maxdepth: 2
    :numbered:
 
-index_page
-installation/installation
+    index_page
+    installation/installation
