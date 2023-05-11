@@ -4,7 +4,11 @@
 </div>
 </br>
 
-💥💥💥<strong>**唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/)，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU
+
+💥💥💥<strong>5.10 我们网页版的即将进行更新，现在的总结效果如链接所示：[Sergey Levine近两个月12篇文章总结-ChatPaperDaily6](https://zhuanlan.zhihu.com/p/628338077)，总结的内容更加全面且准确，更多的细节，更多的步骤，更多实验结果，且尽可能的降低瞎编. 
+ </strong>
+
+💥💥💥<strong>**唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/)，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU，第三方文档：https://chatpaper.readthedocs.io. 
  </strong>
  
 💥💥💥<strong> 4.22 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！第二个是综述文章归纳，后面会上线我们网页版。敬请期待
