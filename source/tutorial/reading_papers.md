@@ -1,10 +1,12 @@
 # Using ChatPaper to read papers
 
-Before running ChatPaper, you need to fill in your OpenAI API key in line 3 of `apikey.ini`. The key would only stay in your local machine so it is safe to use.
+Before running `ChatPaper`, you need to fill in your OpenAI API key in line 3 of `apikey.ini`. The key would only stay in your local machine so it is safe to use.
 
 For instance, it would done as follows:
 ```ini
+...
 OPENAI_API_KEYS = [sk-1234567890abcdefg] # input your API key here
+...
 ```
 
 ## Running ChatPaper in command line
@@ -22,7 +24,20 @@ usage: chat_paper.py [-h] [--pdf_path PATH] [--query QUERY] [--key_word KEYWORD]
 Detailed usage of each argument is as follows:
 
 - `--pdf_path`: Specifing the path for local PDF documents for the script to read. If not set, the script will search and download from arXiv directly.
-- `--query`: the query string used by ChatPaper to search for papers on arXiv. The query string can be in the following format: `ti: xx, au: xx, all: xx,` where `ti` stands for title, `au` stands for author, and `all` stands for all fields. For instance, `ti: chatgpt, au: robot` means searching for papers with title containing `chatgpt` and author containing `robot`.
+- `--query`: the query string used by ChatPaper to search for papers on arXiv. The query string can be in the following format: `ti: xx, au: xx, all: xx,` where `ti` stands for title, `au` stands for author, and `all` stands for all fields. For instance, `ti: chatgpt, au: robot` means searching for papers with title containing `chatgpt` and author containing `robot`. For more information about the query string, please refer to the following table:
+
+| Prefix | Description |
+| --- | --- |
+| ti | Title |
+| au | Author |
+| abs | Abstract |
+| co | Comment |
+| jr | Journal Reference |
+| cat | Subject Category |
+| rn | Report Number |
+| id | Id (use `id_list` instead) |
+| all | All of the above |
+
 - `--key_word`: the key word of user research fields. This argument is used to filter out papers that are not related to the user's research fields. For instance, if the user is interested in reinforcement learning, he/she can set `--key_word` to `reinforcement learning` so that ChatPaper will only summarize papers related to reinforcement learning.
 - `--language`: the language of the summary. Currently, ChatPaper supports two languages: Chinese and English. The default language is Chinese. To use English, simply set `--language` to `en`.
 - `--file_format`: the format of the exported file. Currently, ChatPaper supports two formats: Markdown and plain text. The default format is Markdown. To use plain text, simply set `--file_format` to `txt`.
@@ -71,8 +86,6 @@ python chat_paper.py --pdf_path "demo.pdf"
 ```bash
 python chat_paper.py --pdf_path "absolute_path_to_paper_folder"
 ```
-
-
 
 *Note:* The script currently only supports non-survey papers.
 
@@ -170,8 +183,8 @@ First, create your own Hugging Face account and log in to the [Hugging Face Hub]
 
 Then, go to the ChatPaper main repository: [https://huggingface.co/spaces/wangrongsheng/ChatPaper](https://huggingface.co/spaces/wangrongsheng/ChatPaper). You can see all the latest deployment code in the "Files and Version" section.
 
-*Optional:* For private deployment, click on "Duplicate this space" and in the pop-up page, select Visibility as "Private". Finally, click "Duplicate Space", and the Space code will be deployed to your own space. To make it more convenient for you to call without filling in the API key each time, you can modify line 845 of `app.py` with your own key: `default="sk-abcdxxxxxxxx"`, and click save to immediately redeploy;
+For private deployment, click on "Duplicate this space" and in the pop-up page, select Visibility as "Private". Finally, click "Duplicate Space", and the Space code will be deployed to your own space. To make it more convenient for you to call without filling in the API key each time, you can modify line 845 of `app.py` with your own key: `default="sk-abcdxxxxxxxx"`, and click save to immediately redeploy;
 
-*Optional:* For public deployment, click on "Duplicate this space" and in the pop-up page, select Visibility as "Public". Finally, click "Duplicate Space", and the Space code will be deployed to your own space, making it a public deployment.
+For public deployment, click on "Duplicate this space" and in the pop-up page, select Visibility as "Public". Finally, click "Duplicate Space", and the Space code will be deployed to your own space, making it a public deployment.
 
-Note: You can choose either public or private deployment based on your needs!
+*Note:* You can choose either public or private deployment based on your needs!
