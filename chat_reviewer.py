@@ -10,6 +10,18 @@ import json
 import tiktoken
 from get_paper import Paper
 import jieba
+from collections import namedtuple
+
+ReviewerParams = namedtuple(
+    "ReviewerParams",
+    [
+        "paper_path",
+        "file_format",
+        "research_fields",
+        "language"
+    ],
+)
+
 
 def contains_chinese(text):
     for ch in text:
@@ -188,7 +200,7 @@ class Reviewer:
             # 将html格式的内容写入文件
             f.write(text)                    
 
-def main(args):            
+def chat_reviewer_main(args):            
 
     reviewer1 = Reviewer(args=args)
     # 开始判断是路径还是文件：   
