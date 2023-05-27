@@ -453,6 +453,10 @@ class Reader:
                 chat_summary_text = self.chat_summary(text=text)
             except Exception as e:
                 print("summary_error:", e)
+                import sys
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)
                 if "maximum context" in str(e):
                     current_tokens_index = str(e).find("your messages resulted in") + len(
                         "your messages resulted in") + 1
@@ -485,6 +489,10 @@ class Reader:
                     chat_method_text = self.chat_method(text=text)
                 except Exception as e:
                     print("method_error:", e)
+                    import sys
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    print(exc_type, fname, exc_tb.tb_lineno)
                     if "maximum context" in str(e):
                         current_tokens_index = str(e).find("your messages resulted in") + len(
                             "your messages resulted in") + 1
@@ -518,6 +526,10 @@ class Reader:
                 chat_conclusion_text = self.chat_conclusion(text=text)
             except Exception as e:
                 print("conclusion_error:", e)
+                import sys
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)
                 if "maximum context" in str(e):
                     current_tokens_index = str(e).find("your messages resulted in") + len(
                         "your messages resulted in") + 1
