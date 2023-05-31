@@ -305,6 +305,7 @@ class Reader:
         # 获取某个键对应的值
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list.append(OPENAI_KEY)
+        self.chat_api_base = os.environ.get("OPENAI_API_BASE", self.config.get('OpenAI', 'OPENAI_API_BASE')[1:-1].replace('\'', ''))
 
         # prevent short strings from being incorrectly used as API keys.
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 20]
@@ -559,6 +560,7 @@ class Reader:
                     reraise=True)
     def chat_conclusion(self, text, conclusion_prompt_token=800):
         openai.api_key = self.chat_api_list[self.cur_api]
+        openai.api_base = self.chat_api_base
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
@@ -605,6 +607,7 @@ class Reader:
                     reraise=True)
     def chat_method(self, text, method_prompt_token=800):
         openai.api_key = self.chat_api_list[self.cur_api]
+        openai.api_base = self.chat_api_base
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
@@ -652,6 +655,7 @@ class Reader:
                     reraise=True)
     def chat_summary(self, text, summary_prompt_token=1100):
         openai.api_key = self.chat_api_list[self.cur_api]
+        openai.api_base = self.chat_api_base
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
