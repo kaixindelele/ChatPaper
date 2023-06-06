@@ -5,3 +5,5 @@ __pycache__/
 *.pyc
 # Ignore all build directories
 build/
+.idea
+.idea/*
