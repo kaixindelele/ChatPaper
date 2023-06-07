@@ -21,7 +21,7 @@ from PIL import Image
 class Paper:
     def __init__(self, path, title='', url='', abs='', authers=[]):
         # 初始化函数，根据pdf路径初始化Paper对象                
-        self.url =  url           # 文章链接
+        self.url = url           # 文章链接
         self.path = path          # pdf路径
         self.section_names = []   # 段落标题
         self.section_texts = {}   # 段落内容    
@@ -308,6 +308,17 @@ class Reader:
 
         # prevent short strings from being incorrectly used as API keys.
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 20]
+        self.chatgpt_model = self.config.get('OpenAI', 'CHATGPT_MODEL')
+
+        # 如果已经设置了OpenAI key, 则不使用Azure Interface
+        if not self.chat_api_list:
+            self.chat_api_list.append(self.config.get('AzureOPenAI', 'OPENAI_API_KEYS'))
+            self.chatgpt_model = self.config.get('AzureOPenAI', 'CHATGPT_MODEL')
+
+            openai.api_base = self.config.get('AzureOPenAI', 'OPENAI_API_BASE')
+            openai.api_type = 'azure'
+            openai.api_version = self.config.get('AzureOPenAI', 'OPENAI_API_VERSION')
+
         self.cur_api = 0
         self.file_format = args.file_format
         if args.save_image:
@@ -585,11 +596,19 @@ class Reader:
                  Be sure to use {} answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
                  """.format(self.language, self.language)},
         ]
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            # prompt需要用英语替换，少占用token。
-            messages=messages,
-        )
+
+        if openai.api_type == 'azure':
+            response = openai.ChatCompletion.create(
+                engine=self.chatgpt_model,
+                # prompt需要用英语替换，少占用token。
+                messages=messages,
+            )
+        else:
+            response = openai.ChatCompletion.create(
+                model=self.chatgpt_model,
+                # prompt需要用英语替换，少占用token。
+                messages=messages,
+            )
         result = ''
         for choice in response.choices:
             result += choice.message.content
@@ -633,10 +652,18 @@ class Reader:
                  Be sure to use {} answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
                  """.format(self.language, self.language)},
         ]
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-        )
+        if openai.api_type == 'azure':
+            response = openai.ChatCompletion.create(
+                engine=self.chatgpt_model,
+                # prompt需要用英语替换，少占用token。
+                messages=messages,
+            )
+        else:
+            response = openai.ChatCompletion.create(
+                model=self.chatgpt_model,
+                # prompt需要用英语替换，少占用token。
+                messages=messages,
+            )
         result = ''
         for choice in response.choices:
             result += choice.message.content
@@ -689,10 +716,18 @@ class Reader:
                  """.format(self.language, self.language, self.language)},
         ]
 
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-        )
+        if openai.api_type == 'azure':
+            response = openai.ChatCompletion.create(
+                engine=self.chatgpt_model,
+                # prompt需要用英语替换，少占用token。
+                messages=messages,
+            )
+        else:
+            response = openai.ChatCompletion.create(
+                model=self.chatgpt_model,
+                # prompt需要用英语替换，少占用token。
+                messages=messages,
+            )
         result = ''
         for choice in response.choices:
             result += choice.message.content
