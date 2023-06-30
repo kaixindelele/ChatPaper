@@ -463,3 +463,18 @@ pip install urllib3==1.25.11
 <a href="https://github.com/kaixindelele/ChatPaper/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=kaixindelele/ChatPaper" />
 </a>
+
+
+## 项目引用：
+Please cite the repo if you use the data or code in this repo.
+
+```
+@misc{ChatPaper,
+  author={Yongle Luo, Rongsheng Wang, Peter Gam, Jiaxi Cui, circlestarzero, Shiwen Ni, Jaseon Quanta, Qingxu Fu, Siyuan Hou},
+  title = {ChatPaper: Use LLM to summarize papers.},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/kaixindelele/ChatPaper}},
+}
+```
