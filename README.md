@@ -4,6 +4,12 @@
 </div>
 </br>
 
+💥💥💥<strong> 7.5号，昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。
+
+已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
+
+ </strong>
+
 
 💥💥💥<strong> 7.4号，炸裂，我已经取消了这个服务了，刚开始，openai就大批量封号，心态炸裂。首登就封的几位同学麻烦QQ联系我。
 
