@@ -1,0 +1,37 @@
+\documentclass{article} % For LaTeX2e
+\UseRawInputEncoding
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{times}
+\usepackage{eso-pic} % used by \AddToShipoutPicture
+\RequirePackage{fancyhdr}
+\RequirePackage{natbib}
+\usepackage{fullpage}
+
+\input{math_commands.tex} 
+\usepackage{hyperref}
+\usepackage{url} 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\title{Reinforcement Learning for Robot Control} 
+\author{gpt-3.5-turbo-16k}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}} 
+ 
+\begin{document} 
+\maketitle
+
+\input{related works.tex}
+
+\bibliography{ref}
+\bibliographystyle{dinat}
+
+
+\end{document}
