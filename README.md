@@ -70,7 +70,8 @@
 
 |工具名称|工具作用|是否在线？|在线预览|备注|
 |:-|:-|:-|:-|:-|
-|ChatPaper|通过ChatGPT实现对**论文进行总结，帮助科研人进行论文初筛**|访问[wangrongsheng/ChatPaper](https://chatpaper.org/) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatpaper_0317.png" />|[原项目地址](https://github.com/kaixindelele/ChatPaper)|
+|ChatPaper|通过ChatGPT实现对**论文进行总结，帮助科研人进行论文初筛**|访问[chatpaper.org](https://chatpaper.org/) 使用|![F LJTRX$DNFU`KR M7{E6Q](https://github.com/kaixindelele/ChatPaper/assets/28528386/ceda14e8-7330-40d2-859e-0d39d99a2dfb)
+ />|[原项目地址](https://github.com/kaixindelele/ChatPaper)|
 |ChatReviewer|利用ChatGPT对论文进行**优缺点分析，提出改进建议**|访问[ShiwenNi/ChatReviewer](https://huggingface.co/spaces/ShiwenNi/ChatReviewer) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatrevierer.png" />|[原项目地址](https://github.com/nishiwen1214/ChatReviewer)|
 |ChatImprovement|利用ChatGPT对**论文初稿进行润色、翻译等**|访问[qingxu98/gpt-academic](https://huggingface.co/spaces/qingxu98/gpt-academic) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/ChatImprovement.png" />|[原项目地址](https://github.com/binary-husky/chatgpt_academic)|
 |ChatResponse|利用ChatGPT对**审稿人的提问进行回复**|访问[ShiwenNi/ChatResponse](https://huggingface.co/spaces/ShiwenNi/ChatResponse) 使用|<img alt="Animation Demo" src="https://github.com/kaixindelele/ChatPaper/blob/main/images/chatresponse.jpg" />|[原项目地址](https://github.com/nishiwen1214/ChatReviewer)|
