@@ -273,23 +273,23 @@ class Paper:
                             end_i = text_list[start_page].find(next_sec)
                         cur_sec_text += text_list[start_page][start_i:end_i]
                 else:
-                    for page_i in range(start_page, end_page):
+                    for page_i in range(start_page, end_page+1):
                         #                         print("page_i:", page_i)
                         if page_i == start_page:
                             if text_list[start_page].find(sec_name) == -1:
-                                start_i = text_list[start_page].find(sec_name.upper())
+                                start_i = text_list[page_i].find(sec_name.upper())
                             else:
-                                start_i = text_list[start_page].find(sec_name)
+                                start_i = text_list[page_i].find(sec_name)
                             cur_sec_text += text_list[page_i][start_i:]
                         elif page_i < end_page:
                             cur_sec_text += text_list[page_i]
                         elif page_i == end_page:
                             if sec_index < len(list(self.section_page_dict.keys())) - 1:
                                 next_sec = list(self.section_page_dict.keys())[sec_index + 1]
-                                if text_list[start_page].find(next_sec) == -1:
-                                    end_i = text_list[start_page].find(next_sec.upper())
+                                if text_list[page_i].find(next_sec) == -1:
+                                    end_i = text_list[page_i].find(next_sec.upper())
                                 else:
-                                    end_i = text_list[start_page].find(next_sec)
+                                    end_i = text_list[page_i].find(next_sec)
                                 cur_sec_text += text_list[page_i][:end_i]
                 section_dict[sec_name] = cur_sec_text.replace('-\n', '').replace('\n', ' ')
         return section_dict
