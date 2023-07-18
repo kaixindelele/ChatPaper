@@ -233,6 +233,13 @@ python google_scholar_spider.py --kw "deep learning" --nresults 30 --csvpath "./
 具体使用和参数请参考https://github.com/JessyTsu1/google_scholar_spider
 
 
+4.7. Gitee图床的配置教程（选配，比较麻烦）
+
+效果和配置视频：https://www.bilibili.com/video/BV1Rh4y1173t/
+教程文章：https://zhuanlan.zhihu.com/p/644326031
+
+
+
 
 ---
 
