@@ -144,7 +144,7 @@ After visiting http://127.0.0.1:5000/, you will see the homepage. On the homepag
    docker-compose up -d
    ```
 
-4. If the interface looks like this, everything is working properly, and you can access it from a web page by visiting [https://127.0.0.1:28460](https://127.0.0.1:28460/)! ![docker-compose](/Users/jessytsui/PycharmProjects/ChatPaper/images/docker-compose.png)
+4. If the interface looks like this, everything is working properly, and you can access it from a web page by visiting [http://127.0.0.1:28460](http://127.0.0.1:28460/)! ![docker-compose](/Users/jessytsui/PycharmProjects/ChatPaper/images/docker-compose.png)
 
 + If you have any ideas for improving the project, you can take a look at the functions of the "build.sh," "dev.sh," "tagpush.sh" scripts, and the files in the "docker" directory at the root level. We believe they will help you further enhance your ideas on containerization and project encapsulation.
 
