@@ -6,7 +6,7 @@
 
 
 💥💥💥<strong>7.22 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
-增加全新的本地PDF全文翻译功能！
+增加全新的本地PDF全文翻译功能！有空再写配置教程。
  </strong>
 
 <details><summary><code><b>历史重大更新</b></code></summary>
@@ -85,7 +85,7 @@
 
 
 ## 最新讯息
-- 🌟*2023.07.22*: 增加全新的本地PDF全文翻译功能！
+- 🌟*2023.07.22*: 增加全新的本地PDF全文翻译功能！有空再写配置教程。
 - 🌟*2023.07.21*: 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
 - 🌟*2023.07.09*: 师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能. 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
 - 🌟*2023.07.05*: 昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
