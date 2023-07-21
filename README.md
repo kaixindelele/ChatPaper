@@ -368,9 +368,9 @@ python3 app.py
 
 </details>
 
-## 解析示例
+## 全文总结示例
 
-<details><summary><code><b>查看解析结果</b></code></summary>
+<details><summary><code><b>查看全文总结结果</b></code></summary>
 
 <h2>Paper:1</h2>
 <ol>
