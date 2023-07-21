@@ -683,7 +683,6 @@ pip install urllib3==1.25.11
 
 ## 项目致谢
 
-本项目三天一千star的时刻，我补一下对这个项目的促成的各位致谢！
 1. 群友和实验室同学的技术支持和大量转发！还有张老板和化老板的出谋划策。
 2. [Siyuan](https://github.com/HouSiyuan2001)同学在我开始项目的时候，分享了两个核心函数，节省了很多时间。
 3. [rongsheng](https://github.com/WangRongsheng)同学的在线网站，让这个项目可以使得更多的技术小白，可以尝试。
@@ -698,6 +697,7 @@ pip install urllib3==1.25.11
 10. 后面我们整个项目流程打通，需要感谢同样是中科院的同学们开发的[chatgpt_academic](https://github.com/binary-husky/chatgpt_academic)，我们在他们的基础上做了润色部分。以及[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)，补齐了我们的审稿和审稿回复。
 11. 感谢[SilenceEagle](https://github.com/SilenceEagle/paper_downloader)提供的CCF-A的论文数据库，我们已经离线总结了3w+的论文了。
 12. 感谢里屋社区的开源和整理中文数据集[MNBVC](https://github.com/esbatmop/MNBVC)，希望国产中文大模型早日起飞！
+13. 感谢一路以来，所有对项目支持和本人提供帮助的朋友！
 
 
 ## Starchart
