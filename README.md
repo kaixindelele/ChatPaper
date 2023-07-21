@@ -69,7 +69,7 @@
 
 - [💥最新讯息](#最新讯息)
 - [💫开发动机](#开发动机)
-- [⛏️使用步骤](#使用步骤)
+- [⛏️配置教程](#配置教程)
 - [👷‍♂️在线部署](#在线部署)
 - [📄解析示例](#解析示例)
 - [👁️‍🗨️使用技巧](#使用技巧)
@@ -158,7 +158,10 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 </details>
 
 
-## 使用步骤
+## 配置教程
+
+<details><summary><code><b>配置教程细节</b></code></summary>
+
 
 ### 一、以脚本方式运行
 
@@ -274,6 +277,10 @@ parser.add_argument("--sort", default=arxiv.SortCriterion.Relevance, help="anoth
 parser.add_argument("--save_image", default=False, help="save image? It takes a minute or two to save a picture! But pretty")
 parser.add_argument("--file_format", type=str, default='md', help="导出的文件格式，如果存图片的话，最好是md，如果不是的话，txt的不会乱")
 ```
+
+
+</details>
+
 
 ### 二、 以Flask服务运行
 
