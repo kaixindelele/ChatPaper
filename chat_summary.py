@@ -80,21 +80,21 @@ def chat_translate_part(text, key, title=False, domain="", tokenizer_gpt35=None)
             {"role": "system",
                 "content": "You are now a professional Science and technology editor"},
             {"role": "assistant",
-                "content": "Your task now is to translate the Input Contents, which a section, part of a paper, the paper is about "+ domain},
+                "content": "Your task now is to summary the Input Contents, which a section, part of a paper, the paper is about "+ domain},
             {"role": "user", "content": "Input include section name and section text, Input Contents:" + text +                
                 """
-                你的任务是口语化翻译输入的论文章节.                            
+                你的任务是口语化总结输入的论文章节.                            
                 
                 你的输出内容格式需要遵循下面的要求：
-                1. ## 章节名称，中文翻译(Original English section name)
-                2. 章节内容的翻译
+                1. ## 章节名称，中文总结(Original English section name)
+                2. 章节内容的总结
                 
-                翻译的内容要遵循下面的要求：
+                总结的内容要遵循下面的要求：
                 1. 在保证术语严谨的同时，文字表述需要更加口语化。
-                2. 需要地道的中文翻译，逻辑清晰且连贯。
+                2. 需要地道的中文总结，逻辑清晰且连贯。
                 3. 少用倒装句式，要方便中国读者阅读，需要地道的中文。
                 4. 对于简短的Input Contents，不要画蛇添足，增加多余的解释和扩展。
-                5. 对于专业领域的术语，需要加上英文标注。比如 temperature (温度)等，翻译时，需要同时提供中英文。
+                5. 对于专业领域的术语，需要加上英文标注。比如 temperature (温度)等，总结时，需要同时提供中英文。
                 6. 适当使用markdown语法，比如列表等。
                                                                                 
                 Output format is (你需要根据上面的要求，自动填充xxx和yyy的占位符):
@@ -220,7 +220,9 @@ def main(root_path, pdf_path, key):
 
 
 if __name__ == "__main__":
+    # 只修改了一个关键词，获得了全文总结的一个版本，大家猜猜修改了什么？
     root_path = r'./'
     pdf_path = r'./demo.pdf'
+
     key = "sk-xxxx"
     main(root_path, pdf_path, key)
