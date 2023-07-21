@@ -616,6 +616,9 @@ SPOT的主要限制是虽然中间奖励可能稀疏，但仍然是必要的。�
 
 ## 使用技巧
 
+<details><summary><code><b>查看使用技巧</b></code></summary>
+
+
 快速刷特定关键词的论文，不插图的话，每张篇文章需要花一分钟，阅读时间差不多一分钟。
 
 本项目可以用于跟踪领域最新论文，或者关注其他领域的论文，可以批量生成总结，最大可生成1000（如果你能等得及的话）。
@@ -631,7 +634,11 @@ SPOT的主要限制是虽然中间奖励可能稀疏，但仍然是必要的。�
 和上面这两个工具的主要优势在于，ChatPaper可以批量自动总结最新论文，可以极大的降低阅读门槛，尤其是我们国人。
 缺点也很明显，ChatPaper没有交互功能，不能连续提问，但我觉得这个重要性不大~
 
+</details>
+
 ## 常见报错
+
+<details><summary><code><b>查看常见报错</b></code></summary>
 
 1. pip 安装错误：
 ![pip error](https://user-images.githubusercontent.com/28528386/224949301-5871610a-dd8e-4c44-b412-174ce593ad3d.png)
@@ -671,6 +678,8 @@ os.environ["https_proxy"] = "http://<代理ip>:<代理端口>"
 ```python
 pip install urllib3==1.25.11
 ```
+
+</details>
 
 ## 项目致谢
 
