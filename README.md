@@ -215,7 +215,7 @@ python chat_paper.py --query "all: reinforcement learning robot 2023" --filter_k
 
 💥💥💥<strong>7K星了，发布一个猫娘版提示词，希望大家一起让猫娘活起来~：[脚本：chat_arxiv_maomao.py](https://github.com/kaixindelele/ChatPaper/blob/main/chat_arxiv_maomao.py)， [总结图片](https://github.com/kaixindelele/ChatPaper/blob/main/images/maomao.png) </strong>
   
-</details>
+
 
 4.3. Arxiv在线批量搜索+下载+总结+高级搜索+指定作者： 运行chat_paper.py， 比如：
 ```python
