@@ -11,30 +11,16 @@
 
 <details><summary><code><b>历史重大更新</b></code></summary>
 
-💥💥💥<strong> 7.9号，师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能。
+- 🌟*2023.07.09*: 师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能. 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
+- 🌟*2023.07.05*: 昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
+- 🌟*2023.04.30*: **唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/) ，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU， 第三方文档：https://chatpaper.readthedocs.io . 
+- 🌟*2023.04.22*: 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！
+- 🌟*2023.04.17*: 为了降低学术伦理风险，我们为Chat_Reviewer增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg) ，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。如果谁有更好的方法来限制少数人的不规范使用，欢迎留言，为科研界做一份贡献。
+- 🌟*2023.03.31*: 目前已经离线总结了3w+的CCF-A会议论文了，以后大家可以不用等那么久了！
+- 🌟*2023.03.28*: 荣胜同学今天发布了一个非常有意思的工作[ChatGenTitle](https://github.com/WangRongsheng/ChatGenTitle)，提供摘要生成标题，基于220wArXiv论文的数据微调的结果！
+- 🌟*2023.03.23*: chat_arxiv.py可以从arxiv网站，根据关键词，最近几天，几篇论文，直接爬取最新的领域论文了！解决了之前arxiv包的搜索不准确问题！
+- 🌟*2023.03.23*: ChatPaper终于成为完成体了！现在已经有论文总结+论文润色+论文分析与改进建议+论文审稿回复等功能了！
 
-适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
-
- </strong>
-
-💥💥💥<strong> 7.5号，昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。
-
-已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
-
- </strong>
-
-💥💥💥<strong>**唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/) ，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU， 第三方文档：https://chatpaper.readthedocs.io . 
- </strong>
- 
-💥💥💥<strong> 4.22 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！
-</strong>
-
-💥💥💥<strong> 为了降低学术伦理风险，我们为Chat_Reviewer增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg) ，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。如果谁有更好的方法来限制少数人的不规范使用，欢迎留言，为科研界做一份贡献。
-</strong>
-
-🌿🌿🌿<strong>使用卡顿？请Fork到自己的Space，轻松使用：<a href="https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true"><img src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a></strong>
-
-💥💥💥<strong>荣胜同学今天发布了一个非常有意思的工作[ChatGenTitle](https://github.com/WangRongsheng/ChatGenTitle)，提供摘要生成标题，基于220wArXiv论文的数据微调的结果！ </strong>
 
 </details>
 
@@ -95,7 +81,13 @@
 
 
 ## 最新讯息
+- 🌟*2023.07.09*: 师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能. 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
+- 🌟*2023.07.05*: 昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
+- 🌟*2023.04.30*: **唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/) ，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU， 第三方文档：https://chatpaper.readthedocs.io . 
+- 🌟*2023.04.22*: 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！
+- 🌟*2023.04.17*: 为了降低学术伦理风险，我们为Chat_Reviewer增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg) ，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。如果谁有更好的方法来限制少数人的不规范使用，欢迎留言，为科研界做一份贡献。
 - 🌟*2023.03.31*: 目前已经离线总结了3w+的CCF-A会议论文了，以后大家可以不用等那么久了！
+- 🌟*2023.03.28*: 荣胜同学今天发布了一个非常有意思的工作[ChatGenTitle](https://github.com/WangRongsheng/ChatGenTitle)，提供摘要生成标题，基于220wArXiv论文的数据微调的结果！
 - 🌟*2023.03.23*: chat_arxiv.py可以从arxiv网站，根据关键词，最近几天，几篇论文，直接爬取最新的领域论文了！解决了之前arxiv包的搜索不准确问题！
 - 🌟*2023.03.23*: ChatPaper终于成为完成体了！现在已经有论文总结+论文润色+论文分析与改进建议+论文审稿回复等功能了！
 
