@@ -389,14 +389,6 @@ class Reader:
         print("-" * 40)
         return title_list, link_list, date_list
 
-    def get_arxiv(self, max_results=30):
-        search = arxiv.Search(query=self.query,
-                              max_results=max_results,
-                              sort_by=self.sort,
-                              sort_order=arxiv.SortOrder.Descending,
-                              )
-        return search
-
     def get_arxiv_web(self, args, page_num=1, days=2):
         titles, links, dates = self.get_all_titles_from_web(args.query, page_num=page_num, days=days)
         paper_list = []
