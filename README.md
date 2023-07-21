@@ -9,6 +9,8 @@
 并且，我本地更新了全文总结的脚本，以及本地PDF全文翻译的脚本，正在考虑是否开源。
  </strong>
 
+<details><summary><code><b>历史重大更新</b></code></summary>
+
 💥💥💥<strong> 7.9号，师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能。
 
 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
@@ -33,6 +35,8 @@
 🌿🌿🌿<strong>使用卡顿？请Fork到自己的Space，轻松使用：<a href="https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true"><img src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a></strong>
 
 💥💥💥<strong>荣胜同学今天发布了一个非常有意思的工作[ChatGenTitle](https://github.com/WangRongsheng/ChatGenTitle)，提供摘要生成标题，基于220wArXiv论文的数据微调的结果！ </strong>
+
+</details>
 
 <h1 align="center">ChatPaper</h1>
 <div align="center">
@@ -98,6 +102,10 @@
 
 ## 开发动机
 
+
+<details><summary><code><b>开发动机细节</b></code></summary>
+
+
 面对每天海量的arxiv论文，以及AI极速的进化，我们人类必须也要一起进化才能不被淘汰。
 
 作为中科大强化学习方向的博士生，我深感焦虑，现在AI的进化速度，我开脑洞都赶不上。
@@ -111,6 +119,9 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 也可以提供本地的PDF文档地址，直接处理。
 
 一般一个晚上就可以速通一个小领域的最新文章。我自己测试了两天了。
+
+</details>
+
 
 祝大家在这个极速变化的时代中，能够和AI一起进化！
 
@@ -129,6 +140,9 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 欢迎大家加入光荣的进化！
 
 ## 技术原理：
+
+
+<details><summary><code><b>技术原理细节</b></code></summary>
 
 论文总结遵循下面四个问题：
 
@@ -152,6 +166,8 @@ ChatPaper是一款论文总结工具。AI用一分钟总结论文，用户用一
 分三次总结和喂入，如果每个部分超过了长度，则截断（目前这个方案太粗暴了，但也没有更好的更优雅的方案）
 
 作为初筛，勉强够用。
+
+</details>
 
 
 ## 使用步骤
@@ -273,6 +289,10 @@ parser.add_argument("--file_format", type=str, default='md', help="导出的文�
 
 ### 二、 以Flask服务运行
 
+<details><summary><code><b>Flask配置教程</b></code></summary>
+
+注意：更新版本后，可能有路径的报错
+
 1. 下载项目并进入项目目录
 
 ```text
@@ -312,9 +332,15 @@ python3 app.py
 
 + 特别的，这四个接口实际是封装了根目录下四个脚本的 web 界面。参数可以通过链接来修改。例如要运行“arxiv?query=GPT-4&key_word=GPT+robot&page_num=1&max_results=1&days=1&sort=web&save_image=False&file_format=md&language=zh”的话，相当于在根目录下调用 chat_arxiv.py 并返回结果。这个显示的结果和在命令行中调用的结果是一样的（即：python chat_arxiv.py --query "GPT-4" --key_word "GPT robot" --page_num 1 --max_results 1 --days 1 --sort "web" --save_image False --file_format "md" --language "zh"）。您可以通过修改参数来获得其他搜索结果。
 
-  如果以这种方式部署的话，结果会保存在同级目录下新生成的export、pdf_files 和response_file三个文件夹里
+如果以这种方式部署的话，结果会保存在同级目录下新生成的export、pdf_files 和response_file三个文件夹里
+
+</details>
 
 ### 三、以docker形式运行
+
+<details><summary><code><b>Docker配置教程细节</b></code></summary>
+
+注意：Docker的路径也被我打乱了，很可能存在问题，不推荐尝试。
 
 1. 安装docker和docker-compose，可以参考以下链接
 
@@ -336,8 +362,14 @@ python3 app.py
 
 + 所有的运行结果都被保存在 Docker 的 volumes 中，如果想以服务的形式长期部署，您可以将这些目录映射出来。默认情况下，它们位于 /var/lib/docker/volumes/ 下。您可以进入该目录并查看 chatpaper_log、chatpaper_export、chatpaper_pdf_files 和 chatpaper_response_file 四个相关文件夹中的结果。有关 Docker volumes 的详细解释，请参考此链接：http://docker.baoshu.red/data_management/volume.html。
 
+</details>
     
-## 在线部署
+## HuggingFace在线部署
+
+<details><summary><code><b>HuggingFace在线部署细节</b></code></summary>
+
+注意：这部分也是一样，功能暂时被废掉了，建议大家直接使用chatwithpaper.org的网页版。
+
 
 1. 在[Hugging Face](https://huggingface.co/) 创建自己的个人账号并登录；
 2. 进入ChatPaper主仓库：[https://huggingface.co/spaces/wangrongsheng/ChatPaper](https://huggingface.co/spaces/wangrongsheng/ChatPaper) ，您可以在[Files and Version](https://huggingface.co/spaces/wangrongsheng/ChatPaper/tree/main) 看到所有的最新部署代码；
@@ -346,9 +378,12 @@ python3 app.py
 
 > 注：公有化部署和私有化部署根据你的需求二选一即可！
 
+</details>
+
 ## 解析示例
 
-<details><summary><code>查看解析结果</code></summary>
+<details><summary><code><b>查看解析结果</b></code></summary>
+
 <h2>Paper:1</h2>
 <ol>
 <li>
