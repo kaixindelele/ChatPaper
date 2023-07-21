@@ -13,6 +13,10 @@ python_version: 3.10.10
 
 
 # 部署方法
+首先，下载chatpaper整个项目后，打开项目时，打开的是auto_survey这个文件夹。
+
+因为这两个项目互相独立，如果打开的是chatpaper文件夹，会导致路径不对！
+
 1. 安装依赖：
 ```angular2html
 pip install -r requirements.txt

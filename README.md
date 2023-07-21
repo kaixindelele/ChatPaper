@@ -4,6 +4,11 @@
 </div>
 </br>
 
+
+💥💥💥<strong>7.21 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
+并且，我本地更新了全文总结的脚本，以及本地PDF全文翻译的脚本，正在考虑是否开源。
+ </strong>
+
 💥💥💥<strong> 7.9号，师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能。
 
 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
@@ -16,20 +21,13 @@
 
  </strong>
 
-💥💥💥<strong>5.10 我们网页版的即将进行更新，现在的总结效果如链接所示：[Sergey Levine近两个月12篇文章总结-ChatPaperDaily6](https://zhuanlan.zhihu.com/p/628338077)，总结的内容更加全面且准确，更多的细节，更多的步骤，更多实验结果，且尽可能的降低瞎编. 
- </strong>
-
 💥💥💥<strong>**唯一官方网站：**[https://chatpaper.org/](https://chatpaper.org/) ，以及小白教程【ChatPaper网页版使用小白教程-哔哩哔哩】 https://b23.tv/HpDkcBU， 第三方文档：https://chatpaper.readthedocs.io . 
  </strong>
  
-💥💥💥<strong> 4.22 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！第二个是综述文章归纳，后面会上线我们网页版。敬请期待
+💥💥💥<strong> 4.22 为了庆祝ChatPaper获得一万⭐，我们将联合两位同学，推出两个AI辅助文献总结工具，第一个是[auto-draft](https://github.com/CCCBora/auto-draft)，AI自动搜集整理出文献总结！
 </strong>
 
 💥💥💥<strong> 为了降低学术伦理风险，我们为Chat_Reviewer增加了复杂的文字注入，效果如图：[示例图](https://github.com/kaixindelele/ChatPaper/blob/main/images/reviews.jpg) ，希望各位老师同学在使用的时候，一定要注意学术伦理和学术声誉，不要滥用工具。如果谁有更好的方法来限制少数人的不规范使用，欢迎留言，为科研界做一份贡献。
-</strong>
-
-💥💥💥<strong> 最近在开源众筹一个基于OpenReview的微调项目，欢迎大家一起搞事情：[ChatOpenReview](https://github.com/kaixindelele/ChatOpenReview)
-  
 </strong>
 
 🌿🌿🌿<strong>使用卡顿？请Fork到自己的Space，轻松使用：<a href="https://huggingface.co/spaces/wangrongsheng/ChatPaper?duplicate=true"><img src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a></strong>
@@ -97,7 +95,6 @@
 - 🌟*2023.03.23*: chat_arxiv.py可以从arxiv网站，根据关键词，最近几天，几篇论文，直接爬取最新的领域论文了！解决了之前arxiv包的搜索不准确问题！
 - 🌟*2023.03.23*: ChatPaper终于成为完成体了！现在已经有论文总结+论文润色+论文分析与改进建议+论文审稿回复等功能了！
 
-**增加了ChatReviewer（对论文进行优缺点分析，提出改进建议，⭐️千万别复制生成的内容用于论文评审！一定要注意审稿伦理和责任！该功能仅供大家作为参考！）和ChatResponse（自动提取审稿人的问题并一对一生成回复），该部分的代码均来自于[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)项目。** 使用技巧请参考这位大佬的项目！
 
 ## 开发动机
 
@@ -239,8 +236,6 @@ python google_scholar_spider.py --kw "deep learning" --nresults 30 --csvpath "./
 教程文章：https://zhuanlan.zhihu.com/p/644326031
 
 
-
-
 ---
 
 另外注意，目前这个不支持**综述类**文章。
@@ -341,10 +336,7 @@ python3 app.py
 
 + 所有的运行结果都被保存在 Docker 的 volumes 中，如果想以服务的形式长期部署，您可以将这些目录映射出来。默认情况下，它们位于 /var/lib/docker/volumes/ 下。您可以进入该目录并查看 chatpaper_log、chatpaper_export、chatpaper_pdf_files 和 chatpaper_response_file 四个相关文件夹中的结果。有关 Docker volumes 的详细解释，请参考此链接：http://docker.baoshu.red/data_management/volume.html。
 
-  
-  
-  
-
+    
 ## 在线部署
 
 1. 在[Hugging Face](https://huggingface.co/) 创建自己的个人账号并登录；

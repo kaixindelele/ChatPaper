@@ -1,0 +1,51 @@
+Rank,Author,Title,Citations,Year,Publisher,Venue,Source,cit/year
+440," Bishop, NM Nasrabadi",Pattern recognition and machine learning,65423,2006, Springer,,https://link.springer.com/book/9780387310732,3635
+410, Murphy,Machine learning: a probabilistic perspective,13922,2012, books.google.com,,https://books.google.com/books?hl=en&lr=&id=RC43AgAAQBAJ&oi=fnd&pg=PR7&dq=machine+learning&ots=umou8zRxZ6&sig=Yt4k1SbH83Yoaefkx6C0lzerP6c,1160
+20," Jordan, TM Mitchell","Machine learning: Trends, perspectives, and prospects",6373,2015, science.org, Science,https://www.science.org/doi/abs/10.1126/science.aaa8415,708
+240,Shale,Understanding machine learning: From theory to algorithms,6371,2014, books.google.com,,https://books.google.com/books?hl=en&lr=&id=Hf6QAwAAQBAJ&oi=fnd&pg=PR15&dq=machine+learning&ots=2IyfLknQK-&sig=0FaXB-Y1uBej-f0TGukldQjCjqQ,637
+200,"Mohri, A Rostamizadeh, A Talwalkar",Foundations of machine learning,5377,2018, books.google.com,,https://books.google.com/books?hl=en&lr=&id=dWB9DwAAQBAJ&oi=fnd&pg=PR5&dq=machine+learning&ots=AywPTRw5j5&sig=gDH_EE9DckSxR1-ldLaeBzpnP2c,896
+480, King,Dlib-ml: A machine learning toolkit,3556,2009, jmlr.org, The Journal of Machine Learning Research,https://www.jmlr.org/papers/volume10/king09a/king09a.pdf,237
+460," Butler, DW Davies, H Cartwright, O Isayev, A Walsh",Machine learning for molecular and materials science,2542,2018, nature.com, Nature,https://www.nature.com/articles/s41586-018-0337-2,424
+380, Dietterich,Machine-learning research,2121,1997, ojs.aaai.org, AI magazine,https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/1324,79
+130,"Sammut, GI Webb",Encyclopedia of machine learning,1877,2011, books.google.com,,https://books.google.com/books?hl=en&lr=&id=i8hQhp1a62UC&oi=fnd&pg=PT29&dq=machine+learning&ots=91r7wtiH6Q&sig=AHa5z1TSiO_oCiGOL7GKIcbmzLc,144
+340," Liakos, P Busato, D Moshou, S Pearson, D Bochtis",Machine learning in agriculture: A review,1831,2018, mdpi.com, Sensors,https://www.mdpi.com/1424-8220/18/8/2674,305
+280,"Carleo, I Cirac, K Cranmer, L Daudet, M Schuld…",Machine learning and the physical sciences,1655,2019, APS, Reviews of Modern …,https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.91.045002,331
+60,"Wang, Z Lei, X Zhang, B Zhou, J Peng",Machine learning basics,1619,2016, whdeng.cn, Deep learning,http://whdeng.cn/Teaching/PPT_01_Machine%20learning%20Basics.pdf,202
+10, Zhou,Machine learning,1613,2021, books.google.com,,https://books.google.com/books?hl=en&lr=&id=ctM-EAAAQBAJ&oi=fnd&pg=PR6&dq=machine+learning&ots=oZRhS3WzYs&sig=eYf8c9ZHOUx0vYceVoUcNWlnUWE,538
+30,Mahesh,Machine learning algorithms-a review,1455,2020, researchgate.net, International Journal of Science and Research (IJSR) …,https://www.researchgate.net/profile/Batta-Mahesh/publication/344717762_Machine_Learning_Algorithms_-A_Review/links/5f8b2365299bf1b53e2d243a/Machine-Learning-Algorithms-A-Review.pdf?eid=5082902844932096,364
+310,Raschka,Python machine learning,1369,2015, books.google.com,,https://books.google.com/books?hl=en&lr=&id=GOVOCwAAQBAJ&oi=fnd&pg=PP1&dq=machine+learning&ots=NdgvGcWXUE&sig=zcVIzg9Fr4KP4eRtU0FRKjO75CI,152
+140,Harrington,Machine learning in action,1205,2012, books.google.com,,https://books.google.com/books?hl=en&lr=&id=XTozEAAAQBAJ&oi=fnd&pg=PT18&dq=machine+learning&ots=pw4cI3NRbp&sig=BJiIhWUSg-CH6QVNLCTuqB8ksXA,100
+260,Langley,Elements of machine learning,942,1996, books.google.com,,https://books.google.com/books?hl=en&lr=&id=TNg5qVoqRtUC&oi=fnd&pg=PR9&dq=machine+learning&ots=Q4tmWtv1Kj&sig=uD85WO3spUWAJLb5uNXTgkru0HY,34
+150,"Sra, S Nowozin, SJ Wright",Optimization for machine learning,890,2012, books.google.com,,https://books.google.com/books?hl=en&lr=&id=JPQx7s2L1A8C&oi=fnd&pg=PR5&dq=machine+learning&ots=vel6ugncBg&sig=G8Jv0hOnac1oGD8BLAupTCG_IxU,74
+300, Mitchell,The discipline of machine learning,885,2006, cs.cmu.edu,,https://www.cs.cmu.edu/afs/cs/usr/mitchell/ftp/pubs/MachineLearningTR.pdf,49
+220, Ayodele,Types of machine learning algorithms,867,2010, books.google.com, New advances in machine learning,https://books.google.com/books?hl=en&lr=&id=XAqhDwAAQBAJ&oi=fnd&pg=PA19&dq=machine+learning&ots=r2Oi6UDmIk&sig=vyuLuQXQG82JB1PKGDbfNPwjPAA,62
+40,"El Naqa, MJ Murphy",What is machine learning?,861,2015, Springer,,https://link.springer.com/chapter/10.1007/978-3-319-18305-3_1,96
+190,Burkov,The hundred-page machine learning book,781,0,papers.com,,https://order-papers.com/sites/default/files/tmp/webform/order_download/pdf-the-hundred-page-machine-learning-book-andriy-burkov-pdf-download-free-book-d835289.pdf,0
+160,Athey,The impact of machine learning on economics,750,2018, nber.org, The economics of artificial intelligence: An agenda,https://www.nber.org/system/files/chapters/c14009/c14009.pdf,125
+350,"Janiesch, P Zschech, K Heinrich",Machine learning and deep learning,750,2021, Springer, Electronic Markets,https://link.springer.com/article/10.1007/s12525-021-00475-2,250
+370," Tarca, VJ Carey, X Chen, R Romero…",Machine learning and its applications to biology,689,2007, journals.plos.org, PLoS computational …,https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.0030116,41
+230,Surden,Machine learning and law,650,2014, HeinOnline, Wash. L. Rev.,https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/washlr89&section=7,65
+470,Ray,A quick review of machine learning algorithms,606,2019, ieeexplore.ieee.org, 2019 International conference on machine learning …,https://ieeexplore.ieee.org/abstract/document/8862451/,121
+360,"Mohammed, MB Khan, EBM Bashier",Machine learning: algorithms and applications,578,2016, books.google.com,,https://books.google.com/books?hl=en&lr=&id=X8LBDAAAQBAJ&oi=fnd&pg=PP1&dq=machine+learning&ots=qQHqwrKdxD&sig=WLSpodFeOX3K5XdZ39bXnsYztuk,72
+180,Alpaydin,Machine learning: the new AI,565,2016, books.google.com,,https://books.google.com/books?hl=en&lr=&id=ylE4DQAAQBAJ&oi=fnd&pg=PR5&dq=machine+learning&ots=S7kG0qqCTQ&sig=bqxKlF7oZPDtGuCjRiuRwnC30xM,71
+120,Bonaccorso,Machine learning algorithms,549,2017, books.google.com,,https://books.google.com/books?hl=en&lr=&id=_-ZDDwAAQBAJ&oi=fnd&pg=PP1&dq=machine+learning&ots=epmyw0IG1J&sig=P0kb9Im4Ktz1Um7h7tFy8-8_LIA,78
+110," Shavlik, TG Dietterich",Readings in machine learning,536,1990, books.google.com,,https://books.google.com/books?hl=en&lr=&id=UgC33U2KMCsC&oi=fnd&pg=PA1&dq=machine+learning&ots=Thodeg8Lma&sig=FvnUKCsN9oMubqxbsNhc0qJfURk,16
+390,"Alzubi, A Nayyar, A Kumar",Machine learning from theory to algorithms: an overview,482,2018, iopscience.iop.org, Journal of physics: conference …,https://iopscience.iop.org/article/10.1088/1742-6596/1142/1/012012/meta,80
+90," Greener, SM Kandathil, L Moffat…",A guide to machine learning for biologists,434,2022, nature.com, Nature Reviews Molecular …,https://www.nature.com/articles/s41580-021-00407-0,217
+290,"Wei, X Chu, XY Sun, K Xu, HX Deng, J Chen, Z Wei…",Machine learning in materials science,383,2019, Wiley Online Library, InfoMat,https://onlinelibrary.wiley.com/doi/abs/10.1002/inf2.12028,77
+330,Dangeti,Statistics for machine learning,363,2017, books.google.com,,https://books.google.com/books?hl=en&lr=&id=C-dDDwAAQBAJ&oi=fnd&pg=PP1&dq=machine+learning&ots=j2brZqt4Xp&sig=xr-iInyZ0efVuBWnLf70GbaWpbU,52
+170,Wagstaff,Machine learning that matters,347,2012, arxiv.org, arXiv preprint arXiv:1206.4656,https://arxiv.org/abs/1206.4656,29
+80, Mitchell,Machine learning,334,1997, ds.amu.edu.et,,https://ds.amu.edu.et/xmlui/bitstream/handle/123456789/14637/Machine_Learning%20-%20421%20pages.pdf?sequence=1&isAllowed=y,12
+270,"Ribeiro, K Grolinger…",Mlaas: Machine learning as a service,328,2015, ieeexplore.ieee.org, … on machine learning and …,https://ieeexplore.ieee.org/abstract/document/7424435/,36
+70,"Bi, KE Goodman, J Kaminsky…",What is machine learning? A primer for the epidemiologist,313,2019, academic.oup.com, American journal of …,https://academic.oup.com/aje/article-abstract/188/12/2222/5567515,63
+100,"Provost, R Kohavi",On applied research in machine learning,296,1998, ai.stanford.edu,,https://ai.stanford.edu/~ronnyk/editorial.pdf,11
+420, Bishop,Model-based machine learning,252,2013, royalsocietypublishing.org, … Transactions of the Royal Society A …,https://royalsocietypublishing.org/doi/abs/10.1098/rsta.2012.0222,23
+490,"Vartak, H Subramanyam, WE Lee…",ModelDB: a system for machine learning model management,221,2016, dl.acm.org, Proceedings of the …,https://dl.acm.org/doi/abs/10.1145/2939502.2939516,28
+50,Alpaydin,Machine learning,216,2021, books.google.com,,https://books.google.com/books?hl=en&lr=&id=2nQJEAAAQBAJ&oi=fnd&pg=PR7&dq=machine+learning&ots=fH62O5ZGhs&sig=FrqykiQWufPDLZbZp0Gc8WqyxyU,72
+320,"Wang, C Ma, L Zhou",A brief review of machine learning and its application,170,2009, ieeexplore.ieee.org, 2009 international conference on …,https://ieeexplore.ieee.org/abstract/document/5362936/,11
+500,Daumé,A course in machine learning,169,2017, academia.edu,,https://www.academia.edu/download/37276995/Course_in_Machine_Learning.pdf,24
+210,Gollapudi,Practical machine learning,162,2016, books.google.com,,https://books.google.com/books?hl=en&lr=&id=WmsdDAAAQBAJ&oi=fnd&pg=PP1&dq=machine+learning&ots=1AD1xuPo5S&sig=o_dmiuADBZd5Gj38Tsv0to44s7k,20
+430," Wilson, NV Sahinidis",The ALAMO approach to machine learning,160,2017, Elsevier, Computers & Chemical Engineering,https://www.sciencedirect.com/science/article/pii/S0098135417300662,23
+250, Zhou,Learnware: on the future of machine learning.,132,2016, lamda.nju.edu.cn, Frontiers Comput. Sci.,https://www.lamda.nju.edu.cn/publication/fcs16learnware.pdf,16
+400,"Paluszek, S Thomas",MATLAB machine learning,127,2016, books.google.com,,https://books.google.com/books?hl=en&lr=&id=3kXODQAAQBAJ&oi=fnd&pg=PR6&dq=machine+learning&ots=ZMPqTJbhkK&sig=QC7mMx0eNpIiipWtXZsT79pTrBQ,16
+450,"Graves, V Nagisetty, V Ganesh",Amnesiac machine learning,59,2021, ojs.aaai.org, … of the AAAI Conference on Artificial …,https://ojs.aaai.org/index.php/AAAI/article/view/17371,20
