@@ -27,7 +27,7 @@
 <h1 align="center">ChatPaper</h1>
 <div align="center">
   <a href="https://github.com/kaixindelele/ChatPaper">
-  <img src="https://github.com/kaixindelele/ChatPaper/blob/main/images/homeLogo.jpg" width="50%">
+  <img src="https://github.com/kaixindelele/ChatPaper/blob/main/images/homeLogo.jpg" width="25%">
   </a>
 
   <p align="center">
