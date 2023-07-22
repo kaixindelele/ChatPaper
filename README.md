@@ -33,7 +33,7 @@
   </a>
 
   <p align="center">
-    <h3>Refine Your Writing, Elevate Your Ideas with ChatPaper</h3>
+    <h3>希望让语言不再成为中国人获取最新知识的障碍</h3>
       <a href="https://github.com/kaixindelele/ChatPaper/graphs/contributors">
         <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/kaixindelele/ChatPaper" />
       </a>
@@ -836,21 +836,21 @@ pip install urllib3==1.25.11
 
 ## 项目致谢
 
-1. 群友和实验室同学的技术支持和大量转发！还有张老板和化老板的出谋划策。
+1. 感谢实验室的支持和指导、群友和实验室同学的技术支持和大量转发！还有张老板和化老板的出谋划策。
 2. [Siyuan](https://github.com/HouSiyuan2001)同学在我开始项目的时候，分享了两个核心函数，节省了很多时间。
 3. [rongsheng](https://github.com/WangRongsheng)同学的在线网站，让这个项目可以使得更多的技术小白，可以尝试。
 4. [Arxiv](https://github.com/lukasschwab/arxiv.py)的作者提供的好用的arxiv论文下载包。
 5. [PyMuPDF](https://github.com/pymupdf/PyMuPDF)提供良好的PDF解析工具。让整个信息流得以打通。
-6. OpenAI一方面做出了杰出的AI，另外一方面禁了我们国家，搞得我都不知道该怎么写这行。
+6. OpenAI提供了这么强的一个AI模型，让AI整个行业都活了起来，让学术“巴别塔”的构建有了基础。
 7. 感谢Ex-ChatGPT的作者分享的各种ChatGPT的开发细节，开发过程中学习良多，以及现在一直在开发我们的网页版内容。另外给计算机专业的佬们，推荐这款非常强大的开源工具：
 8. 感谢ChatReviewer的作者将他的项目合并到我们的ChatPaper中，使得ChatPaper更加完整。
 [Ex-ChatGPT](https://github.com/circlestarzero/EX-chatGPT) 是一个强大的工具平台，能让 ChatGPT 能够调用外部 API，例如 WolframAlpha、Google 和 WikiMedia，以提供更准确和及时的答案。
 江湖人称 GoogleChat.
 9. 还得感谢GitHub官方，帮我们这个项目列入了[热榜第五](https://github.com/trending)，获得了大量的关注！
-10. 后面我们整个项目流程打通，需要感谢同样是中科院的同学们开发的[chatgpt_academic](https://github.com/binary-husky/chatgpt_academic)，我们在他们的基础上做了润色部分。以及[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)，补齐了我们的审稿和审稿回复。
+10. 后面我们整个项目流程打通，需要感谢同样是中科院的同学们开发的[gpt_academic](https://github.com/binary-husky/gpt_academic)，我们在他们的基础上做了润色部分。以及[nishiwen1214](https://github.com/nishiwen1214)的[ChatReviewer](https://github.com/nishiwen1214/ChatReviewer)，补齐了我们的审稿和审稿回复。
 11. 感谢[SilenceEagle](https://github.com/SilenceEagle/paper_downloader)提供的CCF-A的论文数据库，我们已经离线总结了3w+的论文了。
 12. 感谢里屋社区的开源和整理中文数据集[MNBVC](https://github.com/esbatmop/MNBVC)，希望国产中文大模型早日起飞！
-13. 感谢一路以来，所有对项目支持和本人提供帮助的朋友！
+13. 感谢一路以来，所有对项目支持和本人提供帮助的朋友和老师！
 
 
 ## Starchart
