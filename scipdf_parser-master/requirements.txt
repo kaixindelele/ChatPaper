@@ -1,0 +1,5 @@
+lxml
+spacy
+pandas
+textstat
+beautifulsoup4

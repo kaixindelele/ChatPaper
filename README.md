@@ -10,14 +10,14 @@
  </strong>
 
 💥💥💥<strong>7.22 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
-增加全新的本地PDF全文翻译功能！有空再写配置教程。
+增加全新的本地PDF全文翻译功能！[⛏️PDF全文翻译配置教程](#任意PDF全文翻译配置教程)
  </strong>
 
 <details><summary><code><b>历史重大更新</b></code></summary>
 
 - 🌟*2023.07.23*: [MasterYip](https://github.com/MasterYip) 同学开源了 [ChatPaper2Xmind](https://github.com/MasterYip/ChatPaper2Xmind)! 
 将论文PDF通过Chat一键生成 图片+公式的简要XMind笔记。
-- 🌟*2023.07.22*: 增加全新的本地PDF全文翻译功能！
+- 🌟*2023.07.22*: 增加全新的本地PDF全文翻译功能！[⛏️PDF全文翻译配置教程](#任意PDF全文翻译配置教程)
 - 🌟*2023.07.21*: 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
 - 🌟*2023.07.09*: 师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能. 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
 - 🌟*2023.07.05*: 昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
@@ -79,6 +79,7 @@
 - [💥最新讯息](#最新讯息)
 - [💫开发动机](#开发动机)
 - [⛏️配置教程](#配置教程)
+- [⛏️PDF全文翻译配置教程](#任意PDF全文翻译配置教程)
 - [👷‍♂️HuggingFace在线部署](#HuggingFace在线部署)
 - [📄本地PDF全文翻译示例](#本地PDF全文翻译示例)
 - [📄本地PDF全文总结示例](#本地PDF全文总结示例)
@@ -94,7 +95,7 @@
 ## 最新讯息
 - 🌟*2023.07.23*: [MasterYip](https://github.com/MasterYip) 同学开源了 [ChatPaper2Xmind](https://github.com/MasterYip/ChatPaper2Xmind)! 
 将论文PDF通过Chat一键生成 图片+公式的简要XMind笔记
-- 🌟*2023.07.22*: 增加全新的本地PDF全文翻译功能！有空再写配置教程。
+- 🌟*2023.07.22*: 增加全新的本地PDF全文翻译功能！[⛏️PDF全文翻译配置教程](#任意PDF全文翻译配置教程)。
 - 🌟*2023.07.21*: 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
 - 🌟*2023.07.09*: 师弟[red-tie](https://github.com/red-tie)在[auto-draft](https://github.com/CCCBora/auto-draft)的基础上，优化了一款[一键文献综述](https://github.com/kaixindelele/ChatPaper/tree/main/auto_survey)的功能. 适用于大家对具体某个领域快速掌握，并且支持直接生成中文文献调研报告。文件配置简单，欢迎大家使用和反馈！
 - 🌟*2023.07.05*: 昨天我做了一个新的小玩具：[ChatSensitiveWords](https://github.com/kaixindelele/ChatSensitiveWords)，利用LLM+敏感词库，来自动判别是否涉及敏感词。已经在学术版GPT网页端上线，欢迎LLM的开发者一起完善这个工作。
@@ -391,10 +392,20 @@ python3 app.py
 </details>
 
 
-### 任意PDF全文翻译配置教程：
-1. 必须是在Ubuntu或者MacOS下使用！
+### 任意PDF全文翻译配置教程
+1. 必须是在Ubuntu或者MacOS下使用！接下来的教程默认是Ubuntu18.04/20.04.
+2. 在安装了ChatPaper默认依赖之后，激活它的虚拟环境，进入scipdf_parser-master文件夹，进入这个路径后，继续安装这里面的依赖。
+3. 安装好了这里的以来后，还需要安装Java的环境，我们推荐安装java11.0.19
+4. 先更新系统包：sudo apt-get update
+5. 然后命令安装 OpenJDK 11：sudo apt-get install openjdk-11-jdk
+6. 完成以上步骤后，你可以用以下命令来确认安装的 Java 版本：java -version
+7. 这将返回你当前的 Java 版本信息。到这一步，基本上Java的安装成功
+8. 再然后，再后台启动scipdf服务，这里需要下载不少依赖：bash serve_grobid.sh
+9. 等服务启动好后，可以不用管它，新开一个终端，启动python程序：python chat_summary.py
+10. 也可以后台默认启动serve_grobid.sh: nohup bash serve_grobid.sh
 
-2. 本地
+最后祝你使用的开心！
+
 
 ## 本地PDF全文翻译示例
 

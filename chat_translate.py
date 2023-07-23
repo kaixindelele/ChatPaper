@@ -43,7 +43,7 @@ def parse_pdf(path):
 @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(8),
                     reraise=True)
-def chat_translate_part(text, key, title=False, domain="", tokenizer_gpt35=None):
+def chat_translate_part(text, key, title=False, domain="", tokenizer_gpt35=None, task="翻译"):
     openai.api_key = key
     # 这里需要做切分，如果长文本的话，需要多次翻译，或者直接换用16K的api.
     # 先判断文本token长度：
@@ -51,7 +51,7 @@ def chat_translate_part(text, key, title=False, domain="", tokenizer_gpt35=None)
     if token_size > 1800:
         model = "gpt-3.5-turbo-16k"
     else:
-        model = "gpt-3.5-turbo-0613"    
+        model = "gpt-3.5-turbo"    
     
     if title:
         messages = [
@@ -78,31 +78,29 @@ def chat_translate_part(text, key, title=False, domain="", tokenizer_gpt35=None)
     else:
         messages = [
             {"role": "system",
-                "content": "You are now a professional Science and technology editor"},
+                "content": "You are a professional academic paper translator."},
             {"role": "assistant",
-                "content": "Your task now is to translate the Input Contents, which a section, part of a paper, the paper is about "+ domain},
-            {"role": "user", "content": "Input include section name and section text, Input Contents:" + text +                
-                """
-                你的任务是口语化翻译输入的论文章节.                            
+                "content": "Your task now is to {} the Input Contents, which a section, part of a paper, the paper is about {}".format(task, domain)},
+            {"role": "user", "content": f"""
+                你的任务是口语化{task}输入的论文章节，{task}的内容要遵循下面的要求：
+                1. 在保证术语严谨的同时，文字表述需要更加口语化。
+                2. 需要地道的中文{task}，逻辑清晰且连贯，少用倒装句式。
+                3. 对于简短的Input Contents，不要画蛇添足，增加多余的解释和扩展。
+                4. 对于本领域的专业术语，需要标注英文，便于读者参考。这篇论文的领域是{domain}。
+                5. 适当使用MarkDown语法，比如有序列表、加粗等。
                 
                 你的输出内容格式需要遵循下面的要求：
-                1. ## 章节名称，中文翻译(Original English section name)
-                2. 章节内容的翻译
-                
-                翻译的内容要遵循下面的要求：
-                1. 在保证术语严谨的同时，文字表述需要更加口语化。
-                2. 需要地道的中文翻译，逻辑清晰且连贯。
-                3. 少用倒装句式，要方便中国读者阅读，需要地道的中文。
-                4. 对于简短的Input Contents，不要画蛇添足，增加多余的解释和扩展。
-                5. 对于专业领域的术语，需要加上英文标注。比如 temperature (温度)等，翻译时，需要同时提供中英文。
-                6. 适当使用markdown语法，比如列表等。
-                                                                                
+                1. ## 章节名称，中文{task}(Original English section name)
+                2. 章节内容的{task}
+
                 Output format is (你需要根据上面的要求，自动填充xxx和yyy的占位符):
                 \n        
                 ## xxx
                 
                 yyy
-                \n                          
+                \n
+                
+                Input include section name and section text, Input Contents: {text}                          
                 """},
         ]
     response = openai.ChatCompletion.create(
@@ -137,7 +135,7 @@ def chat_check_domain(text, key):
             {"role": "user", "content": "Input Contents:" + text},
         ]
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model="gpt-3.5-turbo",
         messages=messages,
         temperature=0.3,
     )
@@ -155,7 +153,7 @@ def chat_check_domain(text, key):
     info['response_time'] = response.response_ms / 1000.0
     return info
 
-def main(root_path, pdf_path, key):
+def main(root_path, pdf_path, key, task="翻译"):
     md_file = root_path + pdf_path.split("/")[-1].replace(".pdf", '.md')
     md_str = "\n"        
     token_consumed = 0
@@ -205,7 +203,7 @@ def main(root_path, pdf_path, key):
         # 判断文本是否为空：
         if len(paper_pdf['section_texts'][section_index])>0:
             text = "Section Name:" + section_name + "\n Section text:" + paper_pdf['section_texts'][section_index]
-            return_dict = chat_translate_part(text, key, domain=domains, tokenizer_gpt35=tokenizer_gpt35)
+            return_dict = chat_translate_part(text, key, domain=domains, tokenizer_gpt35=tokenizer_gpt35, task=task)
             result = return_dict['result']
             cur_str = "\n"
             cur_str += result
@@ -222,5 +220,7 @@ def main(root_path, pdf_path, key):
 if __name__ == "__main__":
     root_path = r'./'
     pdf_path = r'./demo.pdf'
-    key = "sk-xxxx"
-    main(root_path, pdf_path, key)
+
+    key = "sk-xxx"
+    task = "翻译"
+    main(root_path, pdf_path, key, task)
