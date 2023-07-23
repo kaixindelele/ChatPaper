@@ -9,4 +9,6 @@ build/
 .idea/*
 export
 export/*
-apikey.ini
+.apikey.ini
+pdf_files
+pdf_files/*
