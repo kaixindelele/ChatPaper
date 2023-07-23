@@ -18,6 +18,8 @@ import tenacity
 import tiktoken
 from bs4 import BeautifulSoup
 from PIL import Image
+import sys
+
 
 ArxivParams = namedtuple(
     "ArxivParams",
@@ -361,16 +363,25 @@ class Reader:
         today = datetime.date.today()
         last_days = datetime.timedelta(days=days)
         for article in articles:
-            title = article.find("p", class_="title").text  # 找到每篇论文的标题，并去掉多余的空格和换行符
-            link = article.find("span").find_all("a")[0].get('href')
-            date_text = article.find("p", class_="is-size-7").text
-            date_text = date_text.split('\n')[0].split("Submitted ")[-1].split("; ")[0]
-            date_text = datetime.datetime.strptime(date_text, "%d %B, %Y").date()
-            if today - date_text <= last_days:
-                titles.append(title.strip())
-                links.append(link)
-                dates.append(date_text)
-            # print("links:", links)
+            try:
+                title = article.find("p", class_="title").text  # 找到每篇论文的标题，并去掉多余的空格和换行符
+                title = title.strip()            
+                link = article.find("span").find_all("a")[0].get('href')            
+                date_text = article.find("p", class_="is-size-7").text
+                date_text = date_text.split('\n')[0].split("Submitted ")[-1].split("; ")[0]
+                date_text = datetime.datetime.strptime(date_text, "%d %B, %Y").date()
+                if today - date_text <= last_days:
+                    titles.append(title.strip())
+                    links.append(link)
+                    dates.append(date_text)
+                # print("links:", links)
+            except Exception as e:
+                print("error:", e)
+                print("error_title:", title)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)          
+                
         return titles, links, dates
 
     # 定义一个函数，根据关键词获取所有可用的论文标题，并打印出来
@@ -446,6 +457,9 @@ class Reader:
                 chat_summary_text = self.chat_summary(text=text)
             except Exception as e:
                 print("summary_error:", e)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)          
                 if "maximum context" in str(e):
                     current_tokens_index = str(e).find("your messages resulted in") + len(
                         "your messages resulted in") + 1
@@ -480,6 +494,9 @@ class Reader:
                     chat_method_text = self.chat_method(text=text)
                 except Exception as e:
                     print("method_error:", e)
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    print(exc_type, fname, exc_tb.tb_lineno)          
                     if "maximum context" in str(e):
                         current_tokens_index = str(e).find("your messages resulted in") + len(
                             "your messages resulted in") + 1
@@ -517,6 +534,9 @@ class Reader:
                 chat_conclusion_text = self.chat_conclusion(text=text)
             except Exception as e:
                 print("conclusion_error:", e)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)  
                 if "maximum context" in str(e):
                     current_tokens_index = str(e).find("your messages resulted in") + len(
                         "your messages resulted in") + 1
@@ -714,11 +734,11 @@ def chat_arxiv_main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--query", type=str, default='GPT-4', help="the query string, ti: xx, au: xx, all: xx,")
+    parser.add_argument("--query", type=str, default='traffic flow prediction', help="the query string, ti: xx, au: xx, all: xx,")
     parser.add_argument("--key_word", type=str, default='GPT robot', help="the key word of user research fields")
-    parser.add_argument("--page_num", type=int, default=1, help="the maximum number of page")
-    parser.add_argument("--max_results", type=int, default=1, help="the maximum number of results")
-    parser.add_argument("--days", type=int, default=1, help="the last days of arxiv papers of this query")
+    parser.add_argument("--page_num", type=int, default=2, help="the maximum number of page")
+    parser.add_argument("--max_results", type=int, default=3, help="the maximum number of results")
+    parser.add_argument("--days", type=int, default=10, help="the last days of arxiv papers of this query")
     parser.add_argument("--sort", type=str, default="web", help="another is LastUpdatedDate")
     parser.add_argument("--save_image", default=False,
                         help="save image? It takes a minute or two to save a picture! But pretty")
