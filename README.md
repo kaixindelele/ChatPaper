@@ -392,8 +392,8 @@ python3 app.py
 </details>
 
 
-### 任意PDF全文翻译配置教程
-1. 必须是在Ubuntu或者MacOS下使用！接下来的教程默认是Ubuntu18.04/20.04.
+## 任意PDF全文翻译配置教程
+1. 必须是在Ubuntu或者MacOS下使用！接下来的教程默认是Ubuntu18.04/20.04. 推荐使用vultr云服务器，非常省心。
 2. 在安装了ChatPaper默认依赖之后，激活它的虚拟环境，进入scipdf_parser-master文件夹，进入这个路径后，继续安装这里面的依赖。
 3. 安装好了这里的以来后，还需要安装Java的环境，我们推荐安装java11.0.19
 4. 先更新系统包：sudo apt-get update
