@@ -10,7 +10,7 @@
  </strong>
 
 💥💥💥<strong>7.22 仓库的文件做了一个整理，可能会有些路径和bug，正在修复中。
-增加全新的本地PDF全文翻译功能！[⛏️PDF全文翻译配置教程](#任意PDF全文翻译配置教程)
+增加全新的本地PDF全文翻译功能！[⛏️PDF全文翻译配置教程](https://github.com/kaixindelele/ChatPaper#%E4%BB%BB%E6%84%8Fpdf%E5%85%A8%E6%96%87%E7%BF%BB%E8%AF%91%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B)
  </strong>
 
 <details><summary><code><b>历史重大更新</b></code></summary>
@@ -79,7 +79,7 @@
 - [💥最新讯息](#最新讯息)
 - [💫开发动机](#开发动机)
 - [⛏️配置教程](#配置教程)
-- [⛏️PDF全文翻译配置教程](#任意PDF全文翻译配置教程)
+- [⛏️PDF全文翻译配置教程](https://github.com/kaixindelele/ChatPaper#%E4%BB%BB%E6%84%8Fpdf%E5%85%A8%E6%96%87%E7%BF%BB%E8%AF%91%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B)
 - [👷‍♂️HuggingFace在线部署](#HuggingFace在线部署)
 - [📄本地PDF全文翻译示例](#本地PDF全文翻译示例)
 - [📄本地PDF全文总结示例](#本地PDF全文总结示例)
