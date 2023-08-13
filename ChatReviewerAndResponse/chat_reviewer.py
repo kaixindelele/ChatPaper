@@ -69,7 +69,8 @@ class Reviewer:
         self.config = configparser.ConfigParser()
         # 读取配置文件
         self.config.read('apikey.ini')
-        # 获取某个键对应的值        
+        # 获取某个键对应的值     
+        openai.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')       
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
         self.cur_api = 0
