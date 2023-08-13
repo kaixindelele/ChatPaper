@@ -322,7 +322,8 @@ class Reader:
         # 读取配置文件
         self.config.read('apikey.ini')
         OPENAI_KEY = os.environ.get("OPENAI_KEY", "")
-        # 获取某个键对应的值        
+        # 获取某个键对应的值
+        openai.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')    
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list.append(OPENAI_KEY)
 

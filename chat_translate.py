@@ -153,11 +153,12 @@ def chat_check_domain(text, key):
     info['response_time'] = response.response_ms / 1000.0
     return info
 
-def main(root_path, pdf_path, key, task="翻译"):
+def main(root_path, pdf_path, base_url, key, task="翻译"):
     md_file = root_path + pdf_path.split("/")[-1].replace(".pdf", '.md')
     md_str = "\n"        
     token_consumed = 0
-    paper_pdf = parse_pdf(pdf_path)    
+    paper_pdf = parse_pdf(pdf_path)
+
     
     tokenizer_gpt35 = LazyloadTiktoken("gpt-3.5-turbo")
     
@@ -173,7 +174,7 @@ def main(root_path, pdf_path, key, task="翻译"):
     print("这篇文章的domain是：", domains)
     
     # input("继续？")
-        
+    openai.api_base = base_url   
     # 先把标题翻译了
     if "title" in paper_pdf.keys():
         text = paper_pdf['title']
@@ -220,7 +221,7 @@ def main(root_path, pdf_path, key, task="翻译"):
 if __name__ == "__main__":
     root_path = r'./'
     pdf_path = r'./demo.pdf'
-
+    base_url = 'https://api.openai.com/v1'
     key = "sk-xxx"
     task = "翻译"
-    main(root_path, pdf_path, key, task)
+    main(root_path, pdf_path, base_url, key, task)
