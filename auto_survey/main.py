@@ -76,8 +76,8 @@ def _generation_setup(title,  template="Default",
         except Exception as e:
             domain_knowledge=''
     prompts = f"Title: {title}"
-    syetem_promot =  "You are an assistant designed to propose necessary components of an survey papers. Your response should follow the JSON format."
-    components, usage = llm(systems=syetem_promot, prompts=prompts, return_json=True)
+    syetem_prompt =  "You are an assistant designed to propose necessary components of an survey papers. Your response should follow the JSON format."
+    components, usage = llm(systems=syetem_prompt, prompts=prompts, return_json=True)
     log_usage(usage, "media")
     print(f"The paper information has been initialized. References are saved to {bibtex_path}.")
 
