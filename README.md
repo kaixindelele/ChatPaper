@@ -858,6 +858,27 @@ pip install urllib3==1.25.11
 
 </details>
 
+##常用Prompt工具
+<details><summary><code><b>查看常用Prompt工具</b></code></summary>
+- [YiVal](https://github.com/YiVal/YiVal) — 评估与进化：YiVal是一个用于调整和评估prompts、配置和模型参数的开源GenAI-Ops工具，采用可定制的数据集、评估方法和改进策略来助力优化。
+- [Guidance](https://github.com/microsoft/guidance) — 微软出品的一个实用的Python库，使用Handlebars模板来交织生成、提示和逻辑控制。
+- [LangChain](https://github.com/hwchase17/langchain) — 一个用于链接语言模型提示序列的流行的Python/JavaScript库。
+- [FLAML (A Fast Library for Automated Machine Learning & Tuning)](https://microsoft.github.io/FLAML/docs/Getting-Started/): 一个用于自动选择模型、超参数和其他可调整选择的Python库。
+- [Chainlit](https://docs.chainlit.io/overview) — 一个用于制作聊天机器人界面的Python库。
+- [Guardrails.ai](https://shreyar.github.io/guardrails/) — 一个用于验证输出和重试失败的Python库。仍处于alpha版本，可能存在问题和缺陷。
+- [Semantic Kernel](https://github.com/microsoft/semantic-kernel) — 微软出品的支持提示模板、函数链接、向量化内存和智能计划的Python/C#/Java库。
+- [Prompttools](https://github.com/hegelai/prompttools) — 开源的Python工具，用于测试和评估模型、向量数据库和提示。
+- [Outlines](https://github.com/normal-computing/outlines) — 一个提供领域特定语言以简化提示和约束生成的Python库。
+- [Promptify](https://github.com/promptslab/Promptify) — 一个小型Python库，用于使用语言模型执行NLP任务。
+- [Scale Spellbook](https://scale.com/spellbook) — A一个付费产品，用于构建、比较和发布语言模型应用程序。
+- [PromptPerfect](https://promptperfect.jina.ai/prompts) — 一个付费产品，用于测试和改进提示。
+- [Weights & Biases](https://wandb.ai/site/solutions/llmops) — 一个付费产品，用于跟踪模型训练和提示工程实验。
+- [OpenAI Evals](https://github.com/openai/evals) — 一个开源库，用于评估语言模型和提示的任务性能。
+- [LlamaIndex](https://github.com/jerryjliu/llama_index) — 一个用于使用数据增强LLM应用的Python库。
+- [Arthur Shield](https://www.arthur.ai/get-started) — 一个付费产品，用于检测有害内容、幻觉、提示注入等。
+- [LMQL](https://lmql.ai) — 一个支持类型提示、控制流、约束和工具的LLM交互编程语言。
+</details>
+
 ## 项目致谢
 
 1. 感谢实验室的支持和指导、群友和实验室同学的技术支持和大量转发！还有张老板和化老板的出谋划策。
