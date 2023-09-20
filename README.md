@@ -86,6 +86,7 @@
 - [📄全文总结示例](#全文总结示例)
 - [👁️‍🗨️使用技巧](#使用技巧)
 - [🛠️常见报错](#常见报错)
+- [⛏️常用Prompt工具](#常用Prompt工具)
 - [💐项目致谢](#项目致谢)
 - [🌟赞助我们](#赞助我们)
 - [🌈Starchart](#Starchart)
@@ -858,7 +859,7 @@ pip install urllib3==1.25.11
 
 </details>
 
-##常用Prompt工具
+## 常用Prompt工具
 
 <details><summary><code><b>查看常用Prompt工具</b></code></summary>
   
