@@ -860,8 +860,11 @@ pip install urllib3==1.25.11
 
 ##常用Prompt工具
 <details><summary><code><b>查看常用Prompt工具</b></code></summary>
+  
 - [YiVal](https://github.com/YiVal/YiVal) — 评估与进化：YiVal是一个用于调整和评估prompts、配置和模型参数的开源GenAI-Ops工具，采用可定制的数据集、评估方法和改进策略来助力优化。
+
 - [Guidance](https://github.com/microsoft/guidance) — 微软出品的一个实用的Python库，使用Handlebars模板来交织生成、提示和逻辑控制。
+
 - [LangChain](https://github.com/hwchase17/langchain) — 一个用于链接语言模型提示序列的流行的Python/JavaScript库。
 - [FLAML (A Fast Library for Automated Machine Learning & Tuning)](https://microsoft.github.io/FLAML/docs/Getting-Started/): 一个用于自动选择模型、超参数和其他可调整选择的Python库。
 - [Chainlit](https://docs.chainlit.io/overview) — 一个用于制作聊天机器人界面的Python库。
@@ -877,6 +880,7 @@ pip install urllib3==1.25.11
 - [LlamaIndex](https://github.com/jerryjliu/llama_index) — 一个用于使用数据增强LLM应用的Python库。
 - [Arthur Shield](https://www.arthur.ai/get-started) — 一个付费产品，用于检测有害内容、幻觉、提示注入等。
 - [LMQL](https://lmql.ai) — 一个支持类型提示、控制流、约束和工具的LLM交互编程语言。
+
 </details>
 
 ## 项目致谢
