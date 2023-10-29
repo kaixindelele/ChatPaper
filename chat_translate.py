@@ -3,6 +3,7 @@ import sys, os
 import openai
 import tenacity
 import tiktoken
+import re
 from functools import lru_cache
 
 
@@ -211,6 +212,10 @@ def main(root_path, pdf_path, base_url, key, task="翻译"):
             cur_str += "\n"
             token_consumed += return_dict["token_used"] 
             
+            # 找到其中包含##的文本，如果##的前面没有\n，且后面文本到\n的文本长度小于18个word，则将其替换为\n##，否则不替换
+            pattern = r'([^\\n])##([^\\n]{1,18}\W+)'
+            cur_str = re.sub(pattern, r'\1\n##\2', cur_str) 
+
             with open(md_file, 'a', encoding="utf-8") as f:
                 f.write(cur_str)
                 
