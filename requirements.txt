@@ -1,11 +1,11 @@
 arxiv==1.4.3
-PyMuPDF
-requests==2.26.0
-tiktoken==0.2.0
+PyMuPDF==1.22.3
+requests==2.31.0
+tiktoken==0.4.0
 tenacity==8.2.2
 pybase64==1.2.3
 Pillow==9.4.0
-openai==0.27.0
+openai==0.27.8
 markdown
 jieba
 gradio==3.20.1
