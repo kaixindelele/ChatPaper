@@ -19,14 +19,14 @@ RUN apt-get update \
     libssl-dev \
     libreadline-dev \
     libffi-dev \
-    && wget https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz \
-    && tar -xvf Python-3.9.0.tgz \
-    && cd Python-3.9.0 \
+    && wget https://www.python.org/ftp/python/3.9.16/Python-3.9.16.tgz \
+    && tar -xvf Python-3.9.16.tgz \
+    && cd Python-3.9.16 \
     && ./configure --enable-optimizations \
     && make altinstall \
     && cd .. \
-    && rm -rf Python-3.9.0 \
-    && rm Python-3.9.0.tgz \
+    && rm -rf Python-3.9.16 \
+    && rm Python-3.9.16.tgz \
     && apt-get remove -y \
     wget \
     build-essential \
@@ -45,8 +45,12 @@ RUN rm -rf * && git clone https://github.com/kaixindelele/ChatPaper.git .
 # 安装Python依赖
 # 基于Debian或Ubuntu的Docker镜像
 RUN apt-get update && \
-    apt-get install -y python3-pip && \
-    pip3 install --no-cache-dir -r requirements.txt
+    apt-get install -y python3-pip
+
+# Check Python version
+RUN python3.9 --version && sleep 10
+
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # 进入scipdf_parser-master文件夹并安装依赖
 WORKDIR /app/scipdf_parser-master
