@@ -38,7 +38,9 @@ RUN apt-get update \
     libreadline-dev \
     libffi-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN git clone https://github.com/kaixindelele/ChatPaper.git .
+
+# COPY start.sh /app/start.sh
+RUN rm -rf * && git clone https://github.com/kaixindelele/ChatPaper.git .
 
 # 安装Python依赖
 # 基于Debian或Ubuntu的Docker镜像
