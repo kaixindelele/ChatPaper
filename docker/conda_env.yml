@@ -35,7 +35,7 @@ dependencies:
   - sqlite=3.38.5
   - tk=8.6.12
   - uwsgi=2.0.20
-  - wheel=0.37.1
+  - wheel=0.38.1
   - xz=5.2.5
   - yaml=0.2.5
   - zlib=1.2.11
