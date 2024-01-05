@@ -367,7 +367,7 @@ python3 app.py
    docker-compose up -d
    ```
 
-4. 这样的界面代表一些正常，随后访问https://127.0.0.1:28460/ 就可以从网页上打开了! ![docker-compose](./images/docker-compose.png)
+4. 这样的界面代表一些正常，随后访问http://127.0.0.1:28460/ 就可以从网页上打开了! ![docker-compose](./images/docker-compose.png)
 
 + 特别的，如果有改进项目的想法，您可以查看 build.sh、dev.sh、tagpush.sh这三个脚本以及根目录docker目录下文件的作用，相信它们会对你容器化封装项目的思想有进一步提升
 
