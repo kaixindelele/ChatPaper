@@ -17,6 +17,20 @@ import tiktoken
 import fitz, io, os
 from PIL import Image
 
+PaperParams = namedtuple(
+    "PaperParams",
+    [
+        "pdf_path",
+        "query",
+        "key_word",
+        "filter_keys",
+        "max_results",
+        "sort",
+        "save_image",
+        "file_format",
+        "language",
+    ],
+)
 
 class Paper:
     def __init__(self, path, title='', url='', abs='', authers=[]):
@@ -817,6 +831,8 @@ if __name__ == '__main__':
                         help="save image? It takes a minute or two to save a picture! But pretty")
     parser.add_argument("--file_format", type=str, default='md', help="导出的文件格式，如果存图片的话，最好是md，如果不是的话，txt的不会乱")
     parser.add_argument("--language", type=str, default='zh', help="The other output lauguage is English, is en")    
+
+    paper_args = PaperParams(**vars(parser.parse_args()))
     import time
 
     start_time = time.time()
