@@ -17,7 +17,20 @@ import tiktoken
 import fitz, io, os
 from PIL import Image
 
-
+PaperParams= namedtuple(
+    "PaperParams",
+    [
+        "pdf_path",
+        "query",
+        "key_word",
+        "filter_keys",
+        "max_results",
+        "sort",
+        "save_image",
+        "file_format",
+        "language"
+    ],
+)
 class Paper:
     def __init__(self, path, title='', url='', abs='', authers=[]):
         # 初始化函数，根据pdf路径初始化Paper对象                
