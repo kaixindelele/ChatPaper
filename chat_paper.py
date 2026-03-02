@@ -2,19 +2,19 @@ import argparse
 import base64
 import configparser
 import datetime
+import io
 import json
 import os
 import re
 from collections import namedtuple
 
 import arxiv
+import fitz
 import numpy as np
 import openai
 import requests
 import tenacity
 import tiktoken
-
-import fitz, io, os
 from PIL import Image
 
 
@@ -73,8 +73,6 @@ class Paper:
             for page_number in range(1, len(my_pdf_file) + 1):
                 # 查看独立页面
                 page = my_pdf_file[page_number - 1]
-                # 查看当前页所有图片
-                images = page.get_images()                
                 # 遍历当前页面所有图片
                 for image_number, image in enumerate(page.get_images(), start=1):           
                     # 访问图片xref
@@ -326,8 +324,19 @@ class Reader:
             self.gitee_key = self.config.get('Gitee', 'api')
         else:
             self.gitee_key = ''
-        self.max_token_num = 4096
-        self.encoding = tiktoken.get_encoding("gpt2")
+        model_max_tokens = {
+            'gpt-3.5-turbo': 4096,
+            'gpt-3.5-turbo-0301': 4096,
+            'gpt-3.5-turbo-16k': 16384,
+            'gpt-4': 8192,
+            'gpt-4-32k': 32768,
+            'gpt-4-turbo': 128000,
+        }
+        self.max_token_num = model_max_tokens.get(self.chatgpt_model, 4096)
+        try:
+            self.encoding = tiktoken.encoding_for_model(self.chatgpt_model)
+        except KeyError:
+            self.encoding = tiktoken.get_encoding("cl100k_base")
 
     def get_arxiv(self, max_results=30):
         search = arxiv.Search(query=self.query,
@@ -574,7 +583,7 @@ class Reader:
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text) * (self.max_token_num - conclusion_prompt_token) / text_token)
+        clip_text_index = max(1, int(len(text) * (self.max_token_num - conclusion_prompt_token) / text_token))
         clip_text = text[:clip_text_index]
 
         messages = [
@@ -628,7 +637,7 @@ class Reader:
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text) * (self.max_token_num - method_prompt_token) / text_token)
+        clip_text_index = max(1, int(len(text) * (self.max_token_num - method_prompt_token) / text_token))
         clip_text = text[:clip_text_index]
         messages = [
             {"role": "system",
@@ -683,7 +692,7 @@ class Reader:
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text) * (self.max_token_num - summary_prompt_token) / text_token)
+        clip_text_index = max(1, int(len(text) * (self.max_token_num - summary_prompt_token) / text_token))
         clip_text = text[:clip_text_index]
         messages = [
             {"role": "system",

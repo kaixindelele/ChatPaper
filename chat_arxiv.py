@@ -89,8 +89,6 @@ class Paper:
             for page_number in range(1, len(my_pdf_file) + 1):
                 # 查看独立页面
                 page = my_pdf_file[page_number - 1]
-                # 查看当前页所有图片
-                images = page.get_images()
                 # 遍历当前页面所有图片
                 for image_number, image in enumerate(page.get_images(), start=1):
                     # 访问图片xref
@@ -329,14 +327,26 @@ class Reader:
 
         # prevent short strings from being incorrectly used as API keys.
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 20]
+        self.chatgpt_model = self.config.get('OpenAI', 'CHATGPT_MODEL')
         self.cur_api = 0
         self.file_format = args.file_format
         if args.save_image:
             self.gitee_key = self.config.get('Gitee', 'api')
         else:
             self.gitee_key = ''
-        self.max_token_num = 4096
-        self.encoding = tiktoken.get_encoding("gpt2")
+        model_max_tokens = {
+            'gpt-3.5-turbo': 4096,
+            'gpt-3.5-turbo-0301': 4096,
+            'gpt-3.5-turbo-16k': 16384,
+            'gpt-4': 8192,
+            'gpt-4-32k': 32768,
+            'gpt-4-turbo': 128000,
+        }
+        self.max_token_num = model_max_tokens.get(self.chatgpt_model, 4096)
+        try:
+            self.encoding = tiktoken.encoding_for_model(self.chatgpt_model)
+        except KeyError:
+            self.encoding = tiktoken.get_encoding("cl100k_base")
 
     # 定义一个函数，根据关键词和页码生成arxiv搜索链接
     def get_url(self, keyword, page):
@@ -568,9 +578,8 @@ class Reader:
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text) * (self.max_token_num - conclusion_prompt_token) / text_token)
+        clip_text_index = max(1, int(len(text) * (self.max_token_num - conclusion_prompt_token) / text_token))
         clip_text = text[:clip_text_index]
-
         messages = [
             {"role": "system",
              "content": "You are a reviewer in the field of [" + self.key_word + "] and you need to critically review this article"},
@@ -592,7 +601,7 @@ class Reader:
                  """.format(self.language, self.language)},
         ]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=self.chatgpt_model,
             # prompt需要用英语替换，少占用token。
             messages=messages,
         )
@@ -614,7 +623,7 @@ class Reader:
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text) * (self.max_token_num - method_prompt_token) / text_token)
+        clip_text_index = max(1, int(len(text) * (self.max_token_num - method_prompt_token) / text_token))
         clip_text = text[:clip_text_index]
         messages = [
             {"role": "system",
@@ -640,7 +649,7 @@ class Reader:
                  """.format(self.language, self.language)},
         ]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=self.chatgpt_model,
             messages=messages,
         )
         result = ''
@@ -661,7 +670,7 @@ class Reader:
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
-        clip_text_index = int(len(text) * (self.max_token_num - summary_prompt_token) / text_token)
+        clip_text_index = max(1, int(len(text) * (self.max_token_num - summary_prompt_token) / text_token))
         clip_text = text[:clip_text_index]
         messages = [
             {"role": "system",
@@ -696,7 +705,7 @@ class Reader:
         ]
 
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=self.chatgpt_model,
             messages=messages,
         )
         result = ''
