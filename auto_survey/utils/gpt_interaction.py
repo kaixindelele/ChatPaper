@@ -5,6 +5,8 @@ import openai
 import logging
 import requests
 import json
+from openai import OpenAI
+client = OpenAI()
 
 log = logging.getLogger(__name__)
 
@@ -13,14 +15,14 @@ def get_gpt_responses(systems, prompts, model="gpt-4", temperature=0.4):
         {"role": "system", "content": systems},
         {"role": "user", "content": prompts}
     ]
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model=model,
         messages=conversation_history,
         n=1,  # Number of responses you want to generate
         temperature=temperature,  # Controls the creativity of the generated response
     )
-    assistant_message = response['choices'][0]["message"]["content"]
-    usage = response['usage']
+    assistant_message = response.choices[0].message.content
+    usage = response.usage.model_dump()
     log.info(assistant_message)
     return assistant_message, usage
 
@@ -95,7 +97,7 @@ class GPTModel:
         ]
         for _ in range(self.max_attempts):
             try:
-                response = openai.ChatCompletion.create(
+                response = client.chat.completions.create(
                     model=self.model,
                     messages=conversation_history,
                     n=1,
@@ -104,13 +106,13 @@ class GPTModel:
                     frequency_penalty=self.frequency_penalty,
                     stream=False
                 )
-                assistant_message = response['choices'][0]["message"]["content"]
-                usage = response['usage']
+                assistant_message = response.choices[0].message.content
+                usage = response.usage.model_dump()
                 log.info(assistant_message)
                 if return_json:
                     assistant_message = json.loads(assistant_message)
                 return assistant_message, usage
-            except openai.error.APIConnectionError as e:
+            except openai.APIConnectionError as e:
                 print(f"Failed to get response. Error: {e}")
                 time.sleep(self.delay)
         raise RuntimeError("Failed to get response from OpenAI.")
