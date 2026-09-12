@@ -3,7 +3,7 @@ import os
 import re
 import datetime
 import time
-import openai, tenacity
+import tenacity
 import argparse
 import configparser
 import json
@@ -11,6 +11,7 @@ import tiktoken
 from get_paper import Paper
 import jieba
 from collections import namedtuple
+from openai import OpenAI
 
 ReviewerParams = namedtuple(
     "ReviewerParams",
@@ -70,7 +71,7 @@ class Reviewer:
         # 读取配置文件
         self.config.read('apikey.ini')
         # 获取某个键对应的值     
-        openai.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')       
+        self.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list = [api.strip() for api in self.chat_api_list if len(api) > 5]
         self.cur_api = 0
@@ -130,7 +131,7 @@ class Reviewer:
         if text_token > self.max_token_num/2 - 800:
             input_text_index = int(len(text)*((self.max_token_num/2)-800)/text_token)
             text = text[:input_text_index]
-        openai.api_key = self.chat_api_list[self.cur_api]
+        client = OpenAI(api_key=self.chat_api_list[self.cur_api], base_url=self.api_base)
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
         messages = [
@@ -147,7 +148,7 @@ class Reviewer:
                         f"{{chosen section 1}}, {{chosen section 2}}\n\n"},
             {"role": "user", "content": text},
         ]
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
         )
@@ -161,7 +162,7 @@ class Reviewer:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_review(self, text):
-        openai.api_key = self.chat_api_list[self.cur_api]
+        client = OpenAI(api_key=self.chat_api_list[self.cur_api], base_url=self.api_base)
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list)-1 else self.cur_api
         review_prompt_token = 1000        
@@ -175,7 +176,7 @@ class Reviewer:
                 {"role": "user", "content": input_text},
             ]
                 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
         )
@@ -190,7 +191,7 @@ class Reviewer:
         print("prompt_token_used:", response.usage.prompt_tokens)
         print("completion_token_used:", response.usage.completion_tokens)
         print("total_token_used:", response.usage.total_tokens)
-        print("response_time:", response.response_ms/1000.0, 's')                    
+        print("response_time:", response.response_ms/1000.0, 's')  # MIGRATION-REVIEW: response-objects
         return result        
                         
     def export_to_markdown(self, text, file_name, mode='w'):

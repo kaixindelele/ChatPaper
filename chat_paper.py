@@ -9,13 +9,13 @@ from collections import namedtuple
 
 import arxiv
 import numpy as np
-import openai
 import requests
 import tenacity
 import tiktoken
 
 import fitz, io, os
 from PIL import Image
+from openai import AzureOpenAI, OpenAI
 
 
 class Paper:
@@ -303,7 +303,7 @@ class Reader:
         self.config.read('apikey.ini')
         OPENAI_KEY = os.environ.get("OPENAI_KEY", "")
         # 获取某个键对应的值
-        openai.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')
+        self.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list.append(OPENAI_KEY)
 
@@ -312,13 +312,14 @@ class Reader:
         self.chatgpt_model = self.config.get('OpenAI', 'CHATGPT_MODEL')
 
         # 如果已经设置了OpenAI key, 则不使用Azure Interface
+        self.use_azure = False
         if not self.chat_api_list:
             self.chat_api_list.append(self.config.get('AzureOPenAI', 'OPENAI_API_KEYS'))
             self.chatgpt_model = self.config.get('AzureOPenAI', 'CHATGPT_MODEL')
 
-            openai.api_base = self.config.get('AzureOPenAI', 'OPENAI_API_BASE')
-            openai.api_type = 'azure'
-            openai.api_version = self.config.get('AzureOPenAI', 'OPENAI_API_VERSION')
+            self.use_azure = True
+            self.api_base = self.config.get('AzureOPenAI', 'OPENAI_API_BASE')
+            self.api_version = self.config.get('AzureOPenAI', 'OPENAI_API_VERSION')
 
         self.cur_api = 0
         self.file_format = args.file_format
@@ -570,7 +571,11 @@ class Reader:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_conclusion(self, text, conclusion_prompt_token=800):
-        openai.api_key = self.chat_api_list[self.cur_api]
+        if self.use_azure:
+            client = AzureOpenAI(azure_endpoint=self.api_base, api_version=self.api_version,
+                                 api_key=self.chat_api_list[self.cur_api])
+        else:
+            client = OpenAI(api_key=self.chat_api_list[self.cur_api], base_url=self.api_base)
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
@@ -598,18 +603,11 @@ class Reader:
                  """.format(self.language, self.language)},
         ]
 
-        if openai.api_type == 'azure':
-            response = openai.ChatCompletion.create(
-                engine=self.chatgpt_model,
-                # prompt需要用英语替换，少占用token。
-                messages=messages,
-            )
-        else:
-            response = openai.ChatCompletion.create(
-                model=self.chatgpt_model,
-                # prompt需要用英语替换，少占用token。
-                messages=messages,
-            )
+        response = client.chat.completions.create(
+            model=self.chatgpt_model,
+            # prompt需要用英语替换，少占用token。
+            messages=messages,
+        )
         result = ''
         for choice in response.choices:
             result += choice.message.content
@@ -617,14 +615,18 @@ class Reader:
         print("prompt_token_used:", response.usage.prompt_tokens,
               "completion_token_used:", response.usage.completion_tokens,
               "total_token_used:", response.usage.total_tokens)
-        print("response_time:", response.response_ms / 1000.0, 's')
+        print("response_time:", response.response_ms / 1000.0, 's')  # MIGRATION-REVIEW: response-objects
         return result
 
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_method(self, text, method_prompt_token=800):
-        openai.api_key = self.chat_api_list[self.cur_api]
+        if self.use_azure:
+            client = AzureOpenAI(azure_endpoint=self.api_base, api_version=self.api_version,
+                                 api_key=self.chat_api_list[self.cur_api])
+        else:
+            client = OpenAI(api_key=self.chat_api_list[self.cur_api], base_url=self.api_base)
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
@@ -653,18 +655,11 @@ class Reader:
                  Be sure to use {} answers (proper nouns need to be marked in English), statements as concise and academic as possible, do not repeat the content of the previous <summary>, the value of the use of the original numbers, be sure to strictly follow the format, the corresponding content output to xxx, in accordance with \n line feed, ....... means fill in according to the actual requirements, if not, you can not write.                 
                  """.format(self.language, self.language)},
         ]
-        if openai.api_type == 'azure':
-            response = openai.ChatCompletion.create(
-                engine=self.chatgpt_model,
-                # prompt需要用英语替换，少占用token。
-                messages=messages,
-            )
-        else:
-            response = openai.ChatCompletion.create(
-                model=self.chatgpt_model,
-                # prompt需要用英语替换，少占用token。
-                messages=messages,
-            )
+        response = client.chat.completions.create(
+            model=self.chatgpt_model,
+            # prompt需要用英语替换，少占用token。
+            messages=messages,
+        )
         result = ''
         for choice in response.choices:
             result += choice.message.content
@@ -672,14 +667,18 @@ class Reader:
         print("prompt_token_used:", response.usage.prompt_tokens,
               "completion_token_used:", response.usage.completion_tokens,
               "total_token_used:", response.usage.total_tokens)
-        print("response_time:", response.response_ms / 1000.0, 's')
+        print("response_time:", response.response_ms / 1000.0, 's')  # MIGRATION-REVIEW: response-objects
         return result
 
     @tenacity.retry(wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_summary(self, text, summary_prompt_token=1100):
-        openai.api_key = self.chat_api_list[self.cur_api]
+        if self.use_azure:
+            client = AzureOpenAI(azure_endpoint=self.api_base, api_version=self.api_version,
+                                 api_key=self.chat_api_list[self.cur_api])
+        else:
+            client = OpenAI(api_key=self.chat_api_list[self.cur_api], base_url=self.api_base)
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         text_token = len(self.encoding.encode(text))
@@ -717,18 +716,11 @@ class Reader:
                  """.format(self.language, self.language, self.language)},
         ]
 
-        if openai.api_type == 'azure':
-            response = openai.ChatCompletion.create(
-                engine=self.chatgpt_model,
-                # prompt需要用英语替换，少占用token。
-                messages=messages,
-            )
-        else:
-            response = openai.ChatCompletion.create(
-                model=self.chatgpt_model,
-                # prompt需要用英语替换，少占用token。
-                messages=messages,
-            )
+        response = client.chat.completions.create(
+            model=self.chatgpt_model,
+            # prompt需要用英语替换，少占用token。
+            messages=messages,
+        )
         result = ''
         for choice in response.choices:
             result += choice.message.content
@@ -736,7 +728,7 @@ class Reader:
         print("prompt_token_used:", response.usage.prompt_tokens,
               "completion_token_used:", response.usage.completion_tokens,
               "total_token_used:", response.usage.total_tokens)
-        print("response_time:", response.response_ms / 1000.0, 's')
+        print("response_time:", response.response_ms / 1000.0, 's')  # MIGRATION-REVIEW: response-objects
         return result
 
     def export_to_markdown(self, text, file_name, mode='w'):

@@ -8,11 +8,11 @@ import time
 from collections import namedtuple
 
 import numpy as np
-import openai
 import tenacity
 import tiktoken
 
 from get_paper import Paper
+from openai import OpenAI
 
 # ChatResponse
 
@@ -37,7 +37,7 @@ class Response:
         self.config.read('apikey.ini')
         OPENAI_KEY = os.environ.get("OPENAI_KEY", "")
         # 获取某个键对应的值
-        openai.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')    
+        self.api_base = self.config.get('OpenAI', 'OPENAI_API_BASE')
         self.chat_api_list = self.config.get('OpenAI', 'OPENAI_API_KEYS')[1:-1].replace('\'', '').split(',')
         self.chat_api_list.append(OPENAI_KEY)
 
@@ -70,7 +70,7 @@ class Response:
                     stop=tenacity.stop_after_attempt(5),
                     reraise=True)
     def chat_response(self, text):
-        openai.api_key = self.chat_api_list[self.cur_api]
+        client = OpenAI(api_key=self.chat_api_list[self.cur_api], base_url=self.api_base)
         self.cur_api += 1
         self.cur_api = 0 if self.cur_api >= len(self.chat_api_list) - 1 else self.cur_api
         response_prompt_token = 1000
@@ -113,7 +113,7 @@ class Response:
             {"role": "user", "content": input_text},
         ]
 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
         )
@@ -126,7 +126,7 @@ class Response:
         print("prompt_token_used:", response.usage.prompt_tokens)
         print("completion_token_used:", response.usage.completion_tokens)
         print("total_token_used:", response.usage.total_tokens)
-        print("response_time:", response.response_ms / 1000.0, 's')
+        print("response_time:", response.response_ms / 1000.0, 's')  # MIGRATION-REVIEW: response-objects
         return result
 
     def export_to_markdown(self, text, file_name, mode='w'):

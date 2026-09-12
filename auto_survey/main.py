@@ -188,10 +188,10 @@ def generate_draft(title,  tldr=True, max_kw_refs=20, bib_refs=None, max_tokens_
 
 if __name__ == "__main__":
     import openai
+    from openai import OpenAI
 
 
-    openai.api_key = "your key"
-    openai.api_base = 'https://api.openai.com/v1'
+    client = OpenAI(api_key="your key", base_url='https://api.openai.com/v1')
     
     #openai.proxy = "socks5h://localhost:7890 # if use the vpn
     target_title = "Reinforcement Learning for Robot Control"

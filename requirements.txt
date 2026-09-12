@@ -5,7 +5,7 @@ tiktoken==0.4.0
 tenacity==8.2.2
 pybase64==1.2.3
 Pillow==9.4.0
-openai==0.27.8
+openai>=1,<2
 markdown
 jieba
 gradio==3.20.1
